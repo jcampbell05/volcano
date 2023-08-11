@@ -1,4 +1,5 @@
 import argparse
+import ast
 
 def cli():
     parser = argparse.ArgumentParser(description='Process a file.')
@@ -8,7 +9,8 @@ def cli():
     with open(args.file, 'r') as f:
         contents = f.read()
 
-    print(contents)
+    tree = ast.parse(contents)
+    print(ast.dump(tree))
 
 if __name__ == '__main__':
     cli()
