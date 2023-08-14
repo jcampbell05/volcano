@@ -3,19 +3,40 @@ import ast
 import os
 
 class VolcanoTransformer(ast.NodeTransformer):
+    pass
 
-    def visit_FunctionDef(self, node):
-        # Modify the function name
-        node.name = 'new_' + node.name
+class VolcanoVisitor(ast.NodeVisitor):
+    def __init__(self):
+        self.output = ''
 
-        # Add a new argument to the function
-        arg = ast.arg(arg='new_arg', annotation=None)
-        node.args.args.append(arg)
+    def generic_visit(self, node):
+        self.output += f'{type(node).__name__}('
+        for field, value in ast.iter_fields(node):
+            self.output += f'{field}='
+            if isinstance(value, ast.AST):
+                self.visit(value)
+            elif isinstance(value, list):
+                self.output += '['
+                for item in value:
+                    if isinstance(item, ast.AST):
+                        self.visit(item)
+                    else:
+                        self.output += repr(item)
+                    self.output += ', '
+                self.output = self.output[:-2] + ']'
+            else:
+                self.output += repr(value)
+            self.output += ', '
+        self.output = self.output[:-2] + ')'
 
-        # Return the modified node
-        return node
+    def visit(self, node):
+        if isinstance(node, ast.AST):
+            self.generic_visit(node)
+        else:
+            self.output += repr(node)
     
 def process_file(filename):
+
     with open(filename, 'r') as f:
         contents = f.read()
 
@@ -38,11 +59,13 @@ def cli():
         base_name, _ = os.path.splitext(args.file)
         args.output = f'{base_name}.sh'
     
-    root_node = process_file(args.file)
+    tree = process_file(args.file)
+    
+    visitor = VolcanoVisitor()
+    visitor.visit(tree)
 
     with open(args.output, 'w') as f:
-        print("sss")
-        f.write(ast.unparse(root_node)) # TODO: Replace with custom to_str code
+        f.write(visitor.output)
 
 if __name__ == '__main__':
     cli()
