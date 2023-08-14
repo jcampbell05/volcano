@@ -54,4 +54,8 @@ vast array of Python libraries and modules in Volcano programs.
 
 - **Primitive functions and operators**: Volcano currently does not support primitive functions like lower() for strings or operators like + or <. This is a limitation that we plan to address in the future, which will make it easier to work with strings and other data types in Volcano.
 
+- **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords. This is a limitation that we plan to address in the future, which will make it possible to write more efficient and responsive programs in Volcano.
+
+- **Piping**: Volcano currently does not support piping from shell scripting. In the future, we plan to add support for piping, which will allow you to pipe commands together using a syntax like command.pipe(other_command)(args).
+
 Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.
