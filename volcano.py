@@ -104,7 +104,8 @@ def cli():
     with output_file as f:
         f.write(visitor.output)
 
-    os.system(f'{args.shell} {output_file.name}')
+    os.chmod(output_file.name, 0o755)
+    os.system(f'{output_file.name}')
 
 if __name__ == '__main__':
     cli()
