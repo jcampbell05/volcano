@@ -8,9 +8,8 @@ from typing import Any
 
 # TODO:
 # - Extract into seperate files
-# - Setup Repo
-# - Roadmap
 # - Allow pretty mdoe with Indentation for outout
+# - Intermediate IR to be able to more advanced reasoning of the code and result with better shell code
 #
 class VolcanoTransformer(ast.NodeTransformer):
     pass
