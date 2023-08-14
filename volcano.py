@@ -33,7 +33,6 @@ class VolcanoVisitor(ast.NodeVisitor):
             if isinstance(target, ast.Name):
                 self.output += f'{target.id}='
                 self.visit(node.value)
-                self.output += '\n'
 
     def visit_Call(self, node: Call):
             self.output += node.func.id
@@ -41,8 +40,6 @@ class VolcanoVisitor(ast.NodeVisitor):
             for index, arg in enumerate(node.args):
                 self.output += ' ' if index == 0 else ', '
                 self.visit(arg)
-
-            self.output += '\n'
 
     def visit_Constant(self, node: Constant) -> Any:
         self.output +=  node.value
@@ -64,7 +61,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         for statement in node.body:
             self.visit(statement)
 
-        self.output += '\ndone\n'
+        self.output += '\ndone'
 
     def visit_FunctionDef(self, node: FunctionDef):
         self.output += f'{node.name} () {{\n'
@@ -75,7 +72,13 @@ class VolcanoVisitor(ast.NodeVisitor):
         for statement in node.body:
             self.visit(statement)
 
-        self.output += '\n}\n'
+        self.output += '\n}'
+
+    def visit_Module(self, node):
+
+        for statement in node.body:
+            self.visit(statement)
+            self.output += '\n'  # add a newline after each statement
 
     def visit_List(self, node):
 
