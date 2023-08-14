@@ -1,4 +1,6 @@
+from volcano.shell import echo
+
 def say_hello(name):
-    print(f"Hello {name}")
+    echo(f"Hello {name}")
 
 say_hello("World")

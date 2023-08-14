@@ -1,10 +1,16 @@
 import argparse
 import ast
 import os
-import tempfile
 
 class VolcanoTransformer(ast.NodeTransformer):
-    pass
+
+    def visit_Import(self, node):
+        for alias in node.names:
+            self.imports.append(alias.name)
+
+    def visit_ImportFrom(self, node):
+        for alias in node.names:
+            self.imports.append(f'{node.module}.{alias.name}')
 
 class VolcanoVisitor(ast.NodeVisitor):
 
