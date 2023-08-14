@@ -7,6 +7,8 @@ import tempfile
 from typing import Any
 
 # TODO:
+# - Implement reserved keywords
+# - Implement print
 # - Extract into seperate files
 # - Allow pretty mdoe with Indentation for outout
 # - Intermediate IR to be able to more advanced reasoning of the code and result with better shell code
