@@ -1,5 +1,10 @@
+# An example volcano application, also doubles up as our test suite
+#
 def say_hello(name):
     echo(f"- Hello {name}!")
+
+def return_only():
+    return "this should not be printed"
 
 def goodbye():
     return "Goodbye"
@@ -16,6 +21,8 @@ names = ["Barbie", "Ken", "World", whoami()]
 echo("")
 for name in names:
     say_hello(name)
+
+return_only()
 
 echo("")
 echo(goodbye())
