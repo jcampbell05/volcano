@@ -6,8 +6,15 @@ class VolcanoTransformer(ast.NodeTransformer):
     pass
 
 class VolcanoVisitor(ast.NodeVisitor):
+
+    shell_executable = '/bin/bash'
+
     def __init__(self):
         self.output = ''
+        self.generate_shabang()
+
+    def generate_shabang(self):
+        self.output += f'#!{self.shell_executable}\n'
 
     def generic_visit(self, node):
         self.output += f'{type(node).__name__}('
