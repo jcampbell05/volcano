@@ -16,31 +16,15 @@ class VolcanoVisitor(ast.NodeVisitor):
     def generate_shabang(self):
         self.output += f'#!{self.shell_executable}\n'
 
-    def generic_visit(self, node):
-        self.output += f'{type(node).__name__}('
-        for field, value in ast.iter_fields(node):
-            self.output += f'{field}='
-            if isinstance(value, ast.AST):
-                self.visit(value)
-            elif isinstance(value, list):
-                self.output += '['
-                for item in value:
-                    if isinstance(item, ast.AST):
-                        self.visit(item)
-                    else:
-                        self.output += repr(item)
-                    self.output += ', '
-                self.output = self.output[:-2] + ']'
-            else:
-                self.output += repr(value)
-            self.output += ', '
-        self.output = self.output[:-2] + ')'
+    def visit_FunctionDef(self, node):
+        self.output += f'''function {node.name}() {{\
 
-    def visit(self, node):
-        if isinstance(node, ast.AST):
-            self.generic_visit(node)
-        else:
-            self.output += repr(node)
+}}\n'''
+
+    def visit_Call(self, node):
+            func_name = node.func.id
+            args = ', '.join([self.visit(arg) for arg in node.args])
+            self.output += f'{func_name}{args}'
     
 def process_file(filename):
 
