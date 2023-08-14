@@ -18,6 +18,7 @@ class VolcanoTransformer(ast.NodeTransformer):
 class VolcanoVisitor(ast.NodeVisitor):
 
     if_target = False
+    capture_call = False
 
     def __init__(self, shell_executable):
         self.output = ''
@@ -35,14 +36,24 @@ class VolcanoVisitor(ast.NodeVisitor):
                 self.visit(node.value)
 
     def visit_Call(self, node: Call):
+            
+            if self.capture_call:
+                self.output += '$('
+
             self.output += node.func.id
 
             for index, arg in enumerate(node.args):
                 self.output += ' ' if index == 0 else ', '
                 self.visit(arg)
 
+            if self.capture_call:
+                self.output += ')'
+
     def visit_Constant(self, node: Constant) -> Any:
-        self.output +=  node.value
+        if isinstance(node.value, str):
+            self.output += f'"{node.value}"'
+        else:
+            self.output += str(node.value)
 
     def visit_For(self, node: For):
 
@@ -78,7 +89,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         for statement in node.body:
             self.visit(statement)
-            self.output += '\n'  # add a newline after each statement
+            self.output += '\n'
 
     def visit_List(self, node):
 
@@ -97,12 +108,15 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.output += f'${node.id}'
 
     def visit_JoinedStr(self, node: JoinedStr) -> Any:
+
+        self.capture_call = True
         self.output += '"' 
 
         for value in node.values:
             self.visit(value)
 
         self.output += '"'
+        self.capture_call = False
 
 def process_file(filename):
 

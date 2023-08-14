@@ -2,9 +2,10 @@ def say_hello(name):
     echo(f"Hello {name}!")
 
 # Trigger the command
-echo("Welcome to Volcano")
+echo(f"Welcome to Volcano, today is {date()}") 
 echo("Here are some examples")
 
+hey=10
 names = ["Barbie", "Ken", "World"]
 
 for name in names:
