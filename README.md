@@ -4,10 +4,10 @@ Volcano is a new programming language that is a subset of Python, designed to be
 
 ## Installation
 
-To install Volcano, you can use pip:
+To install Volcano, clone this repo and use pip from the directory:
 
 ```
-pip install volcano
+pip install .
 ```
 
 ## Usage
