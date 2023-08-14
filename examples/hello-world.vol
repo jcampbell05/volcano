@@ -1,11 +1,12 @@
 def say_hello(name):
-    echo(f"Hello {name}!")
+    echo(f"- Hello {name}!")
 
 def goodbye():
     return "Goodbye"
 
 # Trigger the command
-echo(f"Welcome to Volcano, today is {date()}") 
+echo("Welcome to Volcano 🌋")
+echo(f"Roday is {date()}") 
 echo("Here are some examples:")
 
 hey=10
