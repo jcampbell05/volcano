@@ -1,5 +1,9 @@
 def say_hello(name):
-    echo(f"Hello {name}")
+    echo(f"Hello {name}!")
 
 # Trigger the command
-say_hello("World")
+
+names = ["Barbie", "Ken", "World"]
+
+for name in names:
+    say_hello(name)

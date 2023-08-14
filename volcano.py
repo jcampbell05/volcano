@@ -17,12 +17,23 @@ class VolcanoTransformer(ast.NodeTransformer):
 
 class VolcanoVisitor(ast.NodeVisitor):
 
+    if_target = False
+
     def __init__(self, shell_executable):
         self.output = ''
         self.generate_shabang(shell_executable)
 
     def generate_shabang(self, shell_executable):
         self.output += f'#!{shell_executable}\n'
+
+    def visit_Assign(self, node: ast.Assign) -> Any:
+
+        for target in node.targets:
+
+            if isinstance(target, ast.Name):
+                self.output += f'{target.id}='
+                self.visit(node.value)
+                self.output += '\n'
 
     def visit_Call(self, node: Call):
             self.output += node.func.id
@@ -31,11 +42,27 @@ class VolcanoVisitor(ast.NodeVisitor):
                 self.output += ' ' if index == 0 else ', '
                 self.visit(arg)
 
-    def visit_Comment(self, node):
-        self.output += f'# {node.value}\n'
-
     def visit_Constant(self, node: Constant) -> Any:
         self.output +=  node.value
+
+    def visit_For(self, node: For):
+
+        self.output += 'for '
+
+        self.if_target = True
+        self.visit(node.target)
+        self.if_target = False
+
+        self.output += ' in '
+        self.visit(node.iter)
+
+        self.output += ';\n'
+        self.output += 'do\n'
+        
+        for statement in node.body:
+            self.visit(statement)
+
+        self.output += '\ndone\n'
 
     def visit_FunctionDef(self, node: FunctionDef):
         self.output += f'{node.name} () {{\n'
@@ -48,8 +75,21 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.output += '\n}\n'
 
+    def visit_List(self, node):
+
+        self.output += '"'
+        for index, item in enumerate(node.elts):
+            self.output += '' if index == 0 else ' '
+            self.visit(item)
+
+        self.output += '"'
+
     def visit_Name(self, node: Name) -> Any:
-        self.output += f'${node.id}'
+
+        if self.if_target:
+            self.output += node.id
+        else:
+            self.output += f'${node.id}'
 
     def visit_JoinedStr(self, node: JoinedStr) -> Any:
         self.output += '"' 
