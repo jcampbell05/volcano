@@ -6,7 +6,7 @@ def goodbye():
 
 # Trigger the command
 echo("Welcome to Volcano 🌋")
-echo(f"Roday is {date()}") 
+echo(f"Today is {date()}") 
 echo("Here are some examples:")
 
 hey=10
