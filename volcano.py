@@ -1,5 +1,5 @@
 from _ast import *
-from _ast import Constant, For, FormattedValue, JoinedStr, Name
+from _ast import Constant, For, JoinedStr, Name
 import argparse
 import ast
 import os
