@@ -8,5 +8,4 @@ setup(
         [console_scripts]
         volcano=volcano:cli
     ''',
-    install_requires=['typed_ast']
 )

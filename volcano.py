@@ -1,7 +1,7 @@
 from _ast import *
 from _ast import Constant, For, FormattedValue, JoinedStr, Name
 import argparse
-import typed_ast.ast3 as ast
+import ast
 import os
 import tempfile
 from typing import Any
@@ -65,7 +65,6 @@ def process_file(filename):
         contents = f.read()
 
     tree = ast.parse(contents)
-
     transformer = VolcanoTransformer()
     tree = transformer.visit(tree)
 
