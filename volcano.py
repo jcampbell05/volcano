@@ -3,6 +3,7 @@ from _ast import Constant, For, FormattedValue, JoinedStr, Name
 import argparse
 import ast
 import os
+import tempfile
 from typing import Any
 
 # TODO: Extract into seperate files
@@ -43,6 +44,14 @@ class VolcanoVisitor(ast.NodeVisitor):
     def visit_Name(self, node: Name) -> Any:
         self.output += f'${node.id}'
 
+    def visit_JoinedStr(self, node: JoinedStr) -> Any:
+        self.output += '"' 
+
+        for value in node.values:
+            self.visit(value)
+
+        self.output += '"'
+
 def process_file(filename):
 
     with open(filename, 'r') as f:
@@ -81,13 +90,17 @@ def cli():
     if args.verbose:
         print(visitor.output)
 
-    if args.command == 'build':
+    output_file = None
 
-        with open(args.output, 'w') as f:
-            f.write(visitor.output)
+    if args.command == 'run':
+        output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
+    else:
+        output_file = open(args.output, 'w')
 
-    elif args.command == 'run':
-        os.system(f'bash -c "{visitor.output}"')
+    with output_file as f:
+        f.write(visitor.output)
+
+    os.system(f'{args.shell} {output_file.name}')
 
 if __name__ == '__main__':
     cli()
