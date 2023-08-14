@@ -8,14 +8,12 @@ class VolcanoTransformer(ast.NodeTransformer):
 
 class VolcanoVisitor(ast.NodeVisitor):
 
-    shell_executable = '/bin/bash'
-
-    def __init__(self):
+    def __init__(self, shell_executable):
         self.output = ''
-        self.generate_shabang()
+        self.generate_shabang(shell_executable)
 
-    def generate_shabang(self):
-        self.output += f'#!{self.shell_executable}\n'
+    def generate_shabang(self, shell_executable):
+        self.output += f'#!{shell_executable}\n'
 
     def visit_FunctionDef(self, node):
         self.output += f'''{node.name} () {{\n\
@@ -43,6 +41,8 @@ def cli():
     parser = argparse.ArgumentParser(description='Process a file.')
     parser.add_argument('command', type=str, choices=['build', 'run'], help='the action to perform')
     parser.add_argument('file', type=str, help='path to the file')
+
+    parser.add_argument('--shell', '-s', type=str, default='/bin/sh', help='path to the shell executable')
     parser.add_argument('--output', '-o', type=str, default=None, help='path to the output file')
     parser.add_argument('--verbose', '-v', action='store_true', help='enable verbose output')
 
@@ -55,7 +55,7 @@ def cli():
     
     tree = process_file(args.file)
     
-    visitor = VolcanoVisitor()
+    visitor = VolcanoVisitor(args.shell)
     visitor.visit(tree)
 
     if args.verbose:
