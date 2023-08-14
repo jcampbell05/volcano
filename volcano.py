@@ -80,6 +80,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.output += '\ndone'
 
     def visit_FunctionDef(self, node: FunctionDef):
+
         self.output += f'{node.name} () {{\n'
 
         for index, arg in enumerate(node.args.args):
