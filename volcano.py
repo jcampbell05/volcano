@@ -8,7 +8,6 @@ from typing import Any
 
 # TODO:
 # - Extract into seperate files
-# - Write README 
 # - Setup Repo
 # - Roadmap
 # - Allow pretty mdoe with Indentation for outout
