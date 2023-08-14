@@ -1,7 +1,12 @@
+from _ast import *
+from _ast import Constant, For, FormattedValue, JoinedStr, Name
 import argparse
 import ast
 import os
+from typing import Any
 
+# TODO: Extract into seperate files
+#
 class VolcanoTransformer(ast.NodeTransformer):
     pass
 
@@ -14,19 +19,30 @@ class VolcanoVisitor(ast.NodeVisitor):
     def generate_shabang(self, shell_executable):
         self.output += f'#!{shell_executable}\n'
 
-    def visit_FunctionDef(self, node):
+    def visit_Call(self, node: Call):
+            self.output += node.func.id
+
+            for index, arg in enumerate(node.args):
+                self.output += ' ' if index == 0 else ', '
+                self.visit(arg)
+
+    def visit_Constant(self, node: Constant) -> Any:
+        self.output +=  node.value
+
+    def visit_FunctionDef(self, node: FunctionDef):
         self.output += f'{node.name} () {{\n'
+
+        for index, arg in enumerate(node.args.args):
+            self.output += f'{arg.arg}=${index + 1}\n'
 
         for statement in node.body:
             self.visit(statement)
 
         self.output += '\n}\n'
 
-    def visit_Call(self, node):
-            func_name = node.func.id
-            args = '' #', '.join([self.visit(arg) for arg in node.args])
-            self.output += f'{func_name}{args}'
-    
+    def visit_Name(self, node: Name) -> Any:
+        self.output += f'${node.id}'
+
 def process_file(filename):
 
     with open(filename, 'r') as f:
@@ -57,7 +73,7 @@ def cli():
     
     tree = process_file(args.file)
     
-    # TODO: Pick best visitor based on shell bacause some shells like fish have different syntax adn anre't posix compliant
+    # TODO: Pick best visitor based on shell bacause some shells like fish have different syntax and anre't posix compliant
     #
     visitor = VolcanoVisitor(args.shell) 
     visitor.visit(tree)
