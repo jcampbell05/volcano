@@ -2,6 +2,8 @@ def say_hello(name):
     echo(f"Hello {name}!")
 
 # Trigger the command
+echo("Welcome to Volcano")
+echo("Here are some examples")
 
 names = ["Barbie", "Ken", "World"]
 

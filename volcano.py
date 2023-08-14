@@ -42,6 +42,8 @@ class VolcanoVisitor(ast.NodeVisitor):
                 self.output += ' ' if index == 0 else ', '
                 self.visit(arg)
 
+            self.output += '\n'
+
     def visit_Constant(self, node: Constant) -> Any:
         self.output +=  node.value
 
