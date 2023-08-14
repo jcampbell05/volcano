@@ -11,7 +11,7 @@ from typing import Any
 # - Write README 
 # - Setup Repo
 # - Roadmap
-# - Indentation for outout
+# - Allow pretty mdoe with Indentation for outout
 #
 class VolcanoTransformer(ast.NodeTransformer):
     pass
