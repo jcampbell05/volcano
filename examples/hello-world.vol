@@ -10,7 +10,7 @@ echo(f"Today is {date()}")
 echo("Here are some examples:")
 
 hey=10
-names = ["Barbie", "Ken", "World"]
+names = ["Barbie", "Ken", "World", whoami()]
 
 for name in names:
     say_hello(name)

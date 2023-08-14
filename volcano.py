@@ -54,8 +54,6 @@ class VolcanoVisitor(ast.NodeVisitor):
             if is_captured_call:
                 self.output += ')'
 
-            
-
     def visit_Constant(self, node: Constant) -> Any:
         if isinstance(node.value, str):
             self.output += f'"{node.value}"'
@@ -101,9 +99,14 @@ class VolcanoVisitor(ast.NodeVisitor):
     def visit_List(self, node):
 
         self.output += '"'
+
+        self.capture_call = True
+        
         for index, item in enumerate(node.elts):
             self.output += '' if index == 0 else ' '
             self.visit(item)
+
+        self.capture_call = False
 
         self.output += '"'
 
