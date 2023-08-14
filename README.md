@@ -39,3 +39,19 @@ Volcano provides a number of benefits over traditional shell scripting:
 - **Pythonic**: Volcano is based on Python, so if you already know Python, you can easily write shell scripts in Volcano.
 
 - **Portability**: Volcano scripts can be run on any system that has shell installed, without having to worry about the differences between different shell environments.
+
+## Roadmap
+
+- **Keyword arguments and default values**: Currently, Volcano does not support keyword arguments or default values in function definitions. This is a limitation that we plan to address in the future, which will make it easier to write more flexible and reusable functions in Volcano.
+
+- **Classes and objects**: Volcano does not currently support classes and objects, which are another fundamental building block of most programs. In the future, we plan to add support for classes and objects, which will allow you to write more complex and sophisticated programs in Volcano.
+
+- **Control flow statements**: Volcano currently only supports `for` loops, but does not support other control flow statements like `if` statements, `while` loops, or `try`/`except` blocks. In the future, we plan to add support for these control flow statements, which will make it easier to write more complex programs in Volcano.
+
+- **Imports and Python libraries**: Volcano currently does not support imports or provide any implementation for the standard
+Python libraries. This is a major limitation that we plan to address in the future, which will make it possible to use the
+vast array of Python libraries and modules in Volcano programs.
+
+- **Primitive functions and operators**: Volcano currently does not support primitive functions like lower() for strings or operators like + or <. This is a limitation that we plan to address in the future, which will make it easier to work with strings and other data types in Volcano.
+
+Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.
