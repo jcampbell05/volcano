@@ -1,12 +1,17 @@
 def say_hello(name):
     echo(f"Hello {name}!")
 
+def goodbye():
+    return "Goodbye"
+
 # Trigger the command
 echo(f"Welcome to Volcano, today is {date()}") 
-echo("Here are some examples")
+echo("Here are some examples:")
 
 hey=10
 names = ["Barbie", "Ken", "World"]
 
 for name in names:
     say_hello(name)
+
+echo(goodbye())

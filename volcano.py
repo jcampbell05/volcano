@@ -37,17 +37,24 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_Call(self, node: Call):
             
-            if self.capture_call:
+            is_captured_call = self.capture_call
+            
+            if is_captured_call:
                 self.output += '$('
 
             self.output += node.func.id
+            self.capture_call = True
 
             for index, arg in enumerate(node.args):
                 self.output += ' ' if index == 0 else ', '
                 self.visit(arg)
 
-            if self.capture_call:
+            self.capture_call = False
+
+            if is_captured_call:
                 self.output += ')'
+
+            
 
     def visit_Constant(self, node: Constant) -> Any:
         if isinstance(node.value, str):
@@ -116,6 +123,13 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.visit(value)
 
         self.output += '"'
+        self.capture_call = False
+
+    def visit_Return(self, node: ast.Return) -> Any:
+        self.output += 'echo '
+
+        self.capture_call = True
+        self.visit(node.value)
         self.capture_call = False
 
 def process_file(filename):
