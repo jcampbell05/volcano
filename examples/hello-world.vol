@@ -7,12 +7,15 @@ def goodbye():
 # Trigger the command
 echo("Welcome to Volcano 🌋")
 echo(f"Today is {date()}") 
+echo("====================== \n")
 echo("Here are some examples:")
 
 hey=10
 names = ["Barbie", "Ken", "World", whoami()]
 
+echo("")
 for name in names:
     say_hello(name)
 
+echo("")
 echo(goodbye())
