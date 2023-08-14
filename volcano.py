@@ -55,7 +55,9 @@ def cli():
     
     tree = process_file(args.file)
     
-    visitor = VolcanoVisitor(args.shell)
+    # TODO: Pick best visitor based on shell bacause some shells like fish have different syntax adn anre't posix compliant
+    #
+    visitor = VolcanoVisitor(args.shell) 
     visitor.visit(tree)
 
     if args.verbose:
