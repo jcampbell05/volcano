@@ -1,7 +1,7 @@
 from _ast import *
 from _ast import Constant, For, FormattedValue, JoinedStr, Name
 import argparse
-import ast
+import typed_ast.ast3 as ast
 import os
 import tempfile
 from typing import Any
@@ -30,6 +30,9 @@ class VolcanoVisitor(ast.NodeVisitor):
             for index, arg in enumerate(node.args):
                 self.output += ' ' if index == 0 else ', '
                 self.visit(arg)
+
+    def visit_Comment(self, node):
+        self.output += f'# {node.value}\n'
 
     def visit_Constant(self, node: Constant) -> Any:
         self.output +=  node.value
