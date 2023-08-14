@@ -1,5 +1,3 @@
-from volcano.shell import echo
-
 def say_hello(name):
     echo(f"Hello {name}")
 

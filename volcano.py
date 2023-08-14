@@ -3,14 +3,7 @@ import ast
 import os
 
 class VolcanoTransformer(ast.NodeTransformer):
-
-    def visit_Import(self, node):
-        for alias in node.names:
-            self.imports.append(alias.name)
-
-    def visit_ImportFrom(self, node):
-        for alias in node.names:
-            self.imports.append(f'{node.module}.{alias.name}')
+    pass
 
 class VolcanoVisitor(ast.NodeVisitor):
 
@@ -22,9 +15,12 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.output += f'#!{shell_executable}\n'
 
     def visit_FunctionDef(self, node):
-        self.output += f'''{node.name} () {{\n\
-echo
-}}\n'''
+        self.output += f'{node.name} () {{\n'
+
+        for statement in node.body:
+            self.visit(statement)
+
+        self.output += '\n}\n'
 
     def visit_Call(self, node):
             func_name = node.func.id
