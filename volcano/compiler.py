@@ -9,6 +9,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     if_target = False
     capture_call = False
+    indent_token = '    '
 
     def __init__(self, shell_executable):
         self.output = ''
@@ -84,6 +85,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.output += 'do\n'
         
         for statement in node.body:
+            self.output += self.indent_token
             self.visit(statement)
 
         self.output += '\ndone'
@@ -96,6 +98,7 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.output += f'{arg.arg}=${index + 1}\n'
 
         for statement in node.body:
+            self.output += self.indent_token
             self.visit(statement)
 
         self.output += '\n}'
