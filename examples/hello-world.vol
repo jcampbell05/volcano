@@ -4,12 +4,13 @@ from volcano.shell import date, whoami
 #
 def say_hello(name='World'):
 
-    def nested():
-        print('Nested functions baby - not working yet')
+    def check_for_ken():
 
-    if name == "Ken":
-        print("Ken is not allowed")
-        return
+        if name == "Ken":
+            print("Warning Ken detected")
+            return
+
+    check_for_ken()
 
     print(f"- Hello {name}!")
 

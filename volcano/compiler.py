@@ -23,13 +23,13 @@ class VolcanoTransformer(ast.NodeTransformer):
 
 class VolcanoVisitor(ast.NodeVisitor):
 
+    symbol_tables = {}
+    scope_stack = []
+
     control_flow_target = False
     capture_call = False
     function_def_has_return = False
     in_joined_str = False
-
-    nested_functions = []
-    in_local_scope = False
 
     indent_lavel = 0
     indent_token = '    '
@@ -37,9 +37,22 @@ class VolcanoVisitor(ast.NodeVisitor):
     def __init__(self, shell_executable):
         self.output = ''
         self.generate_shabang(shell_executable)
+        self.push_scope('module')
+
+    @property
+    def current_scope(self):
+        return self.scope_stack[-1]
 
     def generate_shabang(self, shell_executable):
         self.write(f'#!{shell_executable}\n')
+
+    def pop_scope(self):
+        old_scope = self.scope_stack.pop()
+        del self.symbol_tables[old_scope]
+
+    def push_scope(self, name: str):
+        self.scope_stack.append(name)
+        self.symbol_tables[name] = {}
 
     def load_volcano_module(self, package_name, resource_name):
 
@@ -55,12 +68,30 @@ class VolcanoVisitor(ast.NodeVisitor):
         sh_module_code = pkg_resources.resource_string(package_name, resource_name + '.sh')
         self.write(sh_module_code.decode('utf-8'))
 
+    def register_symbol(self, name: str):
+        scope = self.current_scope
+        alias = f'{scope}_{name}'
+
+        self.symbol_tables[scope][name] = alias
+        return alias
+
+    def resolve_name(self, name: str):
+        scope = self.current_scope
+        table = self.symbol_tables[scope]
+
+        if name in table:
+            return table[name]
+
+        return name
+
     def visit_Assign(self, node: Assign):
 
         for target in node.targets:
 
             if isinstance(target, Name):
-                self.write(f'{target.id}=')
+                self.write(
+                    f'{self.resolve_name(target.id)}='
+                )
                 self.visit(node.value)
 
     def visit_BinOp(self, node: BinOp):
@@ -88,7 +119,9 @@ class VolcanoVisitor(ast.NodeVisitor):
             if is_captured_call:
                 self.write('$( RESULT= && ')
 
-            self.write(node.func.id)
+            self.write(
+                self.resolve_name(node.func.id)
+            )
             self.capture_call = True
 
             for index, arg in enumerate(node.args):
@@ -146,19 +179,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_FunctionDef(self, node: FunctionDef):
 
-        is_local = self.in_local_scope
-        function_name = node.name
-        alias_name = None
-
-        # TODO: Change this to be handled locally instead of hijacking aliases
-        #
-
-        if is_local:
-            alias_name = f'{function_name}_{uuid.uuid4().hex}'
-            self.write(f'alias {function_name}=\'{alias_name}\'\n')
-            self.write('', indent=True)
-
-            function_name = alias_name
+        function_name = self.register_symbol(node.name)
 
         self.write(f'{function_name} () {{\n')
 
@@ -176,26 +197,17 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.write(f'local {arg.arg}=${{{index + 1}:-{default}}}')
             self.write('\n')
 
-        self.in_local_scope = True
+        self.push_scope(function_name)
 
         for statement in node.body:
             self.write('', indent=True)
             self.visit(statement)
             self.write('\n')
 
-        self.in_local_scope = is_local
-
-        for nested_function in self.nested_functions:
-            self.write(f'unalias {nested_function}', indent=True)
-            self.write('\n')
+        self.pop_scope()
 
         self.indent_lavel -= 1
         self.write(' }\n', indent=True)
-
-        self.nested_functions = []
-
-        if is_local:
-            self.nested_functions.append(node.name)
 
     def visit_If(self, node: If):
 
@@ -278,10 +290,12 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_Name(self, node: Name):
 
+        name = self.resolve_name(node.id)
+
         if self.control_flow_target:
-            self.write(node.id)
+            self.write(name)
         else:
-            self.write(f'${node.id}')
+            self.write(f'${name}')
 
     def visit_JoinedStr(self, node: JoinedStr):
 
