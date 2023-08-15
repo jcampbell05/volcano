@@ -17,7 +17,7 @@ class VolcanoTransformer(ast.NodeTransformer):
 
 class VolcanoVisitor(ast.NodeVisitor):
 
-    if_target = False
+    control_flow_target = False
     capture_call = False
     in_joined_str = False
 
@@ -78,7 +78,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_Compare(self, node: Compare):
 
-        self.write('')
+        self.write('[ ')
         self.visit(node.left)
 
         for i, op in enumerate(node.ops):
@@ -88,8 +88,7 @@ class VolcanoVisitor(ast.NodeVisitor):
                 self.write(' =  ')
                 self.visit(right)
 
-        
-        self.write('')
+        self.write(' ]')
 
     def visit_Constant(self, node: Constant):
         if isinstance(node.value, str) and not self.in_joined_str:
@@ -101,9 +100,9 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.write('for ')
 
-        self.if_target = True
+        self.control_flow_target = True
         self.visit(node.target)
-        self.if_target = False
+        self.control_flow_target = False
 
         self.write(' in ')
         self.visit(node.iter)
@@ -150,9 +149,9 @@ class VolcanoVisitor(ast.NodeVisitor):
     def visit_If(self, node: If):
 
          # node.test
-        self.write('if [ ')
+        self.write('if [')
         self.visit(node.test)
-        self.write(' ]\n')
+        self.write(']\n')
         self.write('', indent=True)
         self.write('then\n')
 
@@ -221,7 +220,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_Name(self, node: Name):
 
-        if self.if_target:
+        if self.control_flow_target:
             self.write(node.id)
         else:
             self.write(f'${node.id}')
