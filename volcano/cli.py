@@ -6,7 +6,6 @@ import tempfile
 from .compiler import *
 
 # TODO:
-# - Implement reserved keywords
 # - Intermediate IR to be able to more advanced reasoning of the code and result with better shell code
 # - Use python's logger
 # - Comments for source maps
