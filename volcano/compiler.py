@@ -149,9 +149,6 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.indent_lavel += 1
 
-        self.write('', indent=True)
-        self.write(f'RESULT=\n')
-
         for index, arg in enumerate(args):
 
             default = next(defaults, None)
