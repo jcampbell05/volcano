@@ -28,6 +28,9 @@ class VolcanoVisitor(ast.NodeVisitor):
     function_def_has_return = False
     in_joined_str = False
 
+    nested_functions = []
+    in_local_scope = False
+
     indent_lavel = 0
     indent_token = '    '
 
@@ -143,7 +146,18 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_FunctionDef(self, node: FunctionDef):
 
-        self.write(f'{node.name} () {{\n')
+        is_local = self.in_local_scope
+        function_name = node.name
+        alias_name = None
+
+        if is_local:
+            alias_name = f'{function_name}_{uuid.uuid4().hex}'
+            self.write(f'alias {function_name}=\'{alias_name}\'\n')
+            self.write('', indent=True)
+
+            function_name = alias_name
+
+        self.write(f'{function_name} () {{\n')
 
         args: arguments = reversed(node.args.args)
         defaults = reversed(node.args.defaults)
@@ -159,14 +173,26 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.write(f'local {arg.arg}=${{{index + 1}:-{default}}}')
             self.write('\n')
 
+        self.in_local_scope = True
+
         for statement in node.body:
             self.write('', indent=True)
             self.visit(statement)
             self.write('\n')
 
+        self.in_local_scope = is_local
+
+        for nested_function in self.nested_functions:
+            self.write(f'unalias {nested_function}', indent=True)
+            self.write('\n')
+
         self.indent_lavel -= 1
-    
         self.write(' }\n', indent=True)
+
+        self.nested_functions = []
+
+        if is_local:
+            self.nested_functions.append(node.name)
 
     def visit_If(self, node: If):
 

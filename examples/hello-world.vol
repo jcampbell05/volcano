@@ -6,6 +6,9 @@ def say_hello(name='World'):
 
     def test():
         print('Nested functions baby')
+        print('Nested functions baby')
+
+    test()
 
     if name == "Ken":
         print("Ken is not allowed")
