@@ -19,6 +19,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     if_target = False
     capture_call = False
+    in_joined_str = False
     indent_token = '    '
 
     def __init__(self, shell_executable):
@@ -75,7 +76,7 @@ class VolcanoVisitor(ast.NodeVisitor):
                 self.output += ')'
 
     def visit_Constant(self, node: Constant):
-        if isinstance(node.value, str):
+        if isinstance(node.value, str) and not self.in_joined_str:
             self.output += f'"{node.value}"'
         else:
             self.output += str(node.value)
@@ -173,8 +174,12 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.capture_call = True
         self.output += '"' 
 
+        self.in_joined_str = True
+
         for value in node.values:
             self.visit(value)
+
+        self.in_joined_str = False
 
         self.output += '"'
         self.capture_call = False
