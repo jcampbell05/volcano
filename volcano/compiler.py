@@ -23,6 +23,8 @@ class VolcanoTransformer(ast.NodeTransformer):
 
 class VolcanoVisitor(ast.NodeVisitor):
 
+    symbol_prefix = uuid.uuid4()
+
     control_flow_target = False
     capture_call = False
     function_def_has_return = False
