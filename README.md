@@ -46,7 +46,7 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 - **Classes and objects**: Volcano does not currently support classes and objects, which are another fundamental building block of most programs. In the future, we plan to add support for classes and objects, which will allow you to write more complex and sophisticated programs in Volcano.
 
-- **Control flow statements**: Volcano currently only supports `for` loops, but does not support other control flow statements like `if` statements, `while` loops, or `try`/`except` blocks. In the future, we plan to add support for these control flow statements, which will make it easier to write more complex programs in Volcano.
+- **Control flow statements**: Volcano currently only supports `for` loops and experimental support for 'if' statements. But does not support other control flow statements like `while` loops, or `try`/`except` blocks.
 
 - **Python libraries**: Provide any replacement implementation for common python libraries like requests or os. This is a major limitation that we plan to address in the future.
 

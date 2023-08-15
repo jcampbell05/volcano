@@ -4,7 +4,7 @@ from volcano.shell import date, whoami
 #
 def say_hello(name='World'):
 
-    if name == "ken":
+    if name == "Ken":
         print("Ken is not allowed")
         return
 

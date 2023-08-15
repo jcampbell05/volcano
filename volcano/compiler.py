@@ -76,6 +76,21 @@ class VolcanoVisitor(ast.NodeVisitor):
             if is_captured_call:
                 self.write(')')
 
+    def visit_Compare(self, node: Compare):
+
+        self.write('')
+        self.visit(node.left)
+
+        for i, op in enumerate(node.ops):
+            right = node.comparators[i]
+
+            if isinstance(op, ast.Eq):
+                self.write(' =  ')
+                self.visit(right)
+
+        
+        self.write('')
+
     def visit_Constant(self, node: Constant):
         if isinstance(node.value, str) and not self.in_joined_str:
             self.write(f'"{node.value}"')
