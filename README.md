@@ -43,8 +43,7 @@ Volcano provides a number of benefits over traditional shell scripting:
 ## Roadmap
 
 - **Keyword arguments**: Currently, Volcano does not support keyword arguments.
-
-- **Classes and objects**: Volcano does not currently support classes and objects, which are another fundamental building block of most programs. In the future, we plan to add support for classes and objects, which will allow you to write more complex and sophisticated programs in Volcano.
+- **Classes and objects**: Volcano does not currently support classes and objects.
 
 - **Control flow statements**: Volcano currently only supports `for` loops and experimental support for 'if' statements. But does not support other control flow statements like `while` loops, or `try`/`except` blocks.
 
@@ -52,10 +51,10 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 - **Lambdas**: We have no support for lambdas
 
-- **Primitive functions and comprison operartors**: Volcano currently does not support primitive functions like lower() for strings or comparisoon operators like > or <. This is a limitation that we plan to address in the future, which will make it easier to work with strings and other data types in Volcano.
+- **Primitive functions and comprison operartors**: Volcano currently does not support primitive functions like lower() for strings or comparisoon operators like > or <.
 
-- **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords. This is a limitation that we plan to address in the future, which will make it possible to write more efficient and responsive programs in Volcano.
+- **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords.
 
-- **Piping**: Volcano currently does not support piping from shell scripting. In the future, we plan to add support for piping, which will allow you to pipe commands together using a syntax like command.pipe(other_command)(args).
+- **Piping**: Volcano currently does not support piping from shell scripting.
 
 Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.
