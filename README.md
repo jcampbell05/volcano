@@ -44,17 +44,11 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 - **Keyword arguments**: Currently, Volcano does not support keyword arguments.
 - **Classes and objects**: Volcano does not currently support classes and objects.
-
 - **Control flow statements**: Volcano currently only supports `for` loops and `if` statements. But does not support other control flow statements like `while` loops, `match`, or `try`/`except` blocks.
-
 - **List comprehension statements**: We have no support for list comprehension
-
 - **Lambdas**: We have no support for lambdas
-
 - **Primitive functions and comprison operartors**: Volcano currently does not support primitive functions like lower() for strings or comparisoon operators like > or <.
-
 - **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords.
-
 - **Piping**: Volcano currently does not support piping from shell scripting.
 
 Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.
