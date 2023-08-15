@@ -1,12 +1,4 @@
 from volcano.shell import echo
+
 def print(message):
     echo(f"{message}")
-
-def call_function(function_name, *args):
-
-    results = []
-
-    for arg in args:
-        results += exec(arg)
-
-    return exec(f'{function_name} {results}')

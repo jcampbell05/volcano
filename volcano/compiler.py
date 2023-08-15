@@ -62,7 +62,7 @@ class VolcanoVisitor(ast.NodeVisitor):
             is_captured_call = self.capture_call
             
             if is_captured_call:
-                self.output += 'call_function "'
+                self.output += '$('
 
             self.output += node.func.id
             self.capture_call = True
@@ -74,7 +74,7 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.capture_call = False
 
             if is_captured_call:
-                self.output += '"'
+                self.output += ')'
 
     def visit_Constant(self, node: Constant):
         if isinstance(node.value, str) and not self.in_joined_str:
