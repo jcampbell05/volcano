@@ -60,8 +60,4 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 - **Piping**: Volcano currently does not support piping from shell scripting. In the future, we plan to add support for piping, which will allow you to pipe commands together using a syntax like command.pipe(other_command)(args).
 
-- **Optimizations**: We don't optimise the final shell code, So it may not be the best output since we don't reperesent it as an intenral IR yet.
-
-- **Source maps**: We don't emit any comments in final code to be able to determine where the code was from
-
 Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.
