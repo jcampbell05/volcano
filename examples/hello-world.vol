@@ -1,4 +1,4 @@
-from volcano.shell import whoami
+from volcano.shell import date, whoami
 
 # An example volcano application, also doubles up as our test suite
 #
