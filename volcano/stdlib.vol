@@ -1,4 +1,9 @@
-from volcano.shell import echo
+from volcano.shell import echo, pipe
 
+# TODO: Kickstart loggin job in background, provide this implementation in the compiler
+#
 def print(message):
-    echo(f"{message}")
+    pipe( # TODO: Reserve pipe and put implementation into compiler
+        echo(f"{message}"),
+        # TODO: Add reserved method for outputting to file
+    )
