@@ -3,7 +3,15 @@ from _ast import Constant, For, JoinedStr, Name
 import ast
 
 class VolcanoTransformer(ast.NodeTransformer):
-    pass
+    
+    def visit_Module(self, node):
+        
+        # Add import stdlib statement to beginning of module body
+        #
+        new_body = [ast.parse('import volcano.stdlib').body[0]] + node.body
+        node.body = new_body
+
+        return node
 
 class VolcanoVisitor(ast.NodeVisitor):
 
