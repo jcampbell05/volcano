@@ -82,7 +82,7 @@ class VolcanoVisitor(ast.NodeVisitor):
             is_captured_call = self.capture_call
             
             if is_captured_call:
-                self.write('$(')
+                self.write('$( RESULT= && ')
 
             self.write(node.func.id)
             self.capture_call = True
