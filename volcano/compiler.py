@@ -193,7 +193,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_Return(self, node: Return):
         self.last_function_def_has_return = True
-        self.output += 'RESULT='
+        self.output += 'echo '
 
         self.capture_call = True
         self.visit(node.value)
