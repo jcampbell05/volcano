@@ -4,7 +4,7 @@ setup(
     name='volcano',
     version='0.1',
     package_data={
-        'volcano': ['*.vol'],
+        'volcano': ['*.sh', '*.vol'],
     },
     entry_points='''
         [console_scripts]
