@@ -135,7 +135,9 @@ class VolcanoVisitor(ast.NodeVisitor):
     def visit_If(self, node: If):
 
          # node.test
-        self.write('if \n')
+        self.write('if [ ')
+        self.visit(node.test)
+        self.write(' ]\n')
         self.write('', indent=True)
         self.write('then\n')
 
@@ -231,6 +233,9 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         if node.value is not None:
             self.visit(node.value)
+        
+        self.write('\n')
+        self.write('return', indent=True)
 
         self.capture_call = False
 
