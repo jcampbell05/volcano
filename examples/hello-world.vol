@@ -12,12 +12,15 @@ echo(f"Today is {date()}")
 echo("====================== \n")
 echo("Here are some examples:")
 
-hey=10
+total_names = 10.0
 names = ["Barbie", "Ken", "World", whoami()]
+
+slices_of_pie = 6.0
+slices_of_pie_each = slices_of_pie / total_names
 
 echo("")
 for name in names:
     say_hello(name)
 
-echo("")
+echo(f"There are {slices_of_pie_each} for each of you. {slices_of_pie} / {total_names} = {slices_of_pie_each}")
 echo(goodbye())

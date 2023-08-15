@@ -36,6 +36,25 @@ class VolcanoVisitor(ast.NodeVisitor):
                 self.output += f'{target.id}='
                 self.visit(node.value)
 
+    def visit_BinOp(self, node: BinOp) -> Any:
+
+        self.output += f'$( echo "' 
+
+        self.visit(node.left)
+
+        if isinstance(node.op, Add):
+            self.output += '+'
+        elif isinstance(node.op, Sub):
+            self.output += '-'
+        elif isinstance(node.op, Mult):
+            self.output += '*'
+        elif isinstance(node.op, Div):
+            self.output += '/'
+
+        self.visit(node.right)
+
+        self.output += '" | bc )'
+
     def visit_Call(self, node: Call):
             
             is_captured_call = self.capture_call

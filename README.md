@@ -58,6 +58,4 @@ vast array of Python libraries and modules in Volcano programs.
 
 - **Piping**: Volcano currently does not support piping from shell scripting. In the future, we plan to add support for piping, which will allow you to pipe commands together using a syntax like command.pipe(other_command)(args).
 
-- **Non-POSIX shells**: Currently, Volcano only supports POSIX shell syntax. In the future, we plan to add support for non-POSIX shells, which will make it possible to use Volcano on a wider range of systems.
-
 Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.
