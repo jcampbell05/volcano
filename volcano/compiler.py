@@ -19,6 +19,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     control_flow_target = False
     capture_call = False
+    function_def_has_return = False
     in_joined_str = False
 
     indent_lavel = 0
@@ -128,6 +129,9 @@ class VolcanoVisitor(ast.NodeVisitor):
         defaults = reversed(node.args.defaults)
 
         self.indent_lavel += 1
+
+        self.write('', indent=True)
+        self.write(f'RESULT=\n')
 
         for index, arg in enumerate(args):
 
@@ -241,7 +245,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.capture_call = False
 
     def visit_Return(self, node: Return):
-        self.write('echo ')
+        self.write('RESULT=')
 
         self.capture_call = True
 
