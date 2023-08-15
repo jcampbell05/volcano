@@ -152,6 +152,9 @@ class VolcanoVisitor(ast.NodeVisitor):
         function_name = node.name
         alias_name = None
 
+        # TODO: Change this to be handled locally instead of hijacking aliases
+        #
+
         if is_local:
             alias_name = f'{function_name}_{uuid.uuid4().hex}'
             self.write(f'alias {function_name}=\'{alias_name}\'\n')
