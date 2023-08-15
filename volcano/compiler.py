@@ -20,6 +20,7 @@ class VolcanoVisitor(ast.NodeVisitor):
     if_target = False
     capture_call = False
     in_joined_str = False
+    last_function_def_has_return = False
     indent_token = '    '
 
     def __init__(self, shell_executable):
@@ -103,6 +104,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_FunctionDef(self, node: FunctionDef):
 
+        self.last_function_def_has_return = False
         self.output += f'{node.name} () {{\n'
 
         for index, arg in enumerate(node.args.args):
@@ -112,6 +114,11 @@ class VolcanoVisitor(ast.NodeVisitor):
         for statement in node.body:
             self.output += self.indent_token
             self.visit(statement)
+
+        if not self.last_function_def_has_return:
+            self.output += '\n'
+            self.output += self.indent_token
+            self.output += 'RESULT=0\n'
 
         self.output += '\n}'
 
@@ -185,7 +192,8 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.capture_call = False
 
     def visit_Return(self, node: Return):
-        self.output += 'echo '
+        self.last_function_def_has_return = True
+        self.output += 'RESULT='
 
         self.capture_call = True
         self.visit(node.value)
