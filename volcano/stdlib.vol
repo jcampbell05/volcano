@@ -1,4 +1,4 @@
 from volcano.shell import echo
 
 def print(message):
-    echo(message)
+    echo(f"{message}")

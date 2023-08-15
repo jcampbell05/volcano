@@ -3,16 +3,16 @@ from volcano.shell import whoami
 # An example volcano application, also doubles up as our test suite
 #
 def say_hello(name):
-    echo(f"- Hello {name}!")
+    print(f"- Hello {name}!")
 
 def goodbye():
     return "Goodbye"
 
 # Trigger the command
-echo("Welcome to Volcano 🌋")
-echo(f"Today is {date()}") 
-echo("====================== \n")
-echo("Here are some examples:")
+print("Welcome to Volcano 🌋")
+print(f"Today is {date()}") 
+print("====================== \n")
+print("Here are some examples:")
 
 total_names = 10.0
 names = ["Barbie", "Ken", "World", whoami()]
@@ -20,9 +20,9 @@ names = ["Barbie", "Ken", "World", whoami()]
 slices_of_pie = 6.0
 slices_of_pie_each = slices_of_pie / total_names
 
-echo("")
+print("")
 for name in names:
     say_hello(name)
 
-echo(f"There are {slices_of_pie_each} for each of you. {slices_of_pie} / {total_names} = {slices_of_pie_each}")
-echo(goodbye())
+print(f"There are {slices_of_pie_each} for each of you. {slices_of_pie} / {total_names} = {slices_of_pie_each}")
+print(goodbye())

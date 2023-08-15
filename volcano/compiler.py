@@ -1,7 +1,8 @@
 from _ast import *
 from _ast import Constant, For, JoinedStr, Name
 import ast
-import importlib.util
+import pkg_resources
+import os
 
 class VolcanoTransformer(ast.NodeTransformer):
     
@@ -104,6 +105,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.output += f'{node.name} () {{\n'
 
         for index, arg in enumerate(node.args.args):
+            self.output += self.indent_token
             self.output += f'{arg.arg}=${index + 1}\n'
 
         for statement in node.body:
@@ -117,9 +119,9 @@ class VolcanoVisitor(ast.NodeVisitor):
         for alias in node.names:
             
             # Load .vol file with same name as import
-            module_name = alias.name
+            import_path = alias.name
 
-            if module_name == 'volcano.shell':
+            if import_path == 'volcano.shell':
 
                 # Volcano shell is a virtual module used to indicate methods from
                 # the shell, we don't need to import anything it's mainly there
@@ -128,17 +130,16 @@ class VolcanoVisitor(ast.NodeVisitor):
                 #
                 continue
 
-            module_spec = importlib.util.find_spec(module_name)
-        
-            print("Spec: ", module_spec)
-            # if module_spec is not None and module_spec.origin.endswith('.vol'):
-            #     with open(module_spec.origin, 'r') as f:
-            #         module_code = f.read()
-            #     module_tree = ast.parse(module_code)
+            package_name = import_path.split('.')[0]
+            resource_name = os.path.join(*import_path.split('.')[1:]) + '.vol'
 
-            #     # Inject module contents into current script
-            #     for module_node in module_tree.body:
-            #         self.visit(module_node)
+            module_code = pkg_resources.resource_string(package_name, resource_name)
+            module_tree = ast.parse(module_code)
+
+            # Inject module contents into current script
+            #
+            for module_node in module_tree.body:
+                self.visit(module_node)
 
     def visit_Module(self, node):
 

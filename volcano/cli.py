@@ -10,7 +10,8 @@ from .compiler import *
 # - Implement print
 # - Allow pretty mdoe with Indentation for outout
 # - Intermediate IR to be able to more advanced reasoning of the code and result with better shell code
-# - User python's logger
+# - Use python's logger
+# - Comments for source maps
 #
 def process_file(filename):
 
