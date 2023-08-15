@@ -79,11 +79,12 @@ class VolcanoVisitor(ast.NodeVisitor):
         return alias
 
     def resolve_name(self, name: str):
-        scope = self.current_scope
-        table = self.symbol_tables[scope]
+        
+        for scope in reversed(self.scope_stack):
+            table = self.symbol_tables[scope]
 
-        if name in table:
-            return table[name]
+            if name in table:
+                return table[name]
 
         return name
 
