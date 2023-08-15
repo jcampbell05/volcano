@@ -50,6 +50,8 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 - **List comprehension statements**: We have no support for list comprehension
 
+- **Nested functions**: We have experimental nested function support.
+
 - **Lambdas**: We have no support for lambdas
 
 - **Primitive functions and comprison operartors**: Volcano currently does not support primitive functions like lower() for strings or comparisoon operators like > or <. This is a limitation that we plan to address in the future, which will make it easier to work with strings and other data types in Volcano.
