@@ -23,8 +23,6 @@ print(f"Today is {date()}")
 print("====================== \n")
 print("Here are some examples:")
 
-background = background_task()
-
 total_names = 10.0
 names = ["Barbie", "Ken", whoami()]
 
@@ -39,5 +37,3 @@ say_hello()
 
 print(f"There are {slices_of_pie_each} for each of you. {slices_of_pie} / {total_names} = {slices_of_pie_each}")
 print(goodbye())
-
-print(background())
