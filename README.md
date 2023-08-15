@@ -51,5 +51,6 @@ Volcano provides a number of benefits over traditional shell scripting:
 - **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords.
 - **Piping**: Volcano currently does not support piping from shell scripting.
 - **Generator**: Volcano currently does not support generators.
+- **Standard library**: Volcano currently doesn't have an extensive standard library beyond `print`
 
 Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.
