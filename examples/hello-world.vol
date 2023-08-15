@@ -4,11 +4,15 @@ from volcano.shell import date, whoami
 #
 def say_hello(name='World'):
 
+    def test():
+        print('Nested functions baby')
+
     if name == "Ken":
         print("Ken is not allowed")
         return
 
     print(f"- Hello {name}!")
+    test()
 
 def goodbye():
     return "Goodbye"
@@ -33,3 +37,4 @@ say_hello()
 
 print(f"There are {slices_of_pie_each} for each of you. {slices_of_pie} / {total_names} = {slices_of_pie_each}")
 print(goodbye())
+test()

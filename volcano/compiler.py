@@ -162,10 +162,11 @@ class VolcanoVisitor(ast.NodeVisitor):
         for statement in node.body:
             self.write('', indent=True)
             self.visit(statement)
+            self.write('\n')
 
         self.indent_lavel -= 1
-
-        self.write('\n}')
+    
+        self.write(' }\n', indent=True)
 
     def visit_If(self, node: If):
 
