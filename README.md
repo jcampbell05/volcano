@@ -50,8 +50,6 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 - **Python libraries**: Provide any replacement implementation for common python libraries like requests or os. This is a major limitation that we plan to address in the future.
 
-- **Return statements**: Return statement support is still experimental.
-
 - **List comprehension statements**: We have no support for list comprehension
 
 - **Lambdas**: We have no support for lambdas

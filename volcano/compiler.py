@@ -7,6 +7,11 @@ import os
 class VolcanoTransformer(ast.NodeTransformer):
     
     def visit_Module(self, node):
+
+        # Add import io statement to beginning of module body
+        #
+        new_body = [ast.parse('import volcano.io').body[0]] + node.body
+        node.body = new_body
         
         # Add import stdlib statement to beginning of module body
         #
@@ -31,6 +36,20 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def generate_shabang(self, shell_executable):
         self.write(f'#!{shell_executable}\n')
+
+    def load_volcano_module(self, package_name, resource_name):
+
+        module_code = pkg_resources.resource_string(package_name, resource_name + '.vol')
+        module_tree = ast.parse(module_code)
+
+        # Inject module contents into current script
+        #
+        for module_node in module_tree.body:
+            self.visit(module_node)
+
+    def load_shell_module(self, package_name, resource_name):
+        sh_module_code = pkg_resources.resource_string(package_name, resource_name + '.sh')
+        self.write(sh_module_code.decode('utf-8'))
 
     def visit_Assign(self, node: Assign):
 
@@ -75,7 +94,7 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.capture_call = False
 
             if is_captured_call:
-                self.write(')')
+                self.write(' && echo $RESULT)')
 
     def visit_Compare(self, node: Compare):
 
@@ -192,15 +211,22 @@ class VolcanoVisitor(ast.NodeVisitor):
                 continue
 
             package_name = import_path.split('.')[0]
-            resource_name = os.path.join(*import_path.split('.')[1:]) + '.vol'
+            resource_name = os.path.join(*import_path.split('.')[1:]) 
 
-            module_code = pkg_resources.resource_string(package_name, resource_name)
-            module_tree = ast.parse(module_code)
+            try:
+                self.load_volcano_module(package_name, resource_name)
+                return
+            except FileNotFoundError:
+                pass
 
-            # Inject module contents into current script
-            #
-            for module_node in module_tree.body:
-                self.visit(module_node)
+            try:
+                self.load_shell_module(package_name, resource_name)  
+                return          
+            except FileNotFoundError:
+                pass
+
+            raise ImportError(f"No module named '{import_path}'")
+
 
     def visit_Module(self, node):
 
