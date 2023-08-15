@@ -42,7 +42,7 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 ## Roadmap
 
-- **Keyword arguments and default values**: Currently, Volcano does not support keyword arguments or default values in function definitions. This is a limitation that we plan to address in the future, which will make it easier to write more flexible and reusable functions in Volcano.
+- **Keyword arguments**: Currently, Volcano does not support keyword arguments.
 
 - **Classes and objects**: Volcano does not currently support classes and objects, which are another fundamental building block of most programs. In the future, we plan to add support for classes and objects, which will allow you to write more complex and sophisticated programs in Volcano.
 

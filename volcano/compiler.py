@@ -105,9 +105,17 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.output += f'{node.name} () {{\n'
 
-        for index, arg in enumerate(node.args.args):
+        args: arguments = reversed(node.args.args)
+        defaults = reversed(node.args.defaults)
+
+        for index, arg in enumerate(args):
+
+            default = next(defaults, None)
+            default = default.value if default is not None else ''
+
             self.output += self.indent_token
-            self.output += f'local {arg.arg}=${index + 1}\n'
+            self.output += f'local {arg.arg}=${{{index + 1}:-{default}}}'
+            self.output += '\n'
 
         for statement in node.body:
             self.output += self.indent_token

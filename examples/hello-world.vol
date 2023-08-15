@@ -2,7 +2,7 @@ from volcano.shell import date, whoami
 
 # An example volcano application, also doubles up as our test suite
 #
-def say_hello(name):
+def say_hello(name='World'):
     print(f"- Hello {name}!")
 
 def goodbye():
@@ -15,7 +15,7 @@ print("====================== \n")
 print("Here are some examples:")
 
 total_names = 10.0
-names = ["Barbie", "Ken", "World", whoami()]
+names = ["Barbie", "Ken", whoami()]
 
 slices_of_pie = 6.0
 slices_of_pie_each = slices_of_pie / total_names
@@ -23,6 +23,8 @@ slices_of_pie_each = slices_of_pie / total_names
 print("")
 for name in names:
     say_hello(name)
+
+say_hello()
 
 print(f"There are {slices_of_pie_each} for each of you. {slices_of_pie} / {total_names} = {slices_of_pie_each}")
 print(goodbye())
