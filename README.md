@@ -48,8 +48,6 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 - **Control flow statements**: Volcano currently only supports `for` loops and experimental support for 'if' statements. But does not support other control flow statements like `while` loops, or `try`/`except` blocks.
 
-- **Python libraries**: Provide any replacement implementation for common python libraries like requests or os. This is a major limitation that we plan to address in the future.
-
 - **List comprehension statements**: We have no support for list comprehension
 
 - **Lambdas**: We have no support for lambdas
