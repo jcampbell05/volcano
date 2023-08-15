@@ -3,6 +3,11 @@ from volcano.shell import date, whoami
 # An example volcano application, also doubles up as our test suite
 #
 def say_hello(name='World'):
+
+    if name == "ken":
+        print("Ken is not allowed")
+        return
+
     print(f"- Hello {name}!")
 
 def goodbye():

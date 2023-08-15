@@ -20,6 +20,8 @@ class VolcanoVisitor(ast.NodeVisitor):
     if_target = False
     capture_call = False
     in_joined_str = False
+
+    indent_lavel = 0
     indent_token = '    '
 
     def __init__(self, shell_executable):
@@ -27,101 +29,131 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.generate_shabang(shell_executable)
 
     def generate_shabang(self, shell_executable):
-        self.output += f'#!{shell_executable}\n'
+        self.write(f'#!{shell_executable}\n')
 
     def visit_Assign(self, node: Assign):
 
         for target in node.targets:
 
             if isinstance(target, Name):
-                self.output += f'{target.id}='
+                self.write(f'{target.id}=')
                 self.visit(node.value)
 
     def visit_BinOp(self, node: BinOp):
 
-        self.output += f'$( echo "' 
-
+        self.write(f'$( echo "' )
         self.visit(node.left)
 
         if isinstance(node.op, Add):
-            self.output += '+'
+            self.write('+')
         elif isinstance(node.op, Sub):
-            self.output += '-'
+            self.write('-')
         elif isinstance(node.op, Mult):
-            self.output += '*'
+            self.write('*')
         elif isinstance(node.op, Div):
-            self.output += '/'
+            self.write('/')
 
         self.visit(node.right)
 
-        self.output += '" | bc -l )'
+        self.write('" | bc -l )')
 
     def visit_Call(self, node: Call):
             
             is_captured_call = self.capture_call
             
             if is_captured_call:
-                self.output += '$('
+                self.write('$(')
 
-            self.output += node.func.id
+            self.write(node.func.id)
             self.capture_call = True
 
             for index, arg in enumerate(node.args):
-                self.output += ' ' if index == 0 else ', '
+                self.write(' ' if index == 0 else ', ')
                 self.visit(arg)
 
             self.capture_call = False
 
             if is_captured_call:
-                self.output += ')'
+                self.write(')')
 
     def visit_Constant(self, node: Constant):
         if isinstance(node.value, str) and not self.in_joined_str:
-            self.output += f'"{node.value}"'
+            self.write(f'"{node.value}"')
         else:
-            self.output += str(node.value)
+            self.write(str(node.value))
 
     def visit_For(self, node: For):
 
-        self.output += 'for '
+        self.write('for ')
 
         self.if_target = True
         self.visit(node.target)
         self.if_target = False
 
-        self.output += ' in '
+        self.write(' in ')
         self.visit(node.iter)
 
-        self.output += ';\n'
-        self.output += 'do\n'
+        self.write(';\n')
+        self.write('do\n')
+
+        self.indent_lavel += 1
         
         for statement in node.body:
-            self.output += self.indent_token
+            self.write('', indent=True)
             self.visit(statement)
 
-        self.output += '\ndone'
+        self.indent_lavel -= 1
+
+        self.write('\ndone')
 
     def visit_FunctionDef(self, node: FunctionDef):
 
-        self.output += f'{node.name} () {{\n'
+        self.write(f'{node.name} () {{\n')
 
         args: arguments = reversed(node.args.args)
         defaults = reversed(node.args.defaults)
+
+        self.indent_lavel += 1
 
         for index, arg in enumerate(args):
 
             default = next(defaults, None)
             default = default.value if default is not None else ''
 
-            self.output += self.indent_token
-            self.output += f'local {arg.arg}=${{{index + 1}:-{default}}}'
-            self.output += '\n'
+            self.write('', indent=True)
+            self.write(f'local {arg.arg}=${{{index + 1}:-{default}}}')
+            self.write('\n')
 
         for statement in node.body:
-            self.output += self.indent_token
+            self.write('', indent=True)
             self.visit(statement)
 
-        self.output += '\n}'
+        self.indent_lavel -= 1
+
+        self.write('\n}')
+
+    def visit_If(self, node: If):
+
+         # node.test
+        self.write('if \n')
+        self.write('', indent=True)
+        self.write('then\n')
+
+        self.indent_lavel += 1
+
+        for statement in node.body:
+            self.write('', indent=True)
+            self.visit(statement)
+            self.write(' \n')
+
+        self.indent_lavel -= 1
+
+        # # Visit else statement body, if present
+        # if node.orelse:
+        #     self.visit(node.orelse)
+
+        self.write('', indent=True)
+        self.write('fi\n')
 
     def visit_Import(self, node: Import):
 
@@ -154,33 +186,33 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         for statement in node.body:
             self.visit(statement)
-            self.output += '\n'
+            self.write('\n')
 
     def visit_List(self, node):
 
-        self.output += '"'
+        self.write('"')
 
         self.capture_call = True
         
         for index, item in enumerate(node.elts):
-            self.output += '' if index == 0 else ' '
+            self.write('' if index == 0 else ' ')
             self.visit(item)
 
         self.capture_call = False
 
-        self.output += '"'
+        self.write('"')
 
     def visit_Name(self, node: Name):
 
         if self.if_target:
-            self.output += node.id
+            self.write(node.id)
         else:
-            self.output += f'${node.id}'
+            self.write(f'${node.id}')
 
     def visit_JoinedStr(self, node: JoinedStr):
 
         self.capture_call = True
-        self.output += '"' 
+        self.write('"' )
 
         self.in_joined_str = True
 
@@ -189,12 +221,22 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.in_joined_str = False
 
-        self.output += '"'
+        self.write('"')
         self.capture_call = False
 
     def visit_Return(self, node: Return):
-        self.output += 'echo '
+        self.write('echo ')
 
         self.capture_call = True
-        self.visit(node.value)
+
+        if node.value is not None:
+            self.visit(node.value)
+
         self.capture_call = False
+
+    def write(self, token, indent=False):
+    
+        if indent:
+            self.output += self.indent_token * self.indent_lavel
+
+        self.output += token
