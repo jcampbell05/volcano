@@ -54,7 +54,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.visit(node.right)
 
-        self.output += '" | bc )'
+        self.output += '" | bc -l )'
 
     def visit_Call(self, node: Call):
             
