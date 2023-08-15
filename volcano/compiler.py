@@ -3,7 +3,6 @@ from _ast import Constant, For, JoinedStr, Name
 import ast
 import pkg_resources
 import os
-import uuid
 
 class VolcanoTransformer(ast.NodeTransformer):
     
