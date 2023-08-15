@@ -1,1 +1,4 @@
-# TODO: Add standard library here
+from volcano.shell import echo
+
+def print(message):
+    echo(message)

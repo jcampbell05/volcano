@@ -118,6 +118,16 @@ class VolcanoVisitor(ast.NodeVisitor):
             
             # Load .vol file with same name as import
             module_name = alias.name
+
+            if module_name == 'volcano.shell':
+
+                # Volcano shell is a virtual module used to indicate methods from
+                # the shell, we don't need to import anything it's mainly there
+                # to silence compiler errors - in the future tooling could be updated
+                # to use this module to provide autocomplete for shell methods
+                #
+                continue
+
             module_spec = importlib.util.find_spec(module_name)
         
             print("Spec: ", module_spec)
