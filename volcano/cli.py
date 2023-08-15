@@ -31,10 +31,11 @@ def cli():
     if args.output is None:
         base_name, _ = os.path.splitext(args.file)
         args.output = f'{base_name}.sh'
-    
+
+    module_name = os.path.splitext(os.path.basename(args.output))[0]
     tree = process_file(args.file)
     
-    visitor = VolcanoVisitor(args.shell) 
+    visitor = VolcanoVisitor(module_name, args.shell) 
     visitor.visit(tree)
 
     if args.verbose:

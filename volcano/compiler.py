@@ -34,10 +34,13 @@ class VolcanoVisitor(ast.NodeVisitor):
     indent_lavel = 0
     indent_token = '    '
 
-    def __init__(self, shell_executable):
+    def __init__(self, module_name, shell_executable):
+
+        module_name = module_name.replace('-', '_')
+
         self.output = ''
         self.generate_shabang(shell_executable)
-        self.push_scope('module')
+        self.push_scope(module_name)
 
     @property
     def current_scope(self):
