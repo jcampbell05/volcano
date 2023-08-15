@@ -50,6 +50,8 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 - **Python libraries**: Provide any replacement implementation for common python libraries like requests or os. This is a major limitation that we plan to address in the future.
 
+- **Return statements**: Return statement support is still experimental.
+
 - **Primitive functions and comprison operartors**: Volcano currently does not support primitive functions like lower() for strings or comparisoon operators like > or <. This is a limitation that we plan to address in the future, which will make it easier to work with strings and other data types in Volcano.
 
 - **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords. This is a limitation that we plan to address in the future, which will make it possible to write more efficient and responsive programs in Volcano.
