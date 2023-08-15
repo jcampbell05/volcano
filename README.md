@@ -48,9 +48,7 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 - **Control flow statements**: Volcano currently only supports `for` loops, but does not support other control flow statements like `if` statements, `while` loops, or `try`/`except` blocks. In the future, we plan to add support for these control flow statements, which will make it easier to write more complex programs in Volcano.
 
-- **Imports and Python libraries**: Volcano currently does not support imports or provide any implementation for the standard
-Python libraries. This is a major limitation that we plan to address in the future, which will make it possible to use the
-vast array of Python libraries and modules in Volcano programs.
+- **Python libraries**: Provide any replacement implementation for common python libraries like requests or os. This is a major limitation that we plan to address in the future.
 
 - **Primitive functions and comprison operartors**: Volcano currently does not support primitive functions like lower() for strings or comparisoon operators like > or <. This is a limitation that we plan to address in the future, which will make it easier to work with strings and other data types in Volcano.
 
