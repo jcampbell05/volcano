@@ -46,7 +46,7 @@ Volcano provides a number of benefits over traditional shell scripting:
 - **Classes and objects**: Volcano does not currently support classes and objects.
 - **Lambdas**: We have no support for lambdas
 - **List comprehension statements**: We have no support for list comprehension
-- **Control flow statements**: Volcano currently only supports `for` loops and `if` statements. But does not support other control flow statements like `while` loops, `match`, or `try`/`except` blocks.
+- **Control flow statements**: Volcano currently only supports `for` loops and `if` statements.
 - **Cmprison operartors**: Volcano currently does not support all comparisoon operators.
 - **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords.
 - **Piping**: Volcano currently does not support piping from shell scripting.
