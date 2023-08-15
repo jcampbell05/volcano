@@ -1,3 +1,5 @@
+from volcano.shell import whoami
+
 # An example volcano application, also doubles up as our test suite
 #
 def say_hello(name):
