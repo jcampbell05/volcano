@@ -1,6 +1,7 @@
 from _ast import *
 from _ast import Constant, For, JoinedStr, Name
 import ast
+import importlib.util
 
 class VolcanoTransformer(ast.NodeTransformer):
     
@@ -26,11 +27,11 @@ class VolcanoVisitor(ast.NodeVisitor):
     def generate_shabang(self, shell_executable):
         self.output += f'#!{shell_executable}\n'
 
-    def visit_Assign(self, node: ast.Assign):
+    def visit_Assign(self, node: Assign):
 
         for target in node.targets:
 
-            if isinstance(target, ast.Name):
+            if isinstance(target, Name):
                 self.output += f'{target.id}='
                 self.visit(node.value)
 
@@ -111,6 +112,24 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.output += '\n}'
 
+    def visit_Import(self, node: Import):
+
+        for alias in node.names:
+            
+            # Load .vol file with same name as import
+            module_name = alias.name
+            module_spec = importlib.util.find_spec(module_name)
+        
+            print("Spec: ", module_spec)
+            # if module_spec is not None and module_spec.origin.endswith('.vol'):
+            #     with open(module_spec.origin, 'r') as f:
+            #         module_code = f.read()
+            #     module_tree = ast.parse(module_code)
+
+            #     # Inject module contents into current script
+            #     for module_node in module_tree.body:
+            #         self.visit(module_node)
+
     def visit_Module(self, node):
 
         for statement in node.body:
@@ -149,7 +168,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.output += '"'
         self.capture_call = False
 
-    def visit_Return(self, node: ast.Return):
+    def visit_Return(self, node: Return):
         self.output += 'echo '
 
         self.capture_call = True
