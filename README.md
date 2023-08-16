@@ -1,6 +1,6 @@
 # Volcano 🌋
 
-Volcano is a new programming language that is a subset of Python (Similar to MicroPython), designed to be compiled to shell script. It provides a simple and intuitive syntax that allows you to write shell scripts in Python, without having to worry about the complexities of shell scripting.
+Volcano is a new programming language that is a subset of Python (Similar to MicroPython), designed to be compiled to shell script. It provides a simple and intuitive syntax that allows you to write shell scripts in Python, without having to worry about the complexities of shell syntax.
 
 ## Installation
 
