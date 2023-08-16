@@ -9,5 +9,5 @@ setup(
     entry_points='''
         [console_scripts]
         volcano=volcano.cli:cli
-    ''',
+    '''
 )

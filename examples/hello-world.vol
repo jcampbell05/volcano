@@ -17,8 +17,8 @@ def say_hello(name='World'):
 
     print(f"- Hello {name}!")
 
-def goodbye():
-    return "Goodbye"
+def goodbye(name):
+    return "Goodbye {name}"
 
 # Trigger the command
 print("Welcome to Volcano 🌋")
@@ -34,6 +34,8 @@ slices_of_pie_each = slices_of_pie / total_names
 
 number = input('Pick a number:')
 
+# TODO: Give a better example
+#
 if number < 2:
     print(f"{number} is smaller then 2")
 elif 1 > 2:
@@ -65,4 +67,4 @@ for name in names:
 say_hello()
 
 print(f"There are {slices_of_pie_each} for each of you. {slices_of_pie} / {total_names} = {slices_of_pie_each}")
-print(goodbye())
+[print(goodbye(name) for name in names)]

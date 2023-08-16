@@ -5,6 +5,11 @@ import pkg_resources
 import os
 
 class VolcanoTransformer(ast.NodeTransformer):
+    """
+    The VolcanoTransformaer transforms the code before it reaches the shell script generator
+    into something that is easier to work with. Since some high level features of Volcano
+    cannot be easily translated into shell script.
+    """
 
     def import_module(self, node, path):
 
@@ -16,6 +21,34 @@ class VolcanoTransformer(ast.NodeTransformer):
     def visit_Module(self, node):
         node.body = self.import_module(node, 'volcano.runtime')
         return node
+    
+    def visit_IfExp(self, node: ast.IfExp):
+
+        # Define the function
+        func_name = 'my_func'
+        func_args = ast.arguments(args=[], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[])
+        func_body = [ast.Pass()]
+        func_def = ast.FunctionDef(name=func_name, args=func_args, body=func_body, decorator_list=[])
+
+        # Create an Insert node to inject the function before the current statement
+        insert_node = ast.Insert(body=[func_def], before=node)
+
+        # Replace the IfExp node with the Insert node
+        return insert_node
+    
+    def visit_ListComp(self, node):
+        
+        # Define the function
+        func_name = 'my_func'
+        func_args = ast.arguments(args=[], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[])
+        func_body = [ast.Pass()]
+        func_def = ast.FunctionDef(name=func_name, args=func_args, body=func_body, decorator_list=[])
+
+        # Create an Insert node to inject the function before the current statement
+        insert_node = ast.Insert(body=[func_def], before=node)
+
+        # Replace the IfExp node with the Insert node
+        return insert_node
 
 class VolcanoVisitor(ast.NodeVisitor):
 
@@ -441,7 +474,6 @@ class VolcanoVisitor(ast.NodeVisitor):
         if len(node.orelse) > 0:
 
             for statement in node.orelse:
-                print(statement)
                 self.write('', indent=True)
                 self.visit(statement)
                 self.write(' \n')
