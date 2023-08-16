@@ -48,6 +48,7 @@ Volcano provides a number of benefits over traditional shell scripting:
 - **Piping**: Volcano currently does not support piping from shell scripting.
 - **Generator**: Volcano currently does not support generators.
 - **Cli**: Volcano currently does not support an easy way to define a cli parser.
-- **Type m,ethods**: Volcano currently does not support any of the low level methods such as tolower for string
+- **Type methods**: Volcano currently does not support any of the low level methods such as tolower for string
+- **Context Manager**: Volcano currently does not support context managers
 
 Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.
