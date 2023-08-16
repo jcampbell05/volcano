@@ -129,6 +129,19 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.write('" | bc -l )')
 
+    # def visit_BoolOp(self, node):
+    #     if isinstance(node.op, ast.Or):
+    #         # Handle the or operator
+    #         print(f"{ast.unparse(node.values[0])} or {ast.unparse(node.values[1])}")
+    #     elif isinstance(node.op, ast.And):
+    #         # Handle the and operator
+    #         print(f"{ast.unparse(node.values[0])} and {ast.unparse(node.values[1])}")
+    #     # Add more elif statements to handle other boolean operators as needed
+    #     else:
+    #         # Handle other types of boolean operators
+    #         print(ast.dump(node))
+    #     self.generic_visit(node)
+
     def visit_BinOp(self, node: BinOp):
 
         self.write(f'$( echo "' )
@@ -184,6 +197,9 @@ class VolcanoVisitor(ast.NodeVisitor):
             elif isinstance(op, ast.Is):
                 self.write(' = ')
                 self.visit(right)
+            elif isinstance(op, ast.NotEq):
+                self.write(' != ')
+                self.visit(right)
             elif isinstance(op, ast.Gt):
                 self.write(' -gt ')
                 self.visit(right)
@@ -196,6 +212,8 @@ class VolcanoVisitor(ast.NodeVisitor):
             elif isinstance(op, ast.LtE):
                 self.write(' -le ')
                 self.visit(right)
+            else:
+                raise NotImplementedError(f"Unsupported operator {op}")
 
         self.write(' ]')
 
@@ -385,6 +403,16 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.write('return', indent=True)
 
         self.capture_call = False
+
+    # def visit_UnaryOp(self, node):
+    #     if isinstance(node.op, ast.Not):
+    #         # Handle the not operator
+    #         print(f"not {ast.unparse(node.operand)}")
+    #     # Add more elif statements to handle other unary operators as needed
+    #     else:
+    #         # Handle other types of unary operators
+    #         print(ast.dump(node))
+    #     self.generic_visit(node)
 
     def visit_While(self, node: While):
         

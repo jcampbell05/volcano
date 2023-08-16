@@ -38,13 +38,15 @@ if 1 < 2:
     print("1 is smaller then 2")
 elif 1 > 2:
     print("1 is greater then 2")
-elif 1 == 2:
-    print("1 equals 2")
+elif 1 == 2 and 2 == 1:
+    print("1 equals 2 and 2 equals 1")
+elif not 4:
+    print("4 is not true")
 else:
     print('None of these are true')
 
-if 3 is 3:
-    print('3 is 3')
+if 3 is 3 or 4 is 4:
+    print('3 is 3 or 4 is 4')
 else:
     print('3 is not 3')
 
