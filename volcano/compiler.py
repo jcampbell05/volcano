@@ -84,6 +84,13 @@ class VolcanoVisitor(ast.NodeVisitor):
                 return table[name]
 
         return name
+    
+    def write(self, token, indent=False):
+    
+        if indent:
+            self.output += self.indent_token * self.indent_lavel
+
+        self.output += token
 
     def visit_Assign(self, node: Assign):
 
@@ -229,7 +236,6 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_If(self, node: If):
 
-         # node.test
         self.write('if [')
         self.visit(node.test)
         self.write(']\n')
@@ -354,9 +360,39 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.capture_call = False
 
-    def write(self, token, indent=False):
-    
-        if indent:
-            self.output += self.indent_token * self.indent_lavel
+    def visit_While(self, node: While):
+        
+        self.write('while [')
+        self.visit(node.test)
+        self.write(']\n')
+        self.write('', indent=True)
+        self.write('do\n')
 
-        self.output += token
+        self.indent_lavel += 1
+
+        for statement in node.body:
+            self.write('', indent=True)
+            self.visit(statement)
+            self.write(' \n')
+
+        self.indent_lavel -= 1
+
+        # TODO: Implement while's else
+        # 
+        # if len(node.orelse) > 0:
+
+        #     self.write('', indent=True)
+        #     self.write('else\n')
+
+        #     self.indent_lavel += 1
+
+        #     for statement in node.orelse:
+        #         print(statement)
+        #         self.write('', indent=True)
+        #         self.visit(statement)
+        #         self.write(' \n')
+
+        #     self.indent_lavel -= 1
+
+        self.write('', indent=True)
+        self.write('done\n')

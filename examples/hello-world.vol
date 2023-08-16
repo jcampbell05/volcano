@@ -48,6 +48,11 @@ if 3 is 3:
 else:
     print('3 is not 3')
 
+i = 0
+while i < 10:
+    print(f'Countingdown... {i}')
+    i += i 
+
 print("")
 for name in names:
     say_hello(name)
