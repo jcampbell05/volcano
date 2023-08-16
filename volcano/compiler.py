@@ -117,7 +117,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.declare_variable = False
 
         self.write(f'=')
-        self.write(f'$( echo "' )
+        self.write('$( awk " BEGIN {print ' )
 
         self.visit(node.target)
 
@@ -132,7 +132,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.visit(node.value)
         self.capture_call = False
 
-        self.write('" | bc -l )')
+        self.write('}")')
 
     def visit_BoolOp(self, node: BinOp):
         raise NotImplementedError(f"Unsupported operator {node.op}")
@@ -150,7 +150,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_BinOp(self, node: BinOp):
 
-        self.write(f'$( echo "' )
+        self.write('$( awk " BEGIN {print ' )
         self.visit(node.left)
 
         if isinstance(node.op, Add):
@@ -164,7 +164,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.visit(node.right)
 
-        self.write('" | bc -l )')
+        self.write('}")')
 
     def visit_Call(self, node: Call):
             
