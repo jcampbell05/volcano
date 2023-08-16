@@ -246,7 +246,7 @@ class VolcanoVisitor(ast.NodeVisitor):
             is_captured_call = self.capture_call
             
             if is_captured_call:
-                self.write('$( RESULT= && ')
+                self.write('$( call ')
 
             self.write(
                 self.resolve_name(node.func.id)
@@ -260,7 +260,7 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.capture_call = False
 
             if is_captured_call:
-                self.write(' && echo $RESULT)')
+                self.write(' )')
 
     # TODO: Implement not
     #

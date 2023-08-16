@@ -43,7 +43,7 @@ elif 1 > 2:
 elif number == 2 and 2 == number:
     print("{number} equals 2 and 2 equals {number}")
 elif not number:
-    print("{number} is not true")
+    print(f"{number} is not true")
 else:
     print(f'None of these are true for {number}')
 
