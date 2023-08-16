@@ -117,7 +117,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.declare_variable = False
 
         self.write(f'=')
-        self.write('$( awk " BEGIN {print ' )
+        self.write('$( awk "BEGIN {print ' )
 
         self.visit(node.target)
 
@@ -150,7 +150,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_BinOp(self, node: BinOp):
 
-        self.write('$( awk " BEGIN {print ' )
+        self.write('$( awk "BEGIN {print ' )
         self.visit(node.left)
 
         if isinstance(node.op, Add):
