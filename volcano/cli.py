@@ -1,6 +1,7 @@
 import argparse
 import ast
 import os
+import shutil
 import tempfile
 
 from .compiler import *
@@ -39,24 +40,21 @@ def cli():
     visitor = VolcanoVisitor(module_name, args.shell) 
     visitor.visit(tree)
 
+    output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
+
     if args.stdout:
         print(visitor.output)
 
-    output_file = None
-
-    if args.command == 'run':
-        output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
-    else:
-        output_file = open(args.output, 'w')
-
-    if not args.stdout or args.command == 'run':
-        with output_file as f:
-            f.write(visitor.output)
+    with output_file as f:
+        f.write(visitor.output)
 
     os.chmod(output_file.name, 0o755)
 
     if args.command == 'run':
         os.system(f'{output_file.name}')
+
+    if not args.stdout:
+        shutil.move(output_file.name, args.output)
 
 if __name__ == '__main__':
     cli()
