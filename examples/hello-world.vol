@@ -43,6 +43,10 @@ elif 1 == 2:
 else:
     print('None of these are true')
 
+if 3 is 3:
+    print('3 is 3')
+else:
+    print('3 is not 3')
 
 print("")
 for name in names:

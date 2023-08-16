@@ -145,19 +145,22 @@ class VolcanoVisitor(ast.NodeVisitor):
             right = node.comparators[i]
 
             if isinstance(op, ast.Eq):
-                self.write(' =  ')
+                self.write(' = ')
                 self.visit(right)
             elif isinstance(op, ast.Is):
-                self.write(' =  ')
+                self.write(' = ')
+                self.visit(right)
+            elif isinstance(op, ast.Gt):
+                self.write(' -gt ')
                 self.visit(right)
             elif isinstance(op, ast.GtE):
-                self.write(' -ge  ')
+                self.write(' -ge ')
                 self.visit(right)
             elif isinstance(op, ast.Lt):
-                self.write(' -lt  ')
+                self.write(' -lt ')
                 self.visit(right)
             elif isinstance(op, ast.LtE):
-                self.write(' -le  ')
+                self.write(' -le ')
                 self.visit(right)
 
         self.write(' ]')
@@ -242,9 +245,20 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.indent_lavel -= 1
 
-        # # Visit else statement body, if present
-        # if node.orelse:
-        #     self.visit(node.orelse)
+        if len(node.orelse) > 0:
+
+            self.write('', indent=True)
+            self.write('else\n')
+
+            self.indent_lavel += 1
+
+            for statement in node.orelse:
+                print(statement)
+                self.write('', indent=True)
+                self.visit(statement)
+                self.write(' \n')
+
+            self.indent_lavel -= 1
 
         self.write('', indent=True)
         self.write('fi\n')
