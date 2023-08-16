@@ -42,7 +42,6 @@ Volcano provides a number of benefits over traditional shell scripting:
 - **Keyword arguments and star args**: Currently, Volcano does not support keyword arguments or references to *args or **kwargs.
 - **Classes and objects**: Volcano does not currently support classes and objects.
 - **Lambdas**: We have no support for lambdas
-- **List comprehension statements**: We have no support for list comprehension
 - **Try / expect statements**: Volcano does not have support for try/except
 - **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords.
 - **Piping**: Volcano currently does not support piping from shell scripting.

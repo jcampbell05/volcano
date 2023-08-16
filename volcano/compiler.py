@@ -36,7 +36,7 @@ class VolcanoTransformer(ast.NodeTransformer):
         # Replace the IfExp node with the Insert node
         return insert_node
     
-    def visit_ListComp(self, node):
+    def visit_GeneratorExp(self, node: GeneratorExp):
         
         # Define the function
         func_name = 'my_func'
