@@ -44,7 +44,7 @@ Volcano provides a number of benefits over traditional shell scripting:
 - **Lambdas**: We have no support for lambdas
 - **List comprehension statements**: We have no support for list comprehension
 - **Control flow and try statements**: Volcano currently only supports `for` loops, `if` statements and experimenal support for `while` loops.
-- **Cmprison operartors**: Volcano has experimental support.
+- **Cmprison operartors**: Volcano has experimental support except for `not`, `or` and `and`
 - **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords.
 - **Piping**: Volcano currently does not support piping from shell scripting.
 - **Generator**: Volcano currently does not support generators.
