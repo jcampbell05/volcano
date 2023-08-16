@@ -38,17 +38,17 @@ if number < 2:
     print(f"{number} is smaller then 2")
 elif 1 > 2:
     print(f"{number} is greater then 2")
-# elif number == 2 and 2 == number:
-#     print("{number} equals 2 and 2 equals {number}")
-# elif not number:
-#     print("{number} is not true")
+elif number == 2 and 2 == number:
+    print("{number} equals 2 and 2 equals {number}")
+elif not number:
+    print("{number} is not true")
 else:
     print(f'None of these are true for {number}')
 
-# if 3 is 3 or 4 is 4:
-#     print('3 is 3 or 4 is 4')
-# else:
-#     print('3 is not 3')
+if 3 is 3 or 4 is 4:
+    print('3 is 3 or 4 is 4')
+else:
+    print('3 is not 3')
 
 i = number
 while i > 0:

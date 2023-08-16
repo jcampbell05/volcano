@@ -134,19 +134,22 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.write('}")')
 
-    def visit_BoolOp(self, node: BinOp):
-        raise NotImplementedError(f"Unsupported operator {node.op}")
-    #     if isinstance(node.op, ast.Or):
-    #         # Handle the or operator
-    #         print(f"{ast.unparse(node.values[0])} or {ast.unparse(node.values[1])}")
-    #     elif isinstance(node.op, ast.And):
-    #         # Handle the and operator
-    #         print(f"{ast.unparse(node.values[0])} and {ast.unparse(node.values[1])}")
-    #     # Add more elif statements to handle other boolean operators as needed
-    #     else:
-    #         # Handle other types of boolean operators
-    #         print(ast.dump(node))
-    #     self.generic_visit(node)
+    def visit_BoolOp(self, node: BoolOp):
+
+        if isinstance(node.op, ast.Not):
+                self.write('!')  
+
+        for index, value in enumerate(node.values):
+
+            if index > 0 and not isinstance(node.op, ast.Not):
+                if isinstance(node.op, ast.Or):
+                    self.write(' ] || [ ')
+                elif isinstance(node.op, ast.And):
+                    self.write(' ] && [ ')
+                else:
+                    raise NotImplementedError(f"Unsupported operator {node.op}")
+            
+            self.visit(value)
 
     def visit_BinOp(self, node: BinOp):
 
@@ -191,7 +194,6 @@ class VolcanoVisitor(ast.NodeVisitor):
     #
     def visit_Compare(self, node: Compare):
 
-        self.write('[ ')
         self.visit(node.left)
 
         for i, op in enumerate(node.ops):
@@ -220,8 +222,6 @@ class VolcanoVisitor(ast.NodeVisitor):
                 self.visit(right)
             else:
                 raise NotImplementedError(f"Unsupported operator {op}")
-
-        self.write(' ]')
 
     def visit_Constant(self, node: Constant):
         if isinstance(node.value, str) and not self.in_joined_str:
@@ -287,9 +287,9 @@ class VolcanoVisitor(ast.NodeVisitor):
 
     def visit_If(self, node: If):
 
-        self.write('if [')
+        self.write('if [ ')
         self.visit(node.test)
-        self.write(']\n')
+        self.write(' ]\n')
         self.write('', indent=True)
         self.write('then\n')
 
@@ -411,21 +411,18 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.capture_call = False
 
     def visit_UnaryOp(self, node: UnaryOp):
-        raise NotImplementedError(f"Unsupported operator {node.op}")
-    #     if isinstance(node.op, ast.Not):
-    #         # Handle the not operator
-    #         print(f"not {ast.unparse(node.operand)}")
-    #     # Add more elif statements to handle other unary operators as needed
-    #     else:
-    #         # Handle other types of unary operators
-    #         print(ast.dump(node))
-    #     self.generic_visit(node)
+
+        if isinstance(node.op, ast.Not):
+            self.write(' ! ')
+            self.visit(node.operand)
+        else:
+            raise NotImplementedError(f"Unsupported operator {node.op}")
 
     def visit_While(self, node: While):
         
-        self.write('while [')
+        self.write('while [ ')
         self.visit(node.test)
-        self.write(']\n')
+        self.write(' ]\n')
         self.write('', indent=True)
         self.write('do\n')
 
