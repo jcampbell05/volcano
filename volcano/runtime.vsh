@@ -24,5 +24,12 @@ input () {
     read -p "$1" RESULT >> $LOG_FILE
 }
 
+export () {
+    name = $1
+    value = $2
+
+    export $name=$value
+}
+
 # End of Volcano runtime library.
 #
