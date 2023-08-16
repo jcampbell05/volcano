@@ -65,7 +65,7 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.visit(module_node)
 
     def load_shell_module(self, package_name, resource_name):
-        sh_module_code = pkg_resources.resource_string(package_name, resource_name + '.sh')
+        sh_module_code = pkg_resources.resource_string(package_name, resource_name + '.vsh')
         self.write(sh_module_code.decode('utf-8'))
 
     def register_symbol(self, name: str):
