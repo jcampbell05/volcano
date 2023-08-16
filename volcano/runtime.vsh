@@ -8,7 +8,7 @@ print () {
 }
 
 input () {
-    read -p "$1" RESULT
+    read -p "$1" RESULT >> $LOG_FILE
 }
 
 # End of Volcano runtime library.
