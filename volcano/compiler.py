@@ -435,22 +435,14 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.indent_lavel -= 1
 
-        # TODO: Implement while's else
-        # 
-        # if len(node.orelse) > 0:
-
-        #     self.write('', indent=True)
-        #     self.write('else\n')
-
-        #     self.indent_lavel += 1
-
-        #     for statement in node.orelse:
-        #         print(statement)
-        #         self.write('', indent=True)
-        #         self.visit(statement)
-        #         self.write(' \n')
-
-        #     self.indent_lavel -= 1
-
         self.write('', indent=True)
         self.write('done\n')
+
+        if len(node.orelse) > 0:
+
+            for statement in node.orelse:
+                print(statement)
+                self.write('', indent=True)
+                self.visit(statement)
+                self.write(' \n')
+
