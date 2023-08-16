@@ -54,6 +54,7 @@ class VolcanoTransformer(ast.NodeTransformer):
         return insert_node
     
     def visit_ListComp(self, node):
+
         # Extract the components of the list comprehension
         elt = node.elt
         generators = node.generators
@@ -67,6 +68,7 @@ class VolcanoTransformer(ast.NodeTransformer):
 
         # Add the remaining generators as if statements inside the for loop
         for gen in generators[1:]:
+            
             if gen.ifs:
                 if_stmt = ast.If(test=gen.ifs[0], body=[], orelse=[])
                 for_loop.body.append(if_stmt)
