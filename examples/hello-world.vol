@@ -26,32 +26,23 @@ print(f"Today is {date()}")
 print("====================== \n")
 print("Here are some examples:")
 
-total_names = 10.0
 names = ["Barbie", "Ken", whoami()]
+total_names = 3.0 # TODO: Add len
 
 slices_of_pie = 6.0
 slices_of_pie_each = slices_of_pie / total_names
 
+# TODO: Get input from the user
+#
 if 1 < 2:
     print("1 is smaller then 2")
+elif 1 > 2:
+    print("1 is greater then 2")
+elif 1 == 2:
+    print("1 equals 2")
+else:
+    print('None of these are true')
 
-if 2 == 2:
-    print("2 is equals 2")
-
-if 3 > 2:
-    print("3 is greater then 2")
-
-if 4 >= 4:
-    print("4 is ge as 4")
-
-if 5 <= 5:
-    print("5 is le as 5")
-
-if 6 is 6:
-    print("6 is 6")
-
-if 7 is not 8:
-    print("7 is not 8")
 
 print("")
 for name in names:

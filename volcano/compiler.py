@@ -6,7 +6,7 @@ import os
 
 class VolcanoTransformer(ast.NodeTransformer):
 
-    def import_module(node, path):
+    def import_module(self, node, path):
 
         # Add import io statement to beginning of module body
         #
@@ -35,15 +35,16 @@ class VolcanoVisitor(ast.NodeVisitor):
         module_name = module_name.replace('-', '_')
 
         self.output = ''
-        self.generate_shabang(shell_executable)
+        self.generate_header(shell_executable)
         self.push_scope(module_name)
 
     @property
     def current_scope(self):
         return self.scope_stack[-1]
 
-    def generate_shabang(self, shell_executable):
+    def generate_header(self, shell_executable):
         self.write(f'#!{shell_executable}\n')
+        self.write(f'set -o posix\n')
 
     def pop_scope(self):
         old_scope = self.scope_stack.pop()
@@ -133,6 +134,8 @@ class VolcanoVisitor(ast.NodeVisitor):
             if is_captured_call:
                 self.write(' && echo $RESULT)')
 
+    # TODO: Implement not
+    #
     def visit_Compare(self, node: Compare):
 
         self.write('[ ')
@@ -143,6 +146,18 @@ class VolcanoVisitor(ast.NodeVisitor):
 
             if isinstance(op, ast.Eq):
                 self.write(' =  ')
+                self.visit(right)
+            elif isinstance(op, ast.Is):
+                self.write(' =  ')
+                self.visit(right)
+            elif isinstance(op, ast.GtE):
+                self.write(' -ge  ')
+                self.visit(right)
+            elif isinstance(op, ast.Lt):
+                self.write(' -lt  ')
+                self.visit(right)
+            elif isinstance(op, ast.LtE):
+                self.write(' -le  ')
                 self.visit(right)
 
         self.write(' ]')
