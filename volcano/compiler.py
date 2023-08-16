@@ -129,7 +129,8 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.write('" | bc -l )')
 
-    # def visit_BoolOp(self, node):
+    def visit_BoolOp(self, node: BinOp):
+        raise NotImplementedError(f"Unsupported operator {node.op}")
     #     if isinstance(node.op, ast.Or):
     #         # Handle the or operator
     #         print(f"{ast.unparse(node.values[0])} or {ast.unparse(node.values[1])}")
@@ -404,7 +405,8 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.capture_call = False
 
-    # def visit_UnaryOp(self, node):
+    def visit_UnaryOp(self, node: UnaryOp):
+        raise NotImplementedError(f"Unsupported operator {node.op}")
     #     if isinstance(node.op, ast.Not):
     #         # Handle the not operator
     #         print(f"not {ast.unparse(node.operand)}")
