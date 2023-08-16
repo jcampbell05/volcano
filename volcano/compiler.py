@@ -5,19 +5,16 @@ import pkg_resources
 import os
 
 class VolcanoTransformer(ast.NodeTransformer):
-    
-    def visit_Module(self, node):
+
+    def import_module(node, path):
 
         # Add import io statement to beginning of module body
         #
-        new_body = [ast.parse('import volcano.io').body[0]] + node.body
-        node.body = new_body
-        
-        # Add import stdlib statement to beginning of module body
-        #
-        new_body = [ast.parse('import volcano.stdlib').body[0]] + node.body
-        node.body = new_body
-
+        new_body = [ast.parse(f'import {path}').body[0]] + node.body
+        return new_body
+    
+    def visit_Module(self, node):
+        node.body = self.import_module(node, 'volcano.runtime')
         return node
 
 class VolcanoVisitor(ast.NodeVisitor):
