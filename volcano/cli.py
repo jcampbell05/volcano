@@ -24,7 +24,7 @@ def cli():
     parser.add_argument('--shell', '-s', type=str, default='/bin/sh', help='path to the shell executable')
     parser.add_argument('--output', '-o', type=str, default=None, help='path to the output file')
     parser.add_argument('--verbose', '-v', action='store_true', help='enable verbose output')
-    parser.add_argument('--stdout', action='store_true', help='log build to srdout')
+    parser.add_argument('--stdout', action='store_true', help='log compiled shell script to srdout')
 
     args = parser.parse_args()
 
