@@ -51,7 +51,7 @@ else:
 i = 0
 while i < 10:
     print(f'Countingdown... {i}')
-    i += i 
+    i += 1
 
 print("")
 for name in names:

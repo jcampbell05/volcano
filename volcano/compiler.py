@@ -22,7 +22,7 @@ class VolcanoVisitor(ast.NodeVisitor):
     symbol_tables = {}
     scope_stack = []
 
-    control_flow_target = False
+    declare_variable = False
     capture_call = False
     function_def_has_return = False
     in_joined_str = False
@@ -96,11 +96,35 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         for target in node.targets:
 
-            if isinstance(target, Name):
-                self.write(
-                    f'{self.resolve_name(target.id)}='
-                )
-                self.visit(node.value)
+            self.declare_variable = True
+            self.visit(target)
+            self.declare_variable = False
+
+            self.write(f'=')
+            self.visit(node.value)
+
+    def visit_AugAssign(self, node: AugAssign):
+
+        self.declare_variable = True
+        self.visit(node.target)
+        self.declare_variable = False
+
+        self.write(f'=')
+        self.write(f'$( echo "' )
+        self.visit(node.target)
+
+        if isinstance(node.op, ast.Add):
+            self.write('+')
+        elif isinstance(node.op, ast.Sub):
+            self.write('-')
+        else:
+            raise NotImplementedError(f"Unsupported operator {node.op}")
+
+        self.capture_call = True
+        self.visit(node.value)
+        self.capture_call = False
+
+        self.write('" | bc -l )')
 
     def visit_BinOp(self, node: BinOp):
 
@@ -182,9 +206,9 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.write('for ')
 
-        self.control_flow_target = True
+        self.declare_variable = True
         self.visit(node.target)
-        self.control_flow_target = False
+        self.declare_variable = False
 
         self.write(' in ')
         self.visit(node.iter)
@@ -327,7 +351,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         name = self.resolve_name(node.id)
 
-        if self.control_flow_target:
+        if self.declare_variable:
             self.write(name)
         else:
             self.write(f'${name}')
