@@ -4,10 +4,13 @@ from volcano.shell import date, whoami
 #
 def say_hello(name='World'):
 
+    def ken_error():
+        print("Warning Ken detected")
+
     def check_for_ken():
 
         if name == "Ken":
-            print("Warning Ken detected")
+            ken_error()
             return
 
     check_for_ken()
