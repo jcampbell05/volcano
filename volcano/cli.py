@@ -1,6 +1,5 @@
 import argparse
 import ast
-import astpretty
 import os
 import shutil
 import subprocess
@@ -8,7 +7,7 @@ import tempfile
 
 from .compiler import *
 
-def process_file(filename, verbose=False):
+def process_file(filename):
 
     with open(filename, 'r') as f:
         contents = f.read()
@@ -16,9 +15,6 @@ def process_file(filename, verbose=False):
     tree = ast.parse(contents)
     transformer = VolcanoTransformer()
     tree = transformer.visit(tree)
-
-    if verbose:
-        print(ast.unparse(tree))
 
     return tree
 
@@ -40,7 +36,7 @@ def cli():
         args.output = f'{base_name}.sh'
 
     module_name = os.path.splitext(os.path.basename(args.output))[0]
-    tree = process_file(args.file, verbose=args.verbose)
+    tree = process_file(args.file)
     
     visitor = VolcanoVisitor(module_name, args.shell) 
     visitor.visit(tree)

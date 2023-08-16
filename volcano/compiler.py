@@ -11,14 +11,17 @@ class VolcanoTransformer(ast.NodeTransformer):
     cannot be easily translated into shell script.
     """
 
-    def import_module(self, node, path):
+    def import_module(self, node: Module, path):
 
         # Add import io statement to beginning of module body
         #
         new_body = [ast.parse(f'import {path}').body[0]] + node.body
         return new_body
     
-    def visit_Module(self, node):
+    def visit_Module(self, node: Module):
+
+        self.generic_visit(node)
+
         node.body = self.import_module(node, 'volcano.runtime')
         return node
     
@@ -36,7 +39,7 @@ class VolcanoTransformer(ast.NodeTransformer):
         # Replace the IfExp node with the Insert node
         return insert_node
     
-    def visit_GeneratorExp(self, node: GeneratorExp):
+    def visit_GeneratorExp(self, node: ListComp):
         
         # Define the function
         func_name = 'my_func'
@@ -49,6 +52,40 @@ class VolcanoTransformer(ast.NodeTransformer):
 
         # Replace the IfExp node with the Insert node
         return insert_node
+    
+    def visit_ListComp(self, node):
+        # Extract the components of the list comprehension
+        elt = node.elt
+        generators = node.generators
+
+        # Create a new for loop node with the same target and iter as the first generator
+        first_gen = generators[0]
+        target = first_gen.target
+        iter = first_gen.iter
+        for_loop = ast.For(target=target, iter=iter, body=[])
+        if_stmt = None
+
+        # Add the remaining generators as if statements inside the for loop
+        for gen in generators[1:]:
+            if gen.ifs:
+                if_stmt = ast.If(test=gen.ifs[0], body=[], orelse=[])
+                for_loop.body.append(if_stmt)
+                for_loop = if_stmt.body[0]
+
+            # Update the target and iter of the for loop to match the current generator
+            target = gen.target
+            iter = gen.iter
+            for_loop.target = target
+            for_loop.iter = iter
+
+        # Add the final expression as the body of the innermost if statement or the for loop
+        if if_stmt is not None:
+            if_stmt.body.append(ast.Expr(value=elt))
+        else:
+            for_loop.body.append(ast.Expr(value=elt))
+
+        # Return the new for loop node
+        return for_loop
 
 class VolcanoVisitor(ast.NodeVisitor):
 
