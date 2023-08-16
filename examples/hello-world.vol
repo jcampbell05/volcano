@@ -68,4 +68,6 @@ say_hello()
 
 print(f"There are {slices_of_pie_each} for each of you. {slices_of_pie} / {total_names} = {slices_of_pie_each}")
 [print(goodbye(name)) for name in names]
-# goodbyes=[goodbye(name) for name in names] - Doesn't work yet
+goodbyes=[goodbye(name) for name in names]
+print('A second round of goodbyes for luck')
+print(goodbyes)

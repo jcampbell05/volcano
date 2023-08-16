@@ -48,6 +48,6 @@ Volcano provides a number of benefits over traditional shell scripting:
 - **Context Manager**: Volcano currently does not support context managers
 - **Lambdas**: We have no support for lambdas
 - **Piping**: Volcano currently does not support piping from shell scripting.
-- **Generator and list comprehension**: Volcano currently does not support generators but has experimental suport for list ocomprehension.
+- **Generator**: Volcano currently does not support generators
 
 Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.

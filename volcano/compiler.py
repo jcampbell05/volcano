@@ -1,9 +1,11 @@
 from _ast import *
-from _ast import Constant, For, JoinedStr, Name
+from _ast import Assign, Constant, Expr, For, JoinedStr, ListComp, Name
 import ast
 import pkg_resources
 import os
 
+# TODO: Split into two functions
+#
 class VolcanoTransformer(ast.NodeTransformer):
     """
     The VolcanoTransformaer transforms the code before it reaches the shell script generator
@@ -11,83 +13,96 @@ class VolcanoTransformer(ast.NodeTransformer):
     cannot be easily translated into shell script.
     """
 
-    def import_module(self, node: Module, path):
+    def __init__(self) -> None:
+        self.scope = None
+
+    def create_import_module_node(self, path):
 
         # Add import io statement to beginning of module body
         #
-        new_body = [ast.parse(f'import {path}').body[0]] + node.body
+        new_body = [ast.parse(f'import {path}').body[0]]
         return new_body
     
+    def create_function_call(self, func: FunctionDef):
+        return ast.Call(
+            func=ast.Name(id=func.name),
+            args=[],
+            kwargs=[],
+        )
+    
+    def unwrap_list_comp_node(self, list_comp: ListComp):
+
+        flat_body = []
+
+        for generator in list_comp.generators:
+
+                for_def = ast.For(
+                    target=generator.target,
+                    iter=generator.iter
+                )
+
+                flat_body.append(for_def)
+
+                ifs = [ast.If(
+                    test=generator_if
+                )  for generator_if in generator.ifs]
+
+                flat_body.extend(ifs)
+
+        for parent_index, child_node in enumerate(flat_body[1:]):
+
+            parent_node = flat_body[parent_index]
+            parent_node.body = [child_node]
+                
+        flat_body[-1].body = [list_comp.elt]
+
+        func_def = ast.FunctionDef(
+            name = 'list_comp',
+            args=ast.arguments(
+                args=[],
+                kwarg=None,
+                defaults=[],
+                kw_defaults=[],
+            ),
+            body=[
+                flat_body[0]
+            ],
+            decorator_list=[],
+            returns=None
+        )
+        
+        return func_def
+        
     def visit_Module(self, node: Module):
-
+        
+        self.scope = node
+        
         self.generic_visit(node)
+        node.body = self.create_import_module_node('volcano.runtime') + node.body
 
-        node.body = self.import_module(node, 'volcano.runtime')
         return node
     
-    def visit_IfExp(self, node: ast.IfExp):
+    def visit_Assign(self, node: Assign):
 
-        # Define the function
-        func_name = 'my_func'
-        func_args = ast.arguments(args=[], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[])
-        func_body = [ast.Pass()]
-        func_def = ast.FunctionDef(name=func_name, args=func_args, body=func_body, decorator_list=[])
+        if isinstance(node.value, ast.ListComp):
+            unwrapped_node = self.unwrap_list_comp_node(node.value)
+            node.value = self.create_function_call(unwrapped_node)
 
-        # Create an Insert node to inject the function before the current statement
-        insert_node = ast.Insert(body=[func_def], before=node)
+            return [unwrapped_node, node]
 
-        # Replace the IfExp node with the Insert node
-        return insert_node
+        self.generic_visit(node)
+        return node
     
-    def visit_GeneratorExp(self, node: ListComp):
-        
-        # Define the function
-        func_name = 'my_func'
-        func_args = ast.arguments(args=[], vararg=None, kwonlyargs=[], kw_defaults=[], kwarg=None, defaults=[])
-        func_body = [ast.Pass()]
-        func_def = ast.FunctionDef(name=func_name, args=func_args, body=func_body, decorator_list=[])
+    def visit_Expr(self, node: Expr):
 
-        # Create an Insert node to inject the function before the current statement
-        insert_node = ast.Insert(body=[func_def], before=node)
+        if isinstance(node.value, ast.ListComp):
+            unwrapped_node = self.unwrap_list_comp_node(node.value)
+            node.value = self.create_function_call(unwrapped_node)
 
-        # Replace the IfExp node with the Insert node
-        return insert_node
-    
-    def visit_ListComp(self, node):
+            return [unwrapped_node, node]
 
-        # Extract the components of the list comprehension
-        elt = node.elt
-        generators = node.generators
-
-        # Create a new for loop node with the same target and iter as the first generator
-        first_gen = generators[0]
-        target = first_gen.target
-        iter = first_gen.iter
-        for_loop = ast.For(target=target, iter=iter, body=[])
-        if_stmt = None
-
-        # Add the remaining generators as if statements inside the for loop
-        for gen in generators[1:]:
-            
-            if gen.ifs:
-                if_stmt = ast.If(test=gen.ifs[0], body=[], orelse=[])
-                for_loop.body.append(if_stmt)
-                for_loop = if_stmt.body[0]
-
-            # Update the target and iter of the for loop to match the current generator
-            target = gen.target
-            iter = gen.iter
-            for_loop.target = target
-            for_loop.iter = iter
-
-        # Add the final expression as the body of the innermost if statement or the for loop
-        if if_stmt is not None:
-            if_stmt.body.append(ast.Expr(value=elt))
-        else:
-            for_loop.body.append(ast.Expr(value=elt))
-
-        # Return the new for loop node
-        return for_loop
+        self.generic_visit(node)
+        return node
 
 class VolcanoVisitor(ast.NodeVisitor):
 
@@ -313,6 +328,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.visit(node.iter)
 
         self.write(';\n')
+        self.write('', indent=True)
         self.write('do\n')
 
         self.indent_lavel += 1
@@ -323,7 +339,9 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.indent_lavel -= 1
 
-        self.write('\ndone')
+        self.write('\n')
+        self.write('', indent=True)
+        self.write('done')
 
     def visit_FunctionDef(self, node: FunctionDef):
 
