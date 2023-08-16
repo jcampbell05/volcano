@@ -50,7 +50,7 @@ else:
 # else:
 #     print('3 is not 3')
 
-i = 10
+i = number
 while i > 0:
     print(f'Counting down... {i}')
     sleep(1)
