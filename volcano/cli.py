@@ -2,6 +2,7 @@ import argparse
 import ast
 import os
 import shutil
+import subprocess
 import tempfile
 
 from .compiler import *
@@ -51,7 +52,7 @@ def cli():
     os.chmod(output_file.name, 0o755)
 
     if args.command == 'run':
-        os.system(f'{output_file.name}')
+        subprocess.run([output_file.name], check=True)
 
     if not args.stdout:
         shutil.move(output_file.name, args.output)

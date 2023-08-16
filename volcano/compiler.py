@@ -102,9 +102,13 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.declare_variable = True
             self.visit(target)
             self.declare_variable = False
+            
 
             self.write(f'=')
+
+            self.capture_call = True
             self.visit(node.value)
+            self.capture_call = False
 
     def visit_AugAssign(self, node: AugAssign):
 
@@ -114,6 +118,7 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.write(f'=')
         self.write(f'$( echo "' )
+
         self.visit(node.target)
 
         if isinstance(node.op, ast.Add):

@@ -32,23 +32,23 @@ total_names = 3.0 # TODO: Add len
 slices_of_pie = 6.0
 slices_of_pie_each = slices_of_pie / total_names
 
-# TODO: Get input from the user
-#
-if 1 < 2:
-    print("1 is smaller then 2")
-elif 1 > 2:
-    print("1 is greater then 2")
-elif 1 == 2 and 2 == 1:
-    print("1 equals 2 and 2 equals 1")
-elif not 4:
-    print("4 is not true")
-else:
-    print('None of these are true')
+number = input('Pick a number:')
 
-if 3 is 3 or 4 is 4:
-    print('3 is 3 or 4 is 4')
+if number < 2:
+    print(f"{number} is smaller then 2")
+elif 1 > 2:
+    print(f"{number} is greater then 2")
+# elif number == 2 and 2 == number:
+#     print("{number} equals 2 and 2 equals {number}")
+# elif not number:
+#     print("{number} is not true")
 else:
-    print('3 is not 3')
+    print(f'None of these are true for {number}')
+
+# if 3 is 3 or 4 is 4:
+#     print('3 is 3 or 4 is 4')
+# else:
+#     print('3 is not 3')
 
 i = 10
 while i > 0:
