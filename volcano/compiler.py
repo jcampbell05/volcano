@@ -283,7 +283,6 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.indent_lavel += 1
 
             for statement in node.orelse:
-                print(statement)
                 self.write('', indent=True)
                 self.visit(statement)
                 self.write(' \n')
