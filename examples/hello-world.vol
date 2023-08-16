@@ -1,4 +1,4 @@
-from volcano.shell import date, whoami
+from volcano.shell import date, whoami, sleep
 
 # An example volcano application, also doubles up as our test suite
 #
@@ -48,10 +48,11 @@ if 3 is 3:
 else:
     print('3 is not 3')
 
-i = 0
-while i < 10:
-    print(f'Countingdown... {i}')
-    i += 1
+i = 10
+while i > 0:
+    print(f'Counting down... {i}')
+    sleep(1)
+    i -= 1
 
 print("")
 for name in names:
