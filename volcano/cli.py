@@ -24,6 +24,7 @@ def cli():
     parser.add_argument('--shell', '-s', type=str, default='/bin/sh', help='path to the shell executable')
     parser.add_argument('--output', '-o', type=str, default=None, help='path to the output file')
     parser.add_argument('--verbose', '-v', action='store_true', help='enable verbose output')
+    parser.add_argument('--stdout', action='store_true', help='log build to srdout')
 
     args = parser.parse_args()
 
@@ -38,7 +39,7 @@ def cli():
     visitor = VolcanoVisitor(module_name, args.shell) 
     visitor.visit(tree)
 
-    if args.verbose:
+    if args.stdout:
         print(visitor.output)
 
     output_file = None
@@ -48,11 +49,14 @@ def cli():
     else:
         output_file = open(args.output, 'w')
 
-    with output_file as f:
-        f.write(visitor.output)
+    if not args.stdout or args.command == 'run':
+        with output_file as f:
+            f.write(visitor.output)
 
     os.chmod(output_file.name, 0o755)
-    os.system(f'{output_file.name}')
+
+    if args.command == 'run':
+        os.system(f'{output_file.name}')
 
 if __name__ == '__main__':
     cli()
