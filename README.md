@@ -35,11 +35,10 @@ volcano --help
 Volcano provides a number of benefits over traditional shell scripting:
 
 - **Pythonic**: Volcano is based on Python, so if you already know Python, you can easily write shell scripts in Volcano.
-- **Portability**: Volcano scripts can be run on any system that has shell installed, without having to worry about the differences between different shell environments as long as it's POSIX compiant and `bc` is avaliable.
+- **Portability**: Volcano scripts can be run on any system that has shell installed, without having to worry about the differences between different shell environments as long as it's POSIX compiant.
 
 ## Roadmap
 
-- **Replace non-posix commands for posix commans**: Some commands like `bc` should be replaces with awk
 - **Keyword arguments and star args**: Currently, Volcano does not support keyword arguments or references to *args or **kwargs.
 - **Classes and objects**: Volcano does not currently support classes and objects.
 - **Lambdas**: We have no support for lambdas
