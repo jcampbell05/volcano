@@ -40,13 +40,13 @@ Volcano provides a number of benefits over traditional shell scripting:
 ## Roadmap
 
 - **Try / expect statements**: Volcano does not have support for try/except
+- **Generator**: Volcano currently does not support generators
 - **Type methods**: Volcano currently does not support any of the low level methods such as tolower for string
 - **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords.
-- **Keyword arguments and star args**: Currently, Volcano does not support keyword arguments or references to *args or **kwargs.
 - **Classes and objects**: Volcano does not currently support classes and objects.
+- **Keyword arguments and star args**: Currently, Volcano does not support keyword arguments or references to *args or **kwargs.
 - **Context Manager**: Volcano currently does not support context managers
 - **Lambdas**: We have no support for lambdas
 - **Piping**: Volcano currently does not support piping from shell scripting.
-- **Generator**: Volcano currently does not support generators
 
 Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.
