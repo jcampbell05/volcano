@@ -1,4 +1,4 @@
-from volcano.shell import date, whoami, sleep
+from volcano.shell import date, whoami, sleep, boo
 
 # An example volcano application, also doubles up as our test suite
 #
@@ -71,3 +71,8 @@ print(f"There are {slices_of_pie_each} for each of you. {slices_of_pie} / {total
 print('A second round of goodbyes for luck')
 goodbyes=[goodbye(name) for name in names]
 print(goodbyes)
+
+try:
+    boo()
+except:
+    pass

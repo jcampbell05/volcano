@@ -52,11 +52,11 @@ def cli():
 
     os.chmod(output_file.name, 0o755)
 
+    if not args.stdout:
+        shutil.copy(output_file.name, args.output)
+
     if args.run:
         subprocess.run([output_file.name], check=True)
-
-    if not args.stdout:
-        shutil.move(output_file.name, args.output)
 
 if __name__ == '__main__':
     cli()
