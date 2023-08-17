@@ -2,11 +2,6 @@ from _ast import *
 from _ast import Assign, Expr, ListComp
 import ast
 
-# TODO:
-#
-# - Trim code into something more readable
-# - Code for wrapping imported shell functions and add compiler checking for missing symbols
-#
 class IRTransformer(ast.NodeTransformer):
     """
     The IRTransformaer transforms the code before it reaches the shell script generator
