@@ -36,6 +36,15 @@ The last thing we do before execution is enable error mode. Typically shellscrip
 to execute as much of the script as possible even if earlier commands have failed. Python on the
 other hand will abort straight away so we use `set -e` to ensure the shell will do the same thing.
 
+### Imports and Compiling
+
+Volcano supports two types of files when importing and compiling code, Volcano files `.vol` and `.vsh` Volcano-compatiable shell scripts. Imports will look for a file with either of those extensions in the
+Volcano python package or in the local file-system.
+
+- For `.vol` files we pass it to the python parser and traverse the AST to emit shell code 
+- For `.vsh` we inject the contents of the file into the compiled shell code, similar to how a traditional
+  compiler would with object `.o` files
+
 ### The Runtime
 
 Volcano automatically imports a runtime script which includes support funcrtions required to run the 
@@ -43,7 +52,12 @@ compiled shell script. This is located at `volcano/runtime.vsh`.
 
 It includes implementations for the `print` and `input` methods for python.
 
-### Imports
+### Shell Imports
+
+Volcano currently assumes a reference to a symbol that wasn't defined in the script must come from
+the shell envrionment. But Python tooling will higlight these as an error, so Volcano supports importing
+these symbols from the module `volcano.shell` which will silence these errors. No additional code is
+emitted into the shell script.
 
 ### Assignment
 
