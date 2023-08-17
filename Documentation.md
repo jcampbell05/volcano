@@ -20,4 +20,4 @@ able to build a compiler that can be run almost anywhere with zero additional de
 ## Implementation
 
 This is a living document and will be updated as we update Volcano, this is a brief guide to how
-we've implemented various language features in shel lscript.
+we've implemented various language features in shellscript.
