@@ -49,4 +49,6 @@ Volcano provides a number of benefits over traditional shell scripting:
 - **Piping**: Volcano currently does not support piping from shell scripting.
 - **Documentation**: Document the langauge and how it works internally
 
+Any PRs implementhing these are welcome, you can read more on how Volcano is implemented in Documentation.md
+
 Overall, our roadmap for Volcano is focused on adding support for the features of Python that are most important for writing complex and sophisticated programs. We believe that by adding support for these features, we can make Volcano a more powerful and flexible tool for shell scripting.
