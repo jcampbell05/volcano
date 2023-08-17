@@ -39,9 +39,9 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 ## Roadmap
 
-- **Generator**: Volcano currently does not support generators
 - **Type methods**: Volcano currently does not support any of the low level methods such as tolower for string
 - **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords.
+- **Generator**: Volcano currently does not support generators
 - **Classes and objects**: Volcano does not currently support classes and objects.
 - **Keyword arguments and star args**: Currently, Volcano does not support keyword arguments or references to *args or **kwargs.
 - **Context Manager**: Volcano currently does not support context managers
