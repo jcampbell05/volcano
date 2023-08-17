@@ -1,7 +1,15 @@
 from _ast import *
-from _ast import Assign, Expr, ListComp
+from _ast import Assign, Expr, ListComp, Try
 import ast
+from typing import Any
 
+# TODO:
+# To implement here:
+#
+# - **Lambdas**
+# - **Try / expect statements**
+# - **Context Manager**
+#
 class IRTransformer(ast.NodeTransformer):
     """
     The IRTransformaer transforms the code before it reaches the shell script generator
@@ -108,3 +116,6 @@ class IRTransformer(ast.NodeTransformer):
 
         self.generic_visit(node)
         return node
+    
+    def visit_Try(self, node: Try) -> Any:
+        return super().visit_Try(node)
