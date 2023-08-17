@@ -30,7 +30,7 @@ shell.
 
 If for whatever reason this shell has been aliased to another shell which has non-standard POSIX
 extensions such as bash, we also set that shell into POSIX mode to disable any non stanard 
-behabviout using `set -o posix`.
+behabviout using `set -o posix`. This also ensures during testing that our code is POSIX compiant.
 
 The last thing we do before execution is enable error mode. Typically shellscripts will keep trying
 to execute as much of the script as possible even if earlier commands have failed. Python on the
@@ -61,7 +61,40 @@ emitted into the shell script.
 
 ### Assignment
 
+Assignments to variables are translated directly to shellscript:
+
+`foo = "bar"` becomes `foo="bar"`
+
+The compiler is able to intelligently determine if it needs to prevent shell's globbing behaivour by
+wrapping the value to be assigned in quites and if a value needs to be read from a function then
+it will capture it using the $() syntax automatically.
+
 ### Arithmtic
+
+The compiler automatically handles passing any arithmtic
+expressions to `awk` to be evaluated.
+
+```
+a = 1
+b = 2
+c = a + b
+```
+
+Will be translated to the following shellscript:
+
+```
+a=1
+b=2
+c=$( awk "BEGIN {print "$a"+"$b"}")
+```
+
+When using shorthand i.e `+=` or `-=`, the compiler knows
+to add the original value of the variable to the `awk` 
+expression so that `i += i` will become:
+
+```
+i=$( awk "BEGIN {print "$i"+1}")
+```
 
 ### Joined Strings
 
