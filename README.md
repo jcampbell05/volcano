@@ -2,6 +2,26 @@
 
 Volcano is a new programming language that is a subset of Python (Similar to MicroPython), designed to be compiled to shell script. It provides a simple and intuitive syntax that allows you to write shell scripts in Python, without having to worry about the complexities of shell syntax.
 
+Write using the syntax you know and love.
+
+```
+def lets_go():
+    print("Lets get this party started")
+
+lets_go()
+```
+
+But get shell code you know can work where
+you need.
+
+```
+lets_go () {
+    print "Lets get this party started"
+}
+
+lets_go
+```
+
 ## Installation
 
 To install Volcano, clone this repo and use pip from the directory:
