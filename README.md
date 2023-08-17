@@ -12,7 +12,7 @@ pip install .
 
 ## Usage
 
-To build your Volcano shell script, you can create a `.vol` file with your Volcano code, and then run the `volcano build` command with the path to your file. You should ned up with a shell script in the same directory as your code.
+To build your Volcano shell script, you can create a `.vol` file with your Volcano code, and then run the `volcano build` command with the path to your file. You should end up with a shell script in the same directory as your code.
 
 ```
 volcano build myscript.vol
