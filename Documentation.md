@@ -35,3 +35,25 @@ behabviout using `set -o posix`.
 The last thing we do before execution is enable error mode. Typically shellscripts will keep trying
 to execute as much of the script as possible even if earlier commands have failed. Python on the
 other hand will abort straight away so we use `set -e` to ensure the shell will do the same thing.
+
+### The Runtime
+
+### Assignment
+
+### Arithmtic
+
+### Joined Strings
+
+### Control Flows
+
+### Functions
+
+### List Comprehension
+
+## Future Features
+
+### Try/Except
+
+### Async
+
+### Generator
