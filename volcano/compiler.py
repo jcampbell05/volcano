@@ -8,6 +8,7 @@ import os
 #
 # - Split into two functions
 # - Trim code into something more readable
+# - Code for wrapping imported shell functions and add compiler checking for missing symbols
 #
 class VolcanoTransformer(ast.NodeTransformer):
     """
@@ -58,8 +59,12 @@ class VolcanoTransformer(ast.NodeTransformer):
             parent_node.body = [child_node]
                 
         flat_body[-1].body = [
-            list_comp.elt,
+            ast.Assign(
+                targets=[ast.Name(id='RESULT')],
+                value=list_comp.elt
+            ),
             ast.parse('array_append(ACCUMULATED, RESULT)').body[0],
+            ast.parse('ACCUMULATED = RESULT').body[0],
         ]
 
         func_def = ast.FunctionDef(
@@ -73,7 +78,7 @@ class VolcanoTransformer(ast.NodeTransformer):
             body=[
                 ast.parse('ACCUMULATED=()').body[0],
                 flat_body[0],
-                ast.parse('RESULT=ACCUMULATED').body[0]
+                ast.parse('return ACCUMULATED').body[0]
             ],
             decorator_list=[],
             returns=None
@@ -362,6 +367,8 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         self.indent_lavel += 1
 
+        self.write('RESULT=\n', indent=True)
+
         for index, arg in enumerate(args):
 
             default = next(defaults, None)
@@ -381,6 +388,7 @@ class VolcanoVisitor(ast.NodeVisitor):
         self.pop_scope()
 
         self.indent_lavel -= 1
+        
         self.write(' }\n', indent=True)
 
     def visit_If(self, node: If):
@@ -510,6 +518,7 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.visit(node.value)
         
         self.write('\n')
+        self.write('echo $RESULT\n', indent=True)
         self.write('return', indent=True)
 
         self.capture_call = False
