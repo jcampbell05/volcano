@@ -4,7 +4,10 @@ import ast
 import pkg_resources
 import os
 
-# TODO: Split into two functions
+# TODO:
+#
+# - Split into two functions
+# - Trim code into something more readable
 #
 class VolcanoTransformer(ast.NodeTransformer):
     """
@@ -54,7 +57,10 @@ class VolcanoTransformer(ast.NodeTransformer):
             parent_node = flat_body[parent_index]
             parent_node.body = [child_node]
                 
-        flat_body[-1].body = [list_comp.elt]
+        flat_body[-1].body = [
+            list_comp.elt,
+            ast.parse('array_append(ACCUMULATED, RESULT)').body[0],
+        ]
 
         func_def = ast.FunctionDef(
             name = 'list_comp',
@@ -65,7 +71,9 @@ class VolcanoTransformer(ast.NodeTransformer):
                 kw_defaults=[],
             ),
             body=[
-                flat_body[0]
+                ast.parse('ACCUMULATED=()').body[0],
+                flat_body[0],
+                ast.parse('RESULT=ACCUMULATED').body[0]
             ],
             decorator_list=[],
             returns=None
@@ -175,6 +183,16 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         return name
     
+    def is_user_defined_symbol(self, name: str):
+        
+        for scope in reversed(self.scope_stack):
+            table = self.symbol_tables[scope]
+
+            if name in table:
+                return True
+
+        return False
+    
     def write(self, token, indent=False):
     
         if indent:
@@ -190,7 +208,6 @@ class VolcanoVisitor(ast.NodeVisitor):
             self.visit(target)
             self.declare_variable = False
             
-
             self.write(f'=')
 
             self.capture_call = True
@@ -261,16 +278,27 @@ class VolcanoVisitor(ast.NodeVisitor):
             is_captured_call = self.capture_call
             
             if is_captured_call:
-                self.write('$( call ')
+                self.write('$( ')
+
+            if self.is_user_defined_symbol(node.func.id):
+                self.write('call ')
 
             self.write(
                 self.resolve_name(node.func.id)
             )
             self.capture_call = True
 
-            for index, arg in enumerate(node.args):
-                self.write(' ' if index == 0 else ', ')
+            for arg in node.args:
+
+                self.write(' ')
+
+                if isinstance(arg, ast.Name):
+                    self.write('"')
+
                 self.visit(arg)
+                
+                if isinstance(arg, ast.Name):
+                    self.write('"')
 
             self.capture_call = False
 
@@ -336,10 +364,10 @@ class VolcanoVisitor(ast.NodeVisitor):
         for statement in node.body:
             self.write('', indent=True)
             self.visit(statement)
+            self.write('\n')
 
         self.indent_lavel -= 1
 
-        self.write('\n')
         self.write('', indent=True)
         self.write('done')
 
