@@ -39,7 +39,6 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 ## Roadmap
 
-- **Cli**: Volcano currently does not support an easy way to define a cli parser.
 - **Try / expect statements**: Volcano does not have support for try/except
 - **Type methods**: Volcano currently does not support any of the low level methods such as tolower for string
 - **Async code**: Volcano currently does not support writing asynchronous code using the async and await keywords.
