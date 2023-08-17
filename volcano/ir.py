@@ -4,7 +4,9 @@ import ast
 from typing import Any
 
 # TODO:
-# To implement here:
+# - Reduce code to something understandable using builder functions
+# - Convert some to shell specific AST node so we can generate btter shell code
+# - To implement here:
 #
 # - **Lambdas**
 # - **Try / expect statements**
@@ -118,4 +120,62 @@ class IRTransformer(ast.NodeTransformer):
         return node
     
     def visit_Try(self, node: Try) -> Any:
-        return super().visit_Try(node)
+
+        except_def = ast.FunctionDef(
+            name = 'except',
+            args=ast.arguments(
+                args=[
+                    ast.arg(arg='error', annotation=None)
+                ],
+                kwarg=None,
+                defaults=[],
+                kw_defaults=[],
+            ),
+
+            # TODO: Generate exception hangler
+            #
+            body= node.handlers[0].body
+        )
+
+        try_def = ast.FunctionDef(
+            name = 'try',
+            args=ast.arguments(
+                args=[],
+                kwarg=None,
+                defaults=[],
+                kw_defaults=[],
+            ),
+            body=node.body + node.orelse
+        )
+
+        # body: list[stmt]
+        # handlers: list[ExceptHandler]
+
+        #trap 'handle_error "$?"' ERR
+
+        return [
+            # Set trap
+            except_def,
+            try_def,
+            ast.Call(
+                ast.Name(id='trap'),
+                args=[
+                    ast.Constant(value='except "$?"'),
+                    ast.Constant(value='ERR'),
+                ],
+                kwargs=[]
+            ),
+            ast.Call(
+                ast.Name(id='try'),
+                args=[],
+                kwargs=[]
+            ),
+            ast.Call(
+                ast.Name(id='trap'),
+                args=[
+                    ast.Constant(value='-'),
+                    ast.Constant(value='ERR'),
+                ],
+                kwargs=[]
+            ),
+        ] + node.finalbody
