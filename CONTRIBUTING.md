@@ -1,33 +1,31 @@
-# Community Standards
+GitHub Copilot: Sure, here's an example of a contributing template for an open source project:
 
-Our open source project is committed to creating a welcoming and inclusive community for all contributors and users. We expect all members of our community to adhere to the following standards:
+# Contributing to [Project Name]
 
-## Code of Conduct
+Thank you for your interest in contributing to [Project Name]! We welcome contributions from everyone, regardless of their level of experience or background. By contributing to this project, you agree to abide by our [code of conduct](CODE_OF_CONDUCT.md).
 
-Our project follows the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/). This code of conduct outlines our expectations for behavior within the project community, as well as the consequences for unacceptable behavior.
+## Getting Started
 
-## Communication
+To get started contributing, you should first [fork](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) the project repository and [clone](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) it to your local machine. You can then create a new branch for your changes:
 
-We encourage open and respectful communication within our community. We expect all members to communicate in a way that is constructive and respectful, even when disagreements arise. We do not tolerate harassment, hate speech, or discrimination of any kind.
+```
+git checkout -b my-feature-branch
+```
 
-## Contributions
+Before making any changes, be sure to read the project documentation and [open issues](https://github.com/your-username/project-name/issues) to see if your contribution is already being worked on or if there are any specific guidelines or requirements for contributions.
 
-We welcome contributions from all members of our community, regardless of their level of experience or background. We expect all contributions to be respectful and constructive, and to align with our project goals and values.
+## Making Changes
 
-## Licensing
+Once you have identified an area to contribute to, you can make your changes and commit them to your local branch. Be sure to write clear and concise commit messages that describe the changes you have made.
 
-All contributions to our project must be made under an open source license that is compatible with our project's license. We will not accept contributions that are not properly licensed.
+Before submitting a pull request, be sure to run any tests or linters that are included in the project to ensure that your changes do not introduce any new issues.
 
-## Moderation
+## Submitting a Pull Request
 
-Our project moderators have the right and responsibility to remove any content or contributions that violate our community standards. Moderation decisions will be made fairly and transparently, and appeals may be made to the project maintainers.
+When you are ready to submit your changes, you can create a [pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests) from your branch to the main project repository. Be sure to include a clear description of your changes and any relevant context or background information.
 
-## Reporting
+Your pull request will be reviewed by the project maintainers, who may request changes or provide feedback. Once your changes have been approved, they will be merged into the main project repository.
 
-If you witness or experience behavior that violates our community standards, please report it to the project moderators. We take all reports seriously and will investigate them promptly.
+## Getting Help
 
-## Enforcement
-
-We reserve the right to take appropriate action in response to behavior that violates our community standards, up to and including banning individuals from our community. We will always strive to be fair and transparent in our enforcement actions.
-
-By participating in our community, you agree to abide by these community standards. We believe that by working together and treating each other with respect, we can create a welcoming and inclusive community that benefits everyone.
+If you have any questions or need help with your contribution, you can reach out to the project maintainers by [opening an issue](https://github.com/your-username/project-name/issues/new) or contacting us through other channels (if available).
