@@ -1,3 +1,5 @@
+# Contributing
+
 We welcome contributions from everyone, regardless of their level of experience or background. By contributing to this project, you agree to abide by our code of conduct.
 
 Getting Started
