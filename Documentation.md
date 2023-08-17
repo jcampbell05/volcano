@@ -4,7 +4,7 @@ Volcano was made out of a frustration on the steep learning curve shell scriptin
 to take one example "1=1" is not the same as "1 = 1" despite the fact that in modern programming
 languages this would result in the same behaviour.
 
-For many users they use shell sacrip primarily for it's portability, they are deploying in 
+For many users they use shellscript primarily for it's portability, they are deploying in 
 environments with limited space where they may not have access to any langauges such as python.
 
 Most attempts at solving this problem invole creating a new shell scripting syntax (Such as Oil and
