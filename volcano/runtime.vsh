@@ -3,6 +3,8 @@
 LOG_FILE=$(mktemp)
 tail -f $LOG_FILE &
 
+# TODO: Inject in the AST and user volcano.shell to wrap pre-defined functions
+#
 call () {
     RESULT=
 
@@ -25,8 +27,10 @@ input () {
 }
 
 # TODO: 
+#
 # Find way to mix .vol and .vsh code together
 # so we can extend it from array and have pythonic code
+# or perhaps we can jsut put this code in the AST directly.
 #
 array_append () {
 

@@ -183,16 +183,6 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         return name
     
-    def is_user_defined_symbol(self, name: str):
-        
-        for scope in reversed(self.scope_stack):
-            table = self.symbol_tables[scope]
-
-            if name in table:
-                return True
-
-        return False
-    
     def write(self, token, indent=False):
     
         if indent:
@@ -280,25 +270,15 @@ class VolcanoVisitor(ast.NodeVisitor):
             if is_captured_call:
                 self.write('$( ')
 
-            if self.is_user_defined_symbol(node.func.id):
-                self.write('call ')
-
             self.write(
                 self.resolve_name(node.func.id)
             )
+
             self.capture_call = True
 
             for arg in node.args:
-
                 self.write(' ')
-
-                if isinstance(arg, ast.Name):
-                    self.write('"')
-
                 self.visit(arg)
-                
-                if isinstance(arg, ast.Name):
-                    self.write('"')
 
             self.capture_call = False
 
@@ -406,7 +386,11 @@ class VolcanoVisitor(ast.NodeVisitor):
     def visit_If(self, node: If):
 
         self.write('if [ ')
+
+        self.capture_call = True
         self.visit(node.test)
+        self.capture_call = False
+
         self.write(' ]\n')
         self.write('', indent=True)
         self.write('then\n')
@@ -497,6 +481,8 @@ class VolcanoVisitor(ast.NodeVisitor):
 
         if self.declare_variable:
             self.write(name)
+        elif self.capture_call and not self.in_joined_str:
+            self.write(f'"${name}"')
         else:
             self.write(f'${name}')
 
