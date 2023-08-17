@@ -117,6 +117,37 @@ Will become:
 
 ### Control Flows
 
+Control flows such as `if`, `while` and `for` are directly
+trasnalted to their equivlenet syntax in shellscript.
+
+The compiler automatically handles subsituting variables
+and wraps them in quotes to avoid issues with the shell
+globbing the content instead so that it behaves the same
+as in Python.
+
+```
+if name > "Ken:
+    pass
+```
+
+Becomes:
+
+```
+if [ "$name" = "Ken" ]
+then
+fi
+```
+
+We don't yet have support for `switch` or one-line `if` 
+statments but these can easily be implemented by 
+modifying our intermediate representation to convert them
+into shell if statements.
+
+`is` currently; does the same thing as `==` as we haven't
+got an implemention of objests for the compiled code and
+so there is no concept of unique copies of the same
+value.
+
 ### Functions
 
 ### List Comprehension
