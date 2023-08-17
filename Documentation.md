@@ -38,6 +38,11 @@ other hand will abort straight away so we use `set -e` to ensure the shell will 
 
 ### The Runtime
 
+Volcano automatically imports a runtime script which includes support funcrtions required to run the 
+compiled shell script. This is located at `volcano/runtime.vsh`.
+
+It includes implementations for the `print` and `input` methods for python.
+
 ### Imports
 
 ### Assignment
