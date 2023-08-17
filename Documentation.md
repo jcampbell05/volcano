@@ -21,3 +21,17 @@ able to build a compiler that can be run almost anywhere with zero additional de
 
 This is a living document and will be updated as we update Volcano, this is a brief guide to how
 we've implemented various language features in shellscript.
+
+### Execution
+
+Before we can genrate any code we need to inform the shell how to run the file, for our scripts
+we simply write a shabang header which indicates the code should be ran with the standard `sh
+shell.
+
+If for whatever reason this shell has been aliased to another shell which has non-standard POSIX
+extensions such as bash, we also set that shell into POSIX mode to disable any non stanard 
+behabviout using `set -o posix`.
+
+The last thing we do before execution is enable error mode. Typically shellscripts will keep trying
+to execute as much of the script as possible even if earlier commands have failed. Python on the
+other hand will abort straight away so we use `set -e` to ensure the shell will do the same thing.
