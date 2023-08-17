@@ -38,12 +38,13 @@ other hand will abort straight away so we use `set -e` to ensure the shell will 
 
 ### Imports and Compiling
 
-Volcano supports two types of files when importing and compiling code, Volcano files `.vol` and `.vsh` Volcano-compatiable shell scripts. Imports will look for a file with either of those extensions in the
-Volcano python package or in the local file-system.
+Volcano supports two types of files when importing and compiling code, Volcano python files `.vol` and `.vsh` Volcano-compatiable shell scripts written to follow volcano's calling converions. 
+
+Imports will look for a file with either of those extensions in the Volcano python package or in the local file-system.
 
 - For `.vol` files we pass it to the python parser and traverse the AST to emit shell code 
-- For `.vsh` we inject the contents of the file into the compiled shell code, similar to how a traditional
-  compiler would with object `.o` files
+- For `.vsh` we inject the contents of the file into the compiled shell code, similar to how a traditional compiler 
+would with object `.o` files
 
 ### The Runtime
 
@@ -149,6 +150,53 @@ so there is no concept of unique copies of the same
 value.
 
 ### Functions
+
+The compiler automatically genertes the code needed to read
+positional arguments off the stack - If the arguments have
+a default then code is emitted to set them when a value
+isn't provided.
+
+All variables will be marked as local to simulate them
+being locally scoped in python.
+
+```
+def hello(message="Hey"):
+    print(message)
+```
+
+Will become:
+
+```
+hello () {
+    RESULT=
+    local message=${1:-Hey}
+    print "$message"
+}
+```
+
+At the start of this function we clear the RESULT environment
+variable which is where we store the result of the function.
+
+If modify that function to return the message instead of 
+printing it, then we will get a statment at the end of the
+function which returns the result to the calling function.
+
+```
+hello () {
+    RESULT=
+    local message=${1:-Hey}
+    echo "$message"
+}
+```
+
+User defined functions are expected to use the built-in 
+`print` to log to the console since the standard `echo` call
+will cause additional data to be returned to the calling 
+function due to how shell works. 
+
+The `print` file` handles writing the logs to a temporary file the
+runtime automatically creates and spins a background job
+to `tail` the content of the file so it shows in the consokle.
 
 ### List Comprehension
 
