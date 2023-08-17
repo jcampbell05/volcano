@@ -1,7 +1,0 @@
-README.md
-setup.py
-volcanolang.egg-info/PKG-INFO
-volcanolang.egg-info/SOURCES.txt
-volcanolang.egg-info/dependency_links.txt
-volcanolang.egg-info/entry_points.txt
-volcanolang.egg-info/top_level.txt
