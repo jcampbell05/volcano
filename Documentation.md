@@ -24,7 +24,7 @@ we've implemented various language features in shellscript.
 
 ### Execution
 
-Before we can genrate any code we need to inform the shell how to run the file, for our scripts
+Before we can generate any code we need to inform the shell how to run the file, for our scripts
 we simply write a shabang header which indicates the code should be ran with the standard `sh
 shell.
 
