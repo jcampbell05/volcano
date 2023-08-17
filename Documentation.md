@@ -152,9 +152,9 @@ value.
 
 ### List Comprehension
 
-## Future Features
-
 ### Try/Except
+
+## Future Features
 
 ### Async
 
