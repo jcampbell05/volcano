@@ -5,6 +5,7 @@ import shutil
 import subprocess
 import tempfile
 
+from .ir import *
 from .compiler import *
 
 def process_file(filename):
@@ -13,7 +14,7 @@ def process_file(filename):
         contents = f.read()
 
     tree = ast.parse(contents)
-    transformer = VolcanoTransformer()
+    transformer = IRTransformer()
     tree = transformer.visit(tree)
 
     return tree
@@ -39,7 +40,7 @@ def cli():
     module_name = os.path.splitext(os.path.basename(args.output))[0]
     tree = process_file(args.file)
     
-    visitor = VolcanoVisitor(module_name, args.shell) 
+    visitor = Compiler(module_name, args.shell) 
     visitor.visit(tree)
 
     output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
