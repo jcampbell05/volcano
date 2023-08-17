@@ -153,9 +153,3 @@ value.
 ### List Comprehension
 
 ### Try/Except
-
-## Future Features
-
-### Async
-
-### Generator
