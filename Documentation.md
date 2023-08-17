@@ -65,9 +65,10 @@ Assignments to variables are translated directly to shellscript:
 
 `foo = "bar"` becomes `foo="bar"`
 
-The compiler is able to intelligently determine if it needs to prevent shell's globbing behaivour by
-wrapping the value to be assigned in quites and if a value needs to be read from a function then
-it will capture it using the $() syntax automatically.
+The compiler is able to intelligently determine if it needs to prevent shell's globbing behaivour by wrapping the value to be assigned in quites.
+
+If a value needs to be read from a function then it will
+capture it using the command subsitution (`$()`) automatically.
 
 ### Arithmtic
 
@@ -97,6 +98,22 @@ i=$( awk "BEGIN {print "$i"+1}")
 ```
 
 ### Joined Strings
+
+When using joined strings in python, the compiler will 
+automatically convert them to variable substitution.
+
+Any placeholders which rely on the result of a function
+will automatically be translated to use command substituion.
+
+```
+"Hello, {name}. today is {date()}"
+```
+
+Will become:
+
+```
+"Hello, $name. Today is $(date)"
+```
 
 ### Control Flows
 
