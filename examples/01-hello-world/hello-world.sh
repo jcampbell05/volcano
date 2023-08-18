@@ -29,17 +29,10 @@ array_append () {
     local array="$1"
     local val="$2"
 
-    set -- $array
+    set -- "$array"
     set -- "$@" "$val"
     
     RESULT="$@"
-}
-
-export () {
-    name = $1
-    value = $2
-
-    export $name=$value
 }
 
 # End of Volcano runtime library.

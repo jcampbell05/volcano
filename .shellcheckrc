@@ -1,0 +1,4 @@
+# ~/.shellcheckrc
+shell=/bin/sh  # We specify env in the shebang so we neeed to specify the shell for shellcheck
+disable=SC2050 # Re-enable when compile can optimize out constant expressions
+disable=SC2034 # Re-enable when compiler can optimize out unused variables
