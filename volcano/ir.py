@@ -19,6 +19,8 @@ class IRTransformer(ast.NodeTransformer):
     features of Volcano cannot be easily translated into shell script.
     """
 
+    list_comp_count = 0
+
     def __init__(self) -> None:
         self.scope = None
 
@@ -69,8 +71,10 @@ class IRTransformer(ast.NodeTransformer):
             ast.parse('ACCUMULATED = RESULT').body[0],
         ]
 
+        self.list_comp_count += 1
+
         func_def = ast.FunctionDef(
-            name = 'list_comp',
+            name = f'list_comp_{self.list_comp_count}',
             args=ast.arguments(
                 args=[],
                 kwarg=None,

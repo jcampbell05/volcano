@@ -128,7 +128,7 @@ do
 done
 hello_world_say_hello
 print "There are $slices_of_pie_each for each of you. $slices_of_pie / $total_names = $slices_of_pie_each"
-hello_world_list_comp () {
+hello_world_list_comp_1 () {
     RESULT=
     ACCUMULATED=
     for name in $names;
@@ -142,9 +142,9 @@ hello_world_list_comp () {
     return
  }
 
-hello_world_list_comp
+hello_world_list_comp_1
 print "A second round of goodbyes for luck"
-hello_world_list_comp () {
+hello_world_list_comp_2 () {
     RESULT=
     ACCUMULATED=
     for name in $names;
@@ -158,7 +158,7 @@ hello_world_list_comp () {
     return
  }
 
-goodbyes=$( hello_world_list_comp )
+goodbyes=$( hello_world_list_comp_2 )
 print "$goodbyes"
 hello_world_except () {
     RESULT=
