@@ -15,7 +15,7 @@ print () {
 }
 
 input () {
-    read -p "$1" RESULT >> $LOG_FILE
+    read -r -p "$1" RESULT >> "$LOG_FILE"
 }
 
 # TODO: 
