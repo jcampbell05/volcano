@@ -1,0 +1,13 @@
+#!/usr/bin/env volcano
+from volcano.shell import volcano
+
+print('Building Examples...')
+
+examples = [] # TODO: Glob
+
+for example in examples:
+    print('Building {example}...')
+    volcano("build", example)
+
+    # TODO: Add linting phase
+    #

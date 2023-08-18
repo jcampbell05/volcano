@@ -1,6 +1,7 @@
 # The Volcano runtime library.
 #
 LOG_FILE=$(mktemp)
+
 tail -f $LOG_FILE &
 
 print () {

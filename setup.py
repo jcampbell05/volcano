@@ -1,8 +1,11 @@
-import atexit
+import os
 from setuptools import setup
+from setuptools.command.install import install
 
-def post_install():
-    print("Installation complete!")
+class PostInstallCommand(install):
+    def run(self):
+        install.run(self)
+        os.system("./build_examples.vol")
 
 setup(
     name='volcano',
@@ -13,7 +16,8 @@ setup(
     entry_points='''
         [console_scripts]
         volcano=volcano.cli:cli
-    '''
+    ''',
+    cmdclass={
+        'install': PostInstallCommand
+    },
 )
-
-atexit.register(post_install)

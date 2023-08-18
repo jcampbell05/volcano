@@ -34,7 +34,7 @@ lets_go
 To install Volcano, clone this repo and use pip from the directory:
 
 ```
-pip install .
+python setup.py install
 ```
 
 ## Usage
