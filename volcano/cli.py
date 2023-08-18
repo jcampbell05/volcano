@@ -21,14 +21,13 @@ def process_file(filename):
 
 def cli():
     parser = argparse.ArgumentParser(description='Process a file.')
-    parser.add_argument('command', type=str, choices=['build', 'run'], help='the action to perform')
+    parser.add_argument('command', type=str, nargs='?', choices=['build', 'run'], default='run', help='the action to perform')
     parser.add_argument('file', type=str, help='path to the file')
 
-    parser.add_argument('--run', '-r', action='store_true', help='run the shell executable')
     parser.add_argument('--shell', '-s', type=str, default='/bin/sh', help='path to the shell executable')
     parser.add_argument('--output', '-o', type=str, default=None, help='path to the output file')
     parser.add_argument('--verbose', '-v', action='store_true', help='enable verbose output')
-    parser.add_argument('--stdout', action='store_true', help='log compiled shell script to srdout')
+    parser.add_argument('--stdout', action='store_true', help='log compiled shell script to stdout')
 
     args = parser.parse_args()
 
@@ -53,10 +52,9 @@ def cli():
 
     os.chmod(output_file.name, 0o755)
 
-    if not args.stdout:
+    if args.command == 'build' and not args.stdout:
         shutil.copy(output_file.name, args.output)
-
-    if args.run:
+    else:
         subprocess.run([output_file.name], check=True)
 
 if __name__ == '__main__':
