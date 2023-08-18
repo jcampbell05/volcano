@@ -1,2 +1,3 @@
 *.vsh  linguist-language=sh
 *.vol  linguist-language=python
+build_examples linguist-language=python
