@@ -1,5 +1,5 @@
 #!/usr/bin/env volcano
-from volcano.glob import glob
+import volcano.glob
 from volcano.shell import shellcheck, volcano
 
 print('Building Examples...')

@@ -410,7 +410,7 @@ class Compiler(ast.NodeVisitor):
             self.visit(node.value)
         
         self.write('\n')
-        self.write('echo $RESULT\n', indent=True)
+        self.write('echo "$RESULT"\n', indent=True)
         self.write('return', indent=True)
 
         self.capture_call = False

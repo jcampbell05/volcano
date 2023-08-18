@@ -18,10 +18,6 @@ input () {
     read -p "$1" RESULT >> $LOG_FILE
 }
 
-glob () {
-    echo $1
-}
-
 # TODO: 
 #
 # Find way to mix .vol and .vsh code together
@@ -63,7 +59,7 @@ hello_world_say_hello () {
         then
             hello_world_say_hello_ken_error 
             RESULT=
-            echo $RESULT
+            echo "$RESULT"
             return 
         fi
 
@@ -77,7 +73,7 @@ hello_world_goodbye () {
     RESULT=
     local name=${1:-}
     RESULT="Goodbye {name}"
-    echo $RESULT
+    echo "$RESULT"
     return
  }
 
@@ -149,7 +145,7 @@ hello_world_list_comp () {
         ACCUMULATED="$RESULT"
     done
     RESULT="$ACCUMULATED"
-    echo $RESULT
+    echo "$RESULT"
     return
  }
 
@@ -165,7 +161,7 @@ hello_world_list_comp () {
         ACCUMULATED="$RESULT"
     done
     RESULT="$ACCUMULATED"
-    echo $RESULT
+    echo "$RESULT"
     return
  }
 
