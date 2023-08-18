@@ -1,4 +1,8 @@
+import atexit
 from setuptools import setup
+
+def post_install():
+    print("Installation complete!")
 
 setup(
     name='volcano',
@@ -11,3 +15,5 @@ setup(
         volcano=volcano.cli:cli
     '''
 )
+
+atexit.register(post_install)
