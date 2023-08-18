@@ -31,31 +31,21 @@ lets_go
 
 ## Installation
 
-To install Volcano, clone this repo and use pip from the directory:
+To install Volcano, you can follow these steps:
 
-```
-python setup.py install
-```
+1. Clone the Volcano repository to your local machine.
+2. Navigate to the root directory of the repository.
+3. Run the following command to install Volcano:
+4. This will install Volcano and its dependencies on your system.
 
-## Usage
+Once Volcano is installed, you can use it to build your Volcano shell scripts. To build a script, create a .vol
+file with your Volcano code, and then run the `volcano build`` command with the path to your file. You should
+end up with a shell script in the same directory as your code.
 
-To build your Volcano shell script, you can create a `.vol` file with your Volcano code, and then run the `volcano build` command with the path to your file. You should end up with a shell script in the same directory as your code.
-
-```
-volcano build myscript.vol
-```
-
-To run it directly just use `run` instead.
-
-```
-volcano run myscript.vol
-```
+This will build the myscript.vol file and create a shell script in the same directory called myscript.sh. To
+run it directly just use `volcano run` instead.
 
 You can also use the `--help` option to see the available command-line options:
-
-```
-volcano --help
-```
 
 ## Roadmap
 
