@@ -67,7 +67,6 @@ volcano --help
 - **Context Manager**: Volcano currently does not support context managers
 - **Lambdas**: We have no support for lambdas
 - **Piping**: Volcano currently does not support piping from shell scripting.
-- **Documentation**: Document the langauge and how it works internally
 
 Any PRs implementhing these are welcome, you can read more on how Volcano is implemented in Documentation.md
 
