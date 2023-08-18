@@ -8,10 +8,10 @@ set -e
 #
 LOG_FILE=$(mktemp)
 
-tail -f $LOG_FILE &
+tail -f "$LOG_FILE" &
 
 print () {
-    echo "$1" >> $LOG_FILE
+    echo "$1" >> "$LOG_FILE"
 }
 
 input () {
