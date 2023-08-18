@@ -19,7 +19,7 @@ def process_file(filename):
 
     return tree
 
-def cli():
+def run():
     parser = argparse.ArgumentParser(description='Process a file.')
     parser.add_argument('command', type=str, nargs='?', choices=['build', 'run'], default='run', help='the action to perform')
     parser.add_argument('file', type=str, help='path to the file')
@@ -56,6 +56,3 @@ def cli():
         shutil.copy(output_file.name, args.output)
     else:
         subprocess.run([output_file.name], check=True)
-
-if __name__ == '__main__':
-    cli()

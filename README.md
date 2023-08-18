@@ -31,7 +31,7 @@ lets_go
 
 ## Installation
 
-To install Volcano, you can follow these steps:
+To install Volcano firtly make sure `python` and `poetry` are installed then follow these steps:
 
 1. Clone the Volcano repository to your local machine.
 2. Navigate to the root directory of the repository.

@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "volcano"
+version = "0.1"
+description = ""
+authors = ["James Campbell <j@saudadestudio.com>"]
+license = "GPLv3"
+include = ["volcano/*.vsh", "volcano/*.vol"]
+exclude = ["tests/*"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+[tool.poetry.dev-dependencies]
+shellcheck-py = { version = "^0.7", optional = true }
+
+[tool.poetry.scripts]
+volcano = "volcano.cli:run"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
