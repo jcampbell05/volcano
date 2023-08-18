@@ -1,5 +1,5 @@
 #!/usr/bin/env volcano
-from volcano.shell import volcano
+from volcano.shell import shellcheck, volcano
 
 print('Building Examples...')
 
@@ -9,5 +9,8 @@ for example in examples:
     print('Building {example}...')
     volcano("build", example)
 
-    # TODO: Add linting phase
-    #
+shellfiles = [] # TODO: Glob
+
+for shellfile in shellfiles:
+    print('Linting {shellfile}...')
+    shellcheck(shellfile)
