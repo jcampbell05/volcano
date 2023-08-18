@@ -1,16 +1,17 @@
 #!/usr/bin/env volcano
+from volcano.glob import glob
 from volcano.shell import shellcheck, volcano
 
 print('Building Examples...')
 
-examples = [] # TODO: Glob
+examples = glob('examples/**/*.vol')
 
 for example in examples:
-    print('Building {example}...')
+    print(f'Building {example}...')
     volcano("build", example)
 
-shellfiles = [] # TODO: Glob
+shellfiles = glob('examples/**/*.sh')
 
 for shellfile in shellfiles:
-    print('Linting {shellfile}...')
+    print(f'Linting {shellfile}...')
     shellcheck(shellfile)
