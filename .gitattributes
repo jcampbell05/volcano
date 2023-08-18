@@ -1,1 +1,2 @@
 *.vsh  linguist-language=sh
+*.vol  linguist-language=python
