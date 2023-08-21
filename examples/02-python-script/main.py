@@ -1,7 +1,7 @@
 import volcano
 
 @volcano.volcano
-def my_script():
+def list_files():
     from volcano.shell import ls
     
     print('The files in the current directory are:\n')
@@ -15,4 +15,5 @@ def my_script():
 
     print(f"\nTotal: {count} files")
 
-my_script()
+if __name__ == '__main__':
+    list_files()
