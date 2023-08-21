@@ -3,6 +3,7 @@ import ast
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 
 from .ir import *
@@ -10,8 +11,13 @@ from .compiler import *
 
 def process_file(filename):
 
-    with open(filename, 'r') as f:
-        contents = f.read()
+    contents = ''
+
+    if filename == '-':
+        contents = sys.stdin.read()
+    else:
+        with open(filename, 'r') as f:
+            contents = f.read()
 
     tree = ast.parse(contents)
     transformer = IRTransformer()

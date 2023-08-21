@@ -12,12 +12,6 @@ input () {
     read -r -p "$1" RESULT >> "$LOG_FILE"
 }
 
-# TODO: 
-#
-# Find way to mix .vol and .vsh code together
-# so we can extend it from array and have pythonic code
-# or perhaps we can jsut put this code in the AST directly.
-#
 array_append () {
 
     local array="$1"
