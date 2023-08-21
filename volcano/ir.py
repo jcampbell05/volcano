@@ -3,15 +3,6 @@ from _ast import Assign, Expr, ListComp, Try
 import ast
 from typing import Any
 
-# TODO:
-# - Reduce code to something understandable using builder functions
-# - Convert some to shell specific AST node so we can generate btter shell code
-# - To implement here:
-#
-# - **Lambdas**
-# - **Try / expect statements**
-# - **Context Manager**
-#
 class IRTransformer(ast.NodeTransformer):
     """
     The IRTransformaer transforms the code before it reaches the shell script generator
@@ -136,8 +127,6 @@ class IRTransformer(ast.NodeTransformer):
                 kw_defaults=[],
             ),
 
-            # TODO: Generate exception hangler
-            #
             body= node.handlers[0].body
         )
 

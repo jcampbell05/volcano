@@ -188,8 +188,6 @@ class Compiler(ast.NodeVisitor):
             if is_captured_call:
                 self.write(' )"')
 
-    # TODO: Implement not
-    #
     def visit_Compare(self, node: Compare):
 
         self.visit(node.left)

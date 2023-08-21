@@ -27,15 +27,13 @@ print("====================== \n")
 print("Here are some examples:")
 
 names = ["Barbie", "Ken", whoami()]
-total_names = 3.0 # TODO: Add len
+total_names = 3.0
 
 slices_of_pie = 6.0
 slices_of_pie_each = slices_of_pie / total_names
 
 number = input('Pick a number:')
 
-# TODO: Give a better example
-#
 if number < 2:
     print(f"{number} is smaller then 2")
 elif 1 > 2:
