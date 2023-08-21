@@ -177,8 +177,10 @@ class Compiler(ast.NodeVisitor):
             
             is_captured_call = self.capture_call
             
-            if is_captured_call:
+            if is_captured_call and not self.in_joined_str:
                 self.write('"$( ')
+            elif is_captured_call:
+                self.write('$( ')
 
             self.write(
                 self.resolve_name(node.func.id)
@@ -192,8 +194,10 @@ class Compiler(ast.NodeVisitor):
 
             self.capture_call = False
 
-            if is_captured_call:
+            if is_captured_call and not self.in_joined_str:
                 self.write(' )"')
+            elif is_captured_call:
+                self.write(' )')
 
     def visit_Compare(self, node: Compare):
 

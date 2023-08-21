@@ -65,11 +65,11 @@ hello_world_goodbye () {
  }
 
 print "Welcome to Volcano 🌋"
-print "Today is "$( date )""
+print "Today is $( date )"
 print "====================== 
 "
 print "Here are some examples:"
-names="Barbie\ Ken\ "$( whoami )""
+names="Barbie\ Ken\ $( whoami )"
 total_names=3.0
 slices_of_pie=6.0
 slices_of_pie_each=$( awk "BEGIN {print $slices_of_pie/$total_names}")
@@ -154,20 +154,4 @@ hello_world_list_comp_2 () {
 
 goodbyes="$( hello_world_list_comp_2 )"
 print "$goodbyes"
-hello_world_except () {
-    RESULT=
-    local error=${1:-}
-    print "boo could not be ran, because no ghosts are here"
- }
-
-hello_world_try () {
-    RESULT=
-    boo
-    print "no erros yippee"
- }
-
-trap "except "$?"" "ERR"
-hello_world_try
-trap "-" "ERR"
-print "Finally"
 main
