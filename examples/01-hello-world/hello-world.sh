@@ -59,7 +59,7 @@ hello_world_say_hello () {
 hello_world_goodbye () {
     RESULT=
     local name=${1:-}
-    RESULT="Goodbye {name}"
+    RESULT="Goodbye $name"
     echo "$RESULT"
     return
  }

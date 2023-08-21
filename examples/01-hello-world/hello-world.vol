@@ -18,7 +18,7 @@ def say_hello(name='World'):
     print(f"- Hello {name}!")
 
 def goodbye(name):
-    return "Goodbye {name}"
+    return f"Goodbye {name}"
 
 # Trigger the command
 print("Welcome to Volcano 🌋")
