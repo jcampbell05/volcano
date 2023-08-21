@@ -69,7 +69,7 @@ print "Today is "$( date )""
 print "====================== 
 "
 print "Here are some examples:"
-names=""Barbie" "Ken" "$( whoami )""
+names="Barbie\ Ken\ "$( whoami )""
 total_names=3.0
 slices_of_pie=6.0
 slices_of_pie_each=$( awk "BEGIN {print $slices_of_pie/$total_names}")

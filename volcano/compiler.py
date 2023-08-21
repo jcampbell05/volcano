@@ -390,8 +390,11 @@ class Compiler(ast.NodeVisitor):
         self.capture_call = True
         
         for index, item in enumerate(node.elts):
-            self.write('' if index == 0 else ' ')
+            self.write('' if index == 0 else '\ ')
+
+            self.in_joined_str = True
             self.visit(item)
+            self.in_joined_str = False
 
         self.capture_call = False
 
