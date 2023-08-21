@@ -30,6 +30,7 @@ def run():
     parser.add_argument('command', type=str, nargs='?', choices=['build', 'run'], default='run', help='the action to perform')
     parser.add_argument('file', type=str, help='path to the file')
 
+    parser.add_argument('--main', '-m', type=str, default='main', help='name of main function to execute by default if present')
     parser.add_argument('--shell', '-s', type=str, default='/bin/sh', help='path to the shell executable')
     parser.add_argument('--output', '-o', type=str, default=None, help='path to the output file')
     parser.add_argument('--verbose', '-v', action='store_true', help='enable verbose output')
@@ -43,9 +44,13 @@ def run():
         args.output = f'{base_name}.sh'
 
     module_name = os.path.splitext(os.path.basename(args.output))[0]
+
+    if args.file == '-':
+        module_name = ''
+    
     tree = process_file(args.file)
     
-    visitor = Compiler(module_name, args.shell) 
+    visitor = Compiler(module_name, shell_executable=args.shell, main=args.main) 
     visitor.visit(tree)
 
     output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)

@@ -4,6 +4,9 @@ import ast
 import pkg_resources
 import os
 
+# TOOD: Move the code which handles namespace resolution into the IR code since the compiler
+#       shouldn't modify it at this stage
+#
 class Compiler(ast.NodeVisitor):
     """
     The Compiler class is responsible for transforming the IR and genrating it
@@ -21,9 +24,10 @@ class Compiler(ast.NodeVisitor):
     indent_lavel = 0
     indent_token = '    '
 
-    def __init__(self, module_name, shell_executable):
+    def __init__(self, module_name, shell_executable=None, main=None):
 
         self.module_name = module_name
+        self.main = main
         self.output = ''
 
         self.generate_header(shell_executable)
@@ -59,6 +63,8 @@ class Compiler(ast.NodeVisitor):
         for module_node in module_tree.body:
             self.visit(module_node)
 
+        
+
     def load_shell_module(self, package_name, resource_name):
         sh_module_code = pkg_resources.resource_string(package_name, resource_name + '.vsh')
         self.write(sh_module_code.decode('utf-8'))
@@ -70,7 +76,7 @@ class Compiler(ast.NodeVisitor):
         self.symbol_tables[scope][name] = alias
         return alias
 
-    def resolve_name(self, name: str):
+    def resolve_name(self, name: str, return_if_not_found=True):
         
         for scope in reversed(self.scope_stack):
             table = self.symbol_tables[scope]
@@ -78,7 +84,7 @@ class Compiler(ast.NodeVisitor):
             if name in table:
                 return table[name]
 
-        return name
+        return name if return_if_not_found else None
     
     def write(self, token, indent=False):
     
@@ -360,6 +366,17 @@ class Compiler(ast.NodeVisitor):
         for statement in node.body:
             self.visit(statement)
             self.write('\n')
+
+        main_func_name = self.resolve_name(self.main)
+
+        if main_func_name:
+
+            self.visit(ast.Call(
+                func=ast.Name(id=main_func_name),
+                    args=[],
+                    keywords=[]
+                )
+            )
 
     def visit_List(self, node):
 
