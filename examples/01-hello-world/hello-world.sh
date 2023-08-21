@@ -26,7 +26,7 @@ array_append () {
     set -- "$array"
     set -- "$@" "$val"
     
-    RESULT="$@"
+    RESULT="$*"
 }
 
 # End of Volcano runtime library.
