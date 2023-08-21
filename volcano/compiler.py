@@ -376,7 +376,7 @@ class Compiler(ast.NodeVisitor):
             self.visit(statement)
             self.write('\n')
 
-        main_func_name = self.resolve_name(self.main)
+        main_func_name = self.resolve_name(self.main, return_if_not_found=False)
 
         if main_func_name:
 
@@ -455,7 +455,7 @@ class Compiler(ast.NodeVisitor):
     def visit_While(self, node: While):
         
         self.write('while [ ')
-        
+
         self.capture_call = True
         self.visit(node.test)
         self.capture_call = False

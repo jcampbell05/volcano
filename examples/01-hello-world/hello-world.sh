@@ -154,4 +154,3 @@ hello_world_list_comp_2 () {
 
 goodbyes="$( hello_world_list_comp_2 )"
 print "$goodbyes"
-main
