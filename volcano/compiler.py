@@ -455,7 +455,9 @@ class Compiler(ast.NodeVisitor):
     def visit_While(self, node: While):
         
         self.write('while [ ')
+        self.capture_call = True
         self.visit(node.test)
+        self.capture_call = False
         self.write(' ]\n')
         self.write('', indent=True)
         self.write('do\n')

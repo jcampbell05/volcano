@@ -107,7 +107,7 @@ else
 fi
 
 i="$number"
-while [ $i -gt 0 ]
+while [ "$i" -gt 0 ]
 do
     print "Counting down... $i" 
     sleep 1 
