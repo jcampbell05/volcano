@@ -8,6 +8,8 @@ Volcano provides a number of benefits over traditional shell scripting:
 
 - **Pythonic**: Volcano is based on Python, so if you already know Python, you can easily write shell scripts in Volcano.
 - **Portability**: Volcano scripts can be run on any system that has shell installed, without having to worry about the differences between different shell environments as long as it's POSIX compiant.
+- **Interoperability**: Volcano scripts can be defined and called from within python allowing you
+to use the best tool for the job in any given situation.
 
 Write using the syntax you know and love.
 
