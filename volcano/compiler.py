@@ -116,6 +116,8 @@ class Compiler(ast.NodeVisitor):
         self.write(f'=')
         self.write('$( awk "BEGIN {print ' )
 
+        self.in_joined_str = True
+
         self.visit(node.target)
 
         if isinstance(node.op, ast.Add):
@@ -128,6 +130,8 @@ class Compiler(ast.NodeVisitor):
         self.capture_call = True
         self.visit(node.value)
         self.capture_call = False
+
+        self.in_joined_str = False
 
         self.write('}")')
 
@@ -151,6 +155,8 @@ class Compiler(ast.NodeVisitor):
     def visit_BinOp(self, node: BinOp):
 
         self.write('$( awk "BEGIN {print ' )
+
+        self.in_joined_str = True
         self.visit(node.left)
 
         if isinstance(node.op, Add):
@@ -163,6 +169,7 @@ class Compiler(ast.NodeVisitor):
             self.write('/')
 
         self.visit(node.right)
+        self.in_joined_str = False
 
         self.write('}")')
 

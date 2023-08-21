@@ -72,7 +72,7 @@ print "Here are some examples:"
 names=""Barbie" "Ken" "$( whoami )""
 total_names=3.0
 slices_of_pie=6.0
-slices_of_pie_each=$( awk "BEGIN {print "$slices_of_pie"/"$total_names"}")
+slices_of_pie_each=$( awk "BEGIN {print $slices_of_pie/$total_names}")
 number="$( input "Pick a number:" )"
 if [ "$number" -lt 2 ]
 then
