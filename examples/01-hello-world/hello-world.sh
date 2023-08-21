@@ -65,15 +65,15 @@ hello_world_goodbye () {
  }
 
 print "Welcome to Volcano 🌋"
-print "Today is $( date )"
+print "Today is "$( date )""
 print "====================== 
 "
 print "Here are some examples:"
-names=""Barbie" "Ken" $( whoami )"
+names=""Barbie" "Ken" "$( whoami )""
 total_names=3.0
 slices_of_pie=6.0
 slices_of_pie_each=$( awk "BEGIN {print "$slices_of_pie"/"$total_names"}")
-number=$( input "Pick a number:" )
+number="$( input "Pick a number:" )"
 if [ "$number" -lt 2 ]
 then
     print "$number is smaller then 2" 
@@ -127,7 +127,7 @@ hello_world_list_comp_1 () {
     ACCUMULATED=
     for name in $names;
     do
-        RESULT=$( print $( hello_world_goodbye "$name" ) )
+        RESULT="$( print "$( hello_world_goodbye "$name" )" )"
         array_append "$ACCUMULATED" "$RESULT"
         ACCUMULATED="$RESULT"
     done
@@ -143,7 +143,7 @@ hello_world_list_comp_2 () {
     ACCUMULATED=
     for name in $names;
     do
-        RESULT=$( hello_world_goodbye "$name" )
+        RESULT="$( hello_world_goodbye "$name" )"
         array_append "$ACCUMULATED" "$RESULT"
         ACCUMULATED="$RESULT"
     done
@@ -152,7 +152,7 @@ hello_world_list_comp_2 () {
     return
  }
 
-goodbyes=$( hello_world_list_comp_2 )
+goodbyes="$( hello_world_list_comp_2 )"
 print "$goodbyes"
 hello_world_except () {
     RESULT=
