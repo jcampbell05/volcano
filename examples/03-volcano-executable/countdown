@@ -1,0 +1,12 @@
+#!/usr/bin/env volcano
+
+from volcano.shell import sleep
+
+count = 10
+
+while count > 0:
+    print(f"T-minus {count}")
+    sleep(1)
+    count -= 1
+
+print('We have liftoff!')
