@@ -20,9 +20,6 @@ print("")
 print('Here is a list of the largest eruptions in the last 10,000 years:')
 
 
-# # Define the URL of the Wikipedia page to download
-# url="https://en.wikipedia.org/wiki/Volcano"
-
 # # Use curl to download the page and save it to a file
 # curl -s "$url" > volcano.html
 
@@ -34,6 +31,3 @@ print('Here is a list of the largest eruptions in the last 10,000 years:')
 
 # # Use awk to format the extracted text into a table
 # awk '{printf "%-30s %-30s\n", $1, $2}' volcano_facts.txt > volcano_table.txt
-
-# # Print the resulting table to the console
-# cat volcano_table.txt
