@@ -1,7 +1,17 @@
 # Spec for the volcano-facts example
 #
- 
-#!/bin/bash
+WIKIPEDIA_ERRUPTIONS_PAGE = "https://en.wikipedia.org/wiki/List_of_largest_volcanic_eruptions"
+
+print('Welcome to the Volcano Facts:')
+print("")
+print('- Volcanos are geological features formed by the eruption of magma through the surface of the Earth.')
+print('- Volcanos can be active, dormant, or extinct.')
+print('- Volcanos can be classified by their shape or by their eruption type.')
+print('- Volcanos are often found at the boundaries of tectonic plates.')
+print('- Volcanos are often found in chains called arcs.')
+print("")
+print('Here is a list of the largest eruptions in the last 10,000 years:')
+
 
 # # Define the URL of the Wikipedia page to download
 # url="https://en.wikipedia.org/wiki/Volcano"
