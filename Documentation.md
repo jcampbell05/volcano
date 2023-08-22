@@ -198,6 +198,51 @@ The `print` file` handles writing the logs to a temporary file the
 runtime automatically creates and spins a background job
 to `tail` the content of the file so it shows in the consokle.
 
+### Name Collision
+
+Generated symbols will be namespaced to avoid collions
+for example.
+
+```
+def hello():
+
+    print("outer")
+
+    def hello():
+        print("inner")
+
+    hello()
+
+hello()
+hello()
+```
+
+Will be transformed into the following code.
+
+```
+module_hello () { 
+
+    print "outer"
+
+    module_hello_hello () {
+        print "inner"
+    }
+
+    module_hello_hello
+}
+
+module_hello
+module_hello
+```
+
+Notcied how we prefix each function and it's call with
+the name of the specific cope it is contained within.
+
+This ensures all code behaves exactly as original python
+code intended.
+
+## Experimental / Future Features
+
 ### List Comprehension
 
 List comprehensions are automatically translated into their
@@ -286,48 +331,3 @@ to stop calling the except function.
 
 Finally we emit all the code from the finally block so that
 it's executed in either case.
-
-This feature is still experimental.
-
-### Name Collision
-
-Generated symbols will be namespaced to avoid collions
-for example.
-
-```
-def hello():
-
-    print("outer")
-
-    def hello():
-        print("inner")
-
-    hello()
-
-hello()
-hello()
-```
-
-Will be transformed into the following code.
-
-```
-module_hello () { 
-
-    print "outer"
-
-    module_hello_hello () {
-        print "inner"
-    }
-
-    module_hello_hello
-}
-
-module_hello
-module_hello
-```
-
-Notcied how we prefix each function and it's call with
-the name of the specific cope it is contained within.
-
-This ensures all code behaves exactly as original python
-code intended.
