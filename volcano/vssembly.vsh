@@ -1,4 +1,4 @@
-#  Volcano shell assembly operations.
+# Volcano shell-assembly.
 #
 
 # Arithmetic operators
@@ -23,3 +23,6 @@ div() {
 mul() {
     echo $(($1 * $2))
 }
+
+# End of Volcano shell-assembly library.
+#
