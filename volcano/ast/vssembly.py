@@ -9,7 +9,7 @@ class Script(_ast.AST):
         self.body = body
 
 class Body(_ast.AST):
-    def __init__(self, instructions: List['Instruction']):
+    def __init__(self, instructions: Union['Text', 'Instruction']):
         self.instructions = instructions
 
 class Variable(_ast.AST):
@@ -86,3 +86,7 @@ class SltInstruction(Instruction):
 class JumpInstruction(Instruction):
     """Unconditionally jumps to an instruction."""
     pass
+
+class Text(_ast.AST):
+    def __init__(self, value: str):
+        self.value = value
