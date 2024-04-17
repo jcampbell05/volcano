@@ -1,0 +1,12 @@
+
+# # Use curl to download the page and save it to a file
+# curl -s "$url" > volcano.html
+
+# # Use grep to extract the table of volcano facts from the HTML file
+# grep -A 1 "Volcano types" volcano.html > volcano_facts.txt
+
+# # Use sed to clean up the extracted text and remove HTML tags
+# sed -i 's/<[^>]*>//g' volcano_facts.txt
+
+# # Use awk to format the extracted text into a table
+# awk '{printf "%-30s %-30s\n", $1, $2}' volcano_facts.txt > volcano_table.txt
