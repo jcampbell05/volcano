@@ -15,7 +15,7 @@ input () {
 # Array API
 #
 
-define_array() {
+define_array () {
     eval $1=0
 }
 
