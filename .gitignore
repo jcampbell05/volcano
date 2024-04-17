@@ -2,3 +2,4 @@
 volcano.egg-info/
 build/
 venv/
+*.sh

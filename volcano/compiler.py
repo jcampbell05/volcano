@@ -6,6 +6,8 @@ import os
 
 # TOOD: Move the code which handles namespace resolution into the IR code since the compiler
 #       shouldn't modify it at this stage
+#       
+#       Turn into Shell IR
 #
 class Compiler(ast.NodeVisitor):
     """
@@ -114,26 +116,28 @@ class Compiler(ast.NodeVisitor):
         self.declare_variable = False
 
         self.write(f'=')
-        self.write('$( awk "BEGIN {print ' )
+        self.write('$( ' )
 
         self.in_joined_str = True
 
-        self.visit(node.target)
-
+        # TODO: Handle in own function
+        #
         if isinstance(node.op, ast.Add):
-            self.write('+')
+            self.write('add')
         elif isinstance(node.op, ast.Sub):
-            self.write('-')
+            self.write('sub')
         else:
             raise NotImplementedError(f"Unsupported operator {node.op}")
 
         self.capture_call = True
+        self.write(' ')
+        self.visit(node.target)
+        self.write(' ')
         self.visit(node.value)
         self.capture_call = False
 
         self.in_joined_str = False
-
-        self.write('}")')
+        self.write(' )' )
 
     def visit_BoolOp(self, node: BoolOp):
 
@@ -154,24 +158,22 @@ class Compiler(ast.NodeVisitor):
 
     def visit_BinOp(self, node: BinOp):
 
-        self.write('$( awk "BEGIN {print ' )
+        self.write('$( ' )
 
         self.in_joined_str = True
         self.visit(node.left)
 
         if isinstance(node.op, Add):
-            self.write('+')
+            self.write('add')
         elif isinstance(node.op, Sub):
-            self.write('-')
+            self.write('div')
         elif isinstance(node.op, Mult):
-            self.write('*')
+            self.write('mul')
         elif isinstance(node.op, Div):
-            self.write('/')
+            self.write('div')
 
         self.visit(node.right)
         self.in_joined_str = False
-
-        self.write('}")')
 
     def visit_Call(self, node: Call):
             

@@ -84,11 +84,19 @@ class IRTransformer(ast.NodeTransformer):
         return func_def
         
     def visit_Module(self, node: Module):
+
+        default_imports = [
+            'volcano.vssembly',
+            'volcano.runtime'
+        ]
+        default_imports.reverse()
         
         self.scope = node
         
         self.generic_visit(node)
-        node.body = self.create_import_module_node('volcano.runtime') + node.body
+
+        for module in default_imports:
+            node.body = self.create_import_module_node(module) + node.body
 
         return node
     

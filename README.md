@@ -59,6 +59,7 @@ You can also use the `--help` option to see the available command-line options:
 - **Context Manager**: Volcano currently does not support context managers
 - **Lambdas**: We have no support for lambdas
 - **Piping**: Volcano currently does not support piping from shell scripting.
+- **Tree shaking**: Volcano doesn't shake compiled script for un-used code
 
 Any PRs implementhing these are welcome, you can read more on how Volcano is implemented in Documentation.md
 
