@@ -9,7 +9,7 @@ class Script(_ast.AST):
         self.body = body
 
 class Body(_ast.AST):
-    def __init__(self, instructions: Union['Text', 'Instruction']):
+    def __init__(self, instructions: Union['Text', 'Instruction', 'Label']):
         self.instructions = instructions
 
 class Variable(_ast.AST):
@@ -67,6 +67,18 @@ class BeqInstruction(Instruction):
     """Branches to an instruction if two operands are equal."""
     pass
 
+class CallInstruction(Instruction):
+    """Calls instruction."""
+    pass
+
+class JumpInstruction(Instruction):
+    """Unconditionally jumps to an instruction."""
+    pass
+
+class PipeInstruction(Instruction):
+    """Handles executing pipe instruction"""
+    pass
+
 class LwInstruction(Instruction):
     """Loads a word from memory into a register."""
     pass
@@ -87,6 +99,3 @@ class SltInstruction(Instruction):
     """Sets the destination register to 1 if the first operand is less than the second, 0 otherwise."""
     pass
 
-class JumpInstruction(Instruction):
-    """Unconditionally jumps to an instruction."""
-    pass
