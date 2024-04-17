@@ -35,6 +35,10 @@ class Instruction(_ast.AST):
         self.arg1 = arg1
         self.arg2 = arg2
 
+class Text(_ast.AST):
+    def __init__(self, value: str):
+        self.value = value
+
 class AddInstruction(Instruction):
     """Performs addition of two operands."""
     pass
@@ -86,7 +90,3 @@ class SltInstruction(Instruction):
 class JumpInstruction(Instruction):
     """Unconditionally jumps to an instruction."""
     pass
-
-class Text(_ast.AST):
-    def __init__(self, value: str):
-        self.value = value
