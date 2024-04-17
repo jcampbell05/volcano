@@ -1,3 +1,5 @@
+#!/usr/bin/env volcano
+
 # Spec for the volcano-facts example
 #
 WIKIPEDIA_ERRUPTIONS_PAGE = "https://en.wikipedia.org/wiki/List_of_largest_volcanic_eruptions"

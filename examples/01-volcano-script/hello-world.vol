@@ -1,3 +1,5 @@
+#!/usr/bin/env volcano
+
 def hello(name):
     print(f"Hello {name}!")
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env volcano
 
 # # Use curl to download the page and save it to a file
 # curl -s "$url" > volcano.html
