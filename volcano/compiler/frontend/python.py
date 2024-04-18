@@ -1,6 +1,7 @@
 from _ast import *
 from _ast import Assign, Expr, ListComp, Try
 import ast
+from syntax import *
 from typing import Any
 
 class IRTransformer(ast.NodeTransformer):
@@ -11,6 +12,7 @@ class IRTransformer(ast.NodeTransformer):
     """
 
     list_comp_count = 0
+    tree = Script()
 
     def __init__(self) -> None:
         self.scope = None

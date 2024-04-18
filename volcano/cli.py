@@ -6,7 +6,6 @@ import subprocess
 import sys
 import tempfile
 
-from .ir import *
 from .compiler import *
 
 def process_file(filename):
