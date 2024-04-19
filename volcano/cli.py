@@ -30,7 +30,6 @@ def run():
     parser.add_argument('file', type=str, help='path to the file')
 
     parser.add_argument('--main', '-m', type=str, default='main', help='name of main function to execute by default if present')
-    parser.add_argument('--shell', '-s', type=str, default='/bin/sh', help='path to the shell executable')
     parser.add_argument('--output', '-o', type=str, default=None, help='path to the output file')
     parser.add_argument('--verbose', '-v', action='store_true', help='enable verbose output')
     parser.add_argument('--stdout', action='store_true', help='log compiled shell script to stdout')
@@ -49,16 +48,16 @@ def run():
     
     tree = process_file(args.file)
     
-    visitor = Compiler(module_name, shell_executable=args.shell, main=args.main) 
-    visitor.visit(tree)
+    visitor = Compiler(module_name, main=args.main) 
+    output = visitor.visit(tree)
 
     output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
 
     if args.stdout:
-        print(visitor.output)
+        print(output)
 
     with output_file as f:
-        f.write(visitor.output)
+        f.write(output)
 
     os.chmod(output_file.name, 0o755)
 

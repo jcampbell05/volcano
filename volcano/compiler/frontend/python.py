@@ -1,7 +1,7 @@
 from _ast import *
 from _ast import Assign, Expr, ListComp, Try
 import ast
-from syntax import *
+from volcano.vssembly import *
 from typing import Any
 
 class IRTransformer(ast.NodeTransformer):
@@ -12,17 +12,10 @@ class IRTransformer(ast.NodeTransformer):
     """
 
     list_comp_count = 0
-    tree = Script()
+    tree = Script([])
 
     def __init__(self) -> None:
         self.scope = None
-
-    def create_import_module_node(self, path):
-
-        # Add import io statement to beginning of module body
-        #
-        new_body = [ast.parse(f'import {path}').body[0]]
-        return new_body
     
     def create_function_call(self, func: FunctionDef):
         return ast.Call(
@@ -87,19 +80,8 @@ class IRTransformer(ast.NodeTransformer):
         
     def visit_Module(self, node: Module):
 
-        default_imports = [
-            'volcano.vssembly',
-            'volcano.runtime'
-        ]
-        default_imports.reverse()
-        
         self.scope = node
-        
         self.generic_visit(node)
-
-        for module in default_imports:
-            node.body = self.create_import_module_node(module) + node.body
-
         return node
     
     def visit_Assign(self, node: Assign):
@@ -182,3 +164,7 @@ class IRTransformer(ast.NodeTransformer):
                 kwargs=[]
             ),
         ] + node.finalbody
+    
+    def visit(self, node):
+        super().visit(node)
+        return self.tree
