@@ -8,6 +8,8 @@ import os
 #       shouldn't modify it at this stage
 #       
 #       Turn into Shell IR
+#       
+#       Make this the new IR and use Shell AST  to output final script
 #
 class Compiler(ast.NodeVisitor):
     """
@@ -477,7 +479,9 @@ class Compiler(ast.NodeVisitor):
                 self.write(' \n')
 
     def visit_AddInstruction(self, node):
-        self.write(f'{node.output}=$(expr {node.arg1} {node.arg2})')
+        target_name = node.output.name
+        self.write(f'EAX=$(expr {self.visit(node.arg1)} + {self.visit(node.arg2)})')
+        self.write(f'{target_name}=$EAX')
 
     def visit_Script(self, node):
         self.write(f'#!/usr/bin/env /bin/sh')
@@ -490,8 +494,9 @@ class Compiler(ast.NodeVisitor):
         
         for node in node.instructions:
             self.visit(node)
-            print(node)
 
-    def visit(self, node):
-        super().visit(node)
-        return self.output
+    def visit_Value(self, node):
+        return node.value
+
+    def visit_Variable(self, node):
+        return f'{{{node.value}}}'

@@ -16,6 +16,7 @@ class IRTransformer(ast.NodeTransformer):
 
     def __init__(self) -> None:
         self.scope = None
+        self.current_statement = self.root_statement
 
     def visit_Assign(self, node: Assign):
 
@@ -183,13 +184,3 @@ class IRTransformer(ast.NodeTransformer):
     #             kwargs=[]
     #         ),
     #     ] + node.finalbody
-    
-    def visit(self, node):
-        
-        self.current_statement = self.root_statement
-        
-        super().visit(node)
-
-        return Script(
-            self.root_statement
-        )

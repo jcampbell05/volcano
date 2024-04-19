@@ -20,9 +20,11 @@ def process_file(filename):
 
     tree = ast.parse(contents)
     transformer = IRTransformer()
-    tree = transformer.visit(tree)
-
-    return tree
+    transformer.visit(tree)
+    
+    return Script(
+        transformer.root_statement
+    )
 
 def run():
     parser = argparse.ArgumentParser(description='Process a file.')
@@ -49,15 +51,15 @@ def run():
     tree = process_file(args.file)
     
     visitor = Compiler(module_name, main=args.main) 
-    output = visitor.visit(tree)
+    visitor.visit(tree)
 
     output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
 
     if args.stdout:
-        print(output)
+        print(visitor.output)
 
     with output_file as f:
-        f.write(output)
+        f.write(visitor.output)
 
     os.chmod(output_file.name, 0o755)
 
