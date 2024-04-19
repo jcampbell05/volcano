@@ -5,11 +5,12 @@ import _ast
 #
 
 class Script(_ast.AST):
-    def __init__(self, body: List['Body']):
-        self.body = body
+    def __init__(self, statement: 'Statement'):
+        self.statement = statement
 
-class Body(_ast.AST):
-    def __init__(self, instructions: Union['Text', 'Instruction', 'Label']):
+class Statement(_ast.AST):
+
+    def __init__(self, instructions: Union['Text', 'Instruction', 'Label'] = []):
         self.instructions = instructions
 
 class Variable(_ast.AST):

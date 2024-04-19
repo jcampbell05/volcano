@@ -12,159 +12,184 @@ class IRTransformer(ast.NodeTransformer):
     """
 
     list_comp_count = 0
-    tree = Script([])
+    root_statement = Statement()
 
     def __init__(self) -> None:
         self.scope = None
-    
-    def create_function_call(self, func: FunctionDef):
-        return ast.Call(
-            func=ast.Name(id=func.name),
-            args=[],
-            kwargs=[],
-        )
-    
-    def unwrap_list_comp_node(self, list_comp: ListComp):
 
-        flat_body = []
-
-        for generator in list_comp.generators:
-
-                for_def = ast.For(
-                    target=generator.target,
-                    iter=generator.iter
-                )
-
-                flat_body.append(for_def)
-
-                ifs = [ast.If(
-                    test=generator_if
-                )  for generator_if in generator.ifs]
-
-                flat_body.extend(ifs)
-
-        for parent_index, child_node in enumerate(flat_body[1:]):
-
-            parent_node = flat_body[parent_index]
-            parent_node.body = [child_node]
-                
-        flat_body[-1].body = [
-            ast.Assign(
-                targets=[ast.Name(id='RESULT')],
-                value=list_comp.elt
-            ),
-            ast.parse('array_append(ACCUMULATED, RESULT)').body[0],
-            ast.parse('ACCUMULATED = RESULT').body[0],
-        ]
-
-        self.list_comp_count += 1
-
-        func_def = ast.FunctionDef(
-            name = f'list_comp_{self.list_comp_count}',
-            args=ast.arguments(
-                args=[],
-                kwarg=None,
-                defaults=[],
-                kw_defaults=[],
-            ),
-            body=[
-                ast.parse('ACCUMULATED=()').body[0],
-                flat_body[0],
-                ast.parse('return ACCUMULATED').body[0]
-            ],
-            decorator_list=[],
-            returns=None
-        )
-        
-        return func_def
-        
-    def visit_Module(self, node: Module):
-
-        self.scope = node
-        self.generic_visit(node)
-        return node
-    
     def visit_Assign(self, node: Assign):
 
-        if isinstance(node.value, ast.ListComp):
-            unwrapped_node = self.unwrap_list_comp_node(node.value)
-            node.value = self.create_function_call(unwrapped_node)
+        if len(node.targets) > 1:
+            raise NotImplementedError()
+        
+        target = node.targets[0]
 
-            return [unwrapped_node, node]
+        self.current_statement.instructions += [
+            AddInstruction(
+                Variable('output'),
+                Value(0),
+                Value(0)
+            )
+        ]
 
-        self.generic_visit(node)
-        return node
+        # targets: list[expr]
+        # value: expr
+        pass
     
-    def visit_Expr(self, node: Expr):
-
-        if isinstance(node.value, ast.ListComp):
-            unwrapped_node = self.unwrap_list_comp_node(node.value)
-            node.value = self.create_function_call(unwrapped_node)
-
-            return [unwrapped_node, node]
-
-        self.generic_visit(node)
-        return node
+    # def create_function_call(self, func: FunctionDef):
+    #     return ast.Call(
+    #         func=ast.Name(id=func.name),
+    #         args=[],
+    #         kwargs=[],
+    #     )
     
-    def visit_Try(self, node: Try) -> Any:
+    # def unwrap_list_comp_node(self, list_comp: ListComp):
 
-        except_def = ast.FunctionDef(
-            name = 'except',
-            args=ast.arguments(
-                args=[
-                    ast.arg(arg='error', annotation=None)
-                ],
-                kwarg=None,
-                defaults=[],
-                kw_defaults=[],
-            ),
+    #     flat_body = []
 
-            body= node.handlers[0].body
-        )
+    #     for generator in list_comp.generators:
 
-        try_def = ast.FunctionDef(
-            name = 'try',
-            args=ast.arguments(
-                args=[],
-                kwarg=None,
-                defaults=[],
-                kw_defaults=[],
-            ),
-            body=node.body + node.orelse
-        )
+    #             for_def = ast.For(
+    #                 target=generator.target,
+    #                 iter=generator.iter
+    #             )
 
-        # body: list[stmt]
-        # handlers: list[ExceptHandler]
+    #             flat_body.append(for_def)
 
-        #trap 'handle_error "$?"' ERR
+    #             ifs = [ast.If(
+    #                 test=generator_if
+    #             )  for generator_if in generator.ifs]
 
-        return [
-            # Set trap
-            except_def,
-            try_def,
-            ast.Call(
-                ast.Name(id='trap'),
-                args=[
-                    ast.Constant(value='except "$?"'),
-                    ast.Constant(value='ERR'),
-                ],
-                kwargs=[]
-            ),
-            ast.Call(
-                ast.Name(id='try'),
-                args=[],
-                kwargs=[]
-            ),
-            ast.Call(
-                ast.Name(id='trap'),
-                args=[
-                    ast.Constant(value='-'),
-                    ast.Constant(value='ERR'),
-                ],
-                kwargs=[]
-            ),
-        ] + node.finalbody
+    #             flat_body.extend(ifs)
+
+    #     for parent_index, child_node in enumerate(flat_body[1:]):
+
+    #         parent_node = flat_body[parent_index]
+    #         parent_node.body = [child_node]
+                
+    #     flat_body[-1].body = [
+    #         ast.Assign(
+    #             targets=[ast.Name(id='RESULT')],
+    #             value=list_comp.elt
+    #         ),
+    #         ast.parse('array_append(ACCUMULATED, RESULT)').body[0],
+    #         ast.parse('ACCUMULATED = RESULT').body[0],
+    #     ]
+
+    #     self.list_comp_count += 1
+
+    #     func_def = ast.FunctionDef(
+    #         name = f'list_comp_{self.list_comp_count}',
+    #         args=ast.arguments(
+    #             args=[],
+    #             kwarg=None,
+    #             defaults=[],
+    #             kw_defaults=[],
+    #         ),
+    #         body=[
+    #             ast.parse('ACCUMULATED=()').body[0],
+    #             flat_body[0],
+    #             ast.parse('return ACCUMULATED').body[0]
+    #         ],
+    #         decorator_list=[],
+    #         returns=None
+    #     )
+        
+    #     return func_def
+        
+    # def visit_Module(self, node: Module):
+
+    #     self.scope = node
+    #     self.generic_visit(node)
+    #     return node
+    
+    # def visit_Assign(self, node: Assign):
+
+    #     if isinstance(node.value, ast.ListComp):
+    #         unwrapped_node = self.unwrap_list_comp_node(node.value)
+    #         node.value = self.create_function_call(unwrapped_node)
+
+    #         return [unwrapped_node, node]
+
+    #     self.generic_visit(node)
+    #     return node
+    
+    # def visit_Expr(self, node: Expr):
+
+    #     if isinstance(node.value, ast.ListComp):
+    #         unwrapped_node = self.unwrap_list_comp_node(node.value)
+    #         node.value = self.create_function_call(unwrapped_node)
+
+    #         return [unwrapped_node, node]
+
+    #     self.generic_visit(node)
+    #     return node
+    
+    # def visit_Try(self, node: Try) -> Any:
+
+    #     except_def = ast.FunctionDef(
+    #         name = 'except',
+    #         args=ast.arguments(
+    #             args=[
+    #                 ast.arg(arg='error', annotation=None)
+    #             ],
+    #             kwarg=None,
+    #             defaults=[],
+    #             kw_defaults=[],
+    #         ),
+
+    #         body= node.handlers[0].body
+    #     )
+
+    #     try_def = ast.FunctionDef(
+    #         name = 'try',
+    #         args=ast.arguments(
+    #             args=[],
+    #             kwarg=None,
+    #             defaults=[],
+    #             kw_defaults=[],
+    #         ),
+    #         body=node.body + node.orelse
+    #     )
+
+    #     # body: list[stmt]
+    #     # handlers: list[ExceptHandler]
+
+    #     #trap 'handle_error "$?"' ERR
+
+    #     return [
+    #         # Set trap
+    #         except_def,
+    #         try_def,
+    #         ast.Call(
+    #             ast.Name(id='trap'),
+    #             args=[
+    #                 ast.Constant(value='except "$?"'),
+    #                 ast.Constant(value='ERR'),
+    #             ],
+    #             kwargs=[]
+    #         ),
+    #         ast.Call(
+    #             ast.Name(id='try'),
+    #             args=[],
+    #             kwargs=[]
+    #         ),
+    #         ast.Call(
+    #             ast.Name(id='trap'),
+    #             args=[
+    #                 ast.Constant(value='-'),
+    #                 ast.Constant(value='ERR'),
+    #             ],
+    #             kwargs=[]
+    #         ),
+    #     ] + node.finalbody
     
     def visit(self, node):
+        
+        self.current_statement = self.root_statement
+        
         super().visit(node)
-        return self.tree
+
+        return Script(
+            self.root_statement
+        )
