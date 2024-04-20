@@ -23,15 +23,29 @@ class IRTransformer(ast.NodeTransformer):
         if len(node.targets) > 1:
             raise NotImplementedError()
         
-        target = node.targets[0]
+        name: Name = node.targets[0]
 
-        self.current_statement.instructions += [
-            AddInstruction(
-                Variable('output'),
-                Value(0),
-                Value(0)
-            )
-        ]
+        match node.value.__class__:
+
+            case Constant:
+
+                constant = node.value
+
+                if isinstance(constant.value, str):
+                    self.current_statement.instructions += [
+                        SetInstruction(
+                            Variable(name.id),
+                            Value(constant.value)
+                        )
+                    ]
+                else:
+                    self.current_statement.instructions += [
+                        AddInstruction(
+                            Variable(name.id),
+                            Value(0),
+                            Value(constant.value)
+                        )
+                    ]
 
         # targets: list[expr]
         # value: expr

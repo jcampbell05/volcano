@@ -3,10 +3,11 @@
 from volcano.shell import sleep
 
 count = 10
+final_message = "We have liftoff"
 
-while count > 0:
-    print(f"T-minus {count}")
-    sleep(1)
-    count -= 1
+# while count > 0:
+#     print(f"T-minus {count}")
+#     sleep(1)
+#     count -= 1
 
-print('We have liftoff!')
+# print(final_message)

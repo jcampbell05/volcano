@@ -31,14 +31,17 @@ class Label(_ast.AST):
         self.body = body
 
 class Instruction(_ast.AST):
-    def __init__(self, output: 'Variable', arg1: Union['Variable', 'Value', 'LabelReference'], arg2: Union['Variable', 'Value', 'LabelReference']):
+    def __init__(self, output: str, *args: Union['Variable', 'Value', 'LabelReference']):
         self.output = output
-        self.arg1 = arg1
-        self.arg2 = arg2
+        self.args = args
 
 class Text(_ast.AST):
     def __init__(self, value: str):
         self.value = value
+
+class SetInstruction(Instruction):
+    """Performs setting of string."""
+    pass
 
 class AddInstruction(Instruction):
     """Performs addition of two operands."""
