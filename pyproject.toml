@@ -9,6 +9,7 @@ exclude = ["tests/*"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
+bashlex = "^0.18"
 
 [tool.poetry.dev-dependencies]
 shellcheck-py = { version = "^0.7", optional = true }
