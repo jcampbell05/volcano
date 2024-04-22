@@ -1,15 +1,10 @@
 from _ast import *
 from _ast import Assign, Expr, ListComp, Try
 import ast
-from volcano.vssembly import *
+from volcano.ast.vssembly import *
 from typing import Any
 
-class IRTransformer(ast.NodeTransformer):
-    """
-    The IRTransformaer transforms the code before it reaches the shell script generator
-    into an intermediate representation that is easier to work with. Since some high level
-    features of Volcano cannot be easily translated into shell script.
-    """
+class Python(ast.NodeTransformer):
 
     list_comp_count = 0
     root_statement = Statement()

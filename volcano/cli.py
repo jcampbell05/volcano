@@ -19,7 +19,7 @@ def process_file(filename):
             contents = f.read()
 
     tree = ast.parse(contents)
-    transformer = IRTransformer()
+    transformer = Python()
     transformer.visit(tree)
     
     return Script(
@@ -50,8 +50,10 @@ def run():
     
     tree = process_file(args.file)
     
-    visitor = Compiler(module_name, main=args.main) 
+    visitor = Vssembly(module_name, main=args.main) 
     visitor.visit(tree)
+
+    visitor = Shell()
 
     output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
 

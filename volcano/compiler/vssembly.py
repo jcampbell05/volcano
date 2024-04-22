@@ -2,23 +2,10 @@ from _ast import *
 from _ast import Assign, Constant, For, JoinedStr, Name
 import ast
 import pkg_resources
+from volcano.ast.shell import *
 import os
 
-# TODO: Fix AST traversal and get eliza working
-#
-
-# TOOD: Move the code which handles namespace resolution into the IR code since the compiler
-#       shouldn't modify it at this stage
-#       
-#       Turn into Shell IR
-#       
-#       Make this the new IR and use Shell AST  to output final script
-#
-class Compiler(ast.NodeVisitor):
-    """
-    The Compiler class is responsible for transforming the IR and genrating it
-    into a shell script.
-    """
+class Vssembly(ast.NodeVisitor):
 
     symbol_tables = {}
     scope_stack = []
