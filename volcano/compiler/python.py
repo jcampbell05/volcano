@@ -194,5 +194,5 @@ class Python(ast.NodeTransformer):
     #         ),
     #     ] + node.finalbody
 
-    def __call__(self, *args: Any, **kwds: Any) -> Any:
-        return super().__call__(*args, **kwds)
+    def __call__(self, root) -> Any:
+        pass
