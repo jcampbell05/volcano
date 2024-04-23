@@ -193,3 +193,6 @@ class Python(ast.NodeTransformer):
     #             kwargs=[]
     #         ),
     #     ] + node.finalbody
+
+    def __call__(self, *args: Any, **kwds: Any) -> Any:
+        return super().__call__(*args, **kwds)
