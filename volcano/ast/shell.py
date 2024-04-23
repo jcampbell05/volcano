@@ -2,7 +2,7 @@ from typing import List, Union
 import _ast
 
 class Script(_ast.AST):
-    def __init__(self, statement: 'Statement'):
+    def __init__(self, statement: 'Statement' = []):
         self.statement = statement
 
 class Statement(_ast.AST):

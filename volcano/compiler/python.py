@@ -13,38 +13,38 @@ class Python(ast.NodeTransformer):
         self.scope = None
         self.current_statement = self.root_statement
 
-    def visit_Assign(self, node: Assign):
+    # def visit_Assign(self, node: Assign):
 
-        if len(node.targets) > 1:
-            raise NotImplementedError()
+    #     if len(node.targets) > 1:
+    #         raise NotImplementedError()
         
-        name: Name = node.targets[0]
+    #     name: Name = node.targets[0]
 
-        match node.value.__class__:
+    #     match node.value.__class__:
 
-            case Constant:
+    #         case Constant:
 
-                constant = node.value
+    #             constant = node.value
 
-                if isinstance(constant.value, str):
-                    self.current_statement.instructions += [
-                        SetInstruction(
-                            Variable(name.id),
-                            Value(constant.value)
-                        )
-                    ]
-                else:
-                    self.current_statement.instructions += [
-                        AddInstruction(
-                            Variable(name.id),
-                            Value(0),
-                            Value(constant.value)
-                        )
-                    ]
+    #             if isinstance(constant.value, str):
+    #                 self.current_statement.instructions += [
+    #                     SetInstruction(
+    #                         Variable(name.id),
+    #                         Value(constant.value)
+    #                     )
+    #                 ]
+    #             else:
+    #                 self.current_statement.instructions += [
+    #                     AddInstruction(
+    #                         Variable(name.id),
+    #                         Value(0),
+    #                         Value(constant.value)
+    #                     )
+    #                 ]
 
-        # targets: list[expr]
-        # value: expr
-        pass
+    #     # targets: list[expr]
+    #     # value: expr
+    #     pass
     
     # def create_function_call(self, func: FunctionDef):
     #     return ast.Call(
@@ -194,5 +194,10 @@ class Python(ast.NodeTransformer):
     #         ),
     #     ] + node.finalbody
 
+    def visit_Module(self, node: ast.Module) -> Any:
+        root = Script()
+        return root
+
     def __call__(self, root) -> Any:
-        pass
+        output = self.visit(root)
+        return output

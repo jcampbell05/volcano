@@ -43,16 +43,11 @@ def run():
     if args.file == '-':
         module_name = ''
     
-    tree = process_file(args.file)
-
-    visitor = Python()
-    root = visitor(tree)
+    root = process_file(args.file)
+    root = Python()(root)
+    root = Vssembly(module_name, main=args.main) (root)
     
-    visitor = Vssembly(module_name, main=args.main) 
-    root = visitor(tree)
-
-    visitor = Shell()
-    output = visitor(root)
+    output = Shell()(root)
 
     output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
 

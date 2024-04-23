@@ -4,6 +4,7 @@ import ast
 import pkg_resources
 from volcano.ast.shell import *
 import os
+from volcano.ast.shell import *
 from typing import Any
 
 class Vssembly(ast.NodeVisitor):
@@ -496,6 +497,9 @@ class Vssembly(ast.NodeVisitor):
     def visit_Variable(self, node):
         return f'{{{node.value}}}'
     
+    def visit_Script(self, node):
+        return Script()
 
     def __call__(self, root) -> Any:
-        pass
+        output = self.visit(root)
+        return output
