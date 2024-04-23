@@ -18,13 +18,8 @@ def process_file(filename):
         with open(filename, 'r') as f:
             contents = f.read()
 
-    tree = ast.parse(contents)
-    transformer = Python()
-    transformer.visit(tree)
-    
-    return Script(
-        transformer.root_statement
-    )
+    root = ast.parse(contents)
+    return root
 
 def run():
     parser = argparse.ArgumentParser(description='Process a file.')
@@ -49,19 +44,23 @@ def run():
         module_name = ''
     
     tree = process_file(args.file)
+
+    visitor = Python()
+    root = visitor(tree)
     
     visitor = Vssembly(module_name, main=args.main) 
-    visitor.visit(tree)
+    root = visitor(tree)
 
     visitor = Shell()
+    output = visitor(root)
 
     output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
 
     if args.stdout:
-        print(visitor.output)
+        print(output)
 
     with output_file as f:
-        f.write(visitor.output)
+        f.write(output)
 
     os.chmod(output_file.name, 0o755)
 

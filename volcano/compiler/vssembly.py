@@ -494,3 +494,7 @@ class Vssembly(ast.NodeVisitor):
 
     def visit_Variable(self, node):
         return f'{{{node.value}}}'
+    
+
+    def __call__(self, *args: ast.Any, **kwds: ast.Any) -> ast.Any:
+        return super().__call__(*args, **kwds)
