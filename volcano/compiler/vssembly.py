@@ -486,11 +486,6 @@ class Vssembly(ast.NodeVisitor):
         self.write(f'set -x') # TODO: Debug mode
         self.visit(node.statement)
 
-    def visit_Statement(self, node):
-        
-        for node in node.instructions:
-            self.visit(node)
-
     def visit_Value(self, node):
         return node.value
 
@@ -498,7 +493,8 @@ class Vssembly(ast.NodeVisitor):
         return f'{{{node.value}}}'
     
     def visit_Script(self, node):
-        return Script()
+        statements = self.visit(node.statements)
+        return Script(statements)
 
     def __call__(self, root) -> Any:
         output = self.visit(root)
